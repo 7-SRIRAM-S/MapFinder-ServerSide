@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Finder</title>
+    <link rel="icon" href="images/map_logo.png">
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color:white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            /* padding-bottom: 8px; */
+            border-bottom: 3px solid green;
+            /* text-align: center; */
+        }
+        header h1{
+            font-size: 40px;
+        }
+        header p{
+            opacity: 0.5;
+        }
+        header div{
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+        }
+        nav{
+        display: flex;
+        }
+        .logo{
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+        }
+        footer{
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            border-top: 2px solid green;
+        }
+        img {
+            width: 50%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .container{
+           
+            height: 900px;
+             display: flex;
+            /* flex-direction: column;  */
+            justify-content: center;
+            align-items: center; 
+            
+        }
+        form{
+            border-radius: 20px;
+            width: 600px;
+            background-color: #F0FDF4;
+            display: flex;
+            flex-direction: column;
+            gap: 2.3rem;
+            padding:3rem;
+
+        }
+        label{
+            text-align: left;
+            color: green;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        input{
+            height: 40px;
+            font-size: 16px;
+            padding:20px;
+        }
+        button{
+            padding: 1rem;
+            background-color: orange;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 12px;
+            border-color: 1px solid orange;
+            cursor: pointer;
+    		transition: background-color 0.3s ease;
+        }
+        button:hover{
+            background-color: green;
+            /* border: 1px solid green; */
+        }
+        .wrap{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        #error-info{
+            text-align:center;
+        	height:5px;
+        	color:red;
+        }
+        .register-navigation{
+        	text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="images/map_logo.png" alt="logo" class="logo" onclick="window.location.reload();">   
+        <div>
+            <h1>Map Finder</h1>
+            <p>Explore Click Learn</p>
+        </div>
+        </nav>
+   </header>
+   <div class="container">
+    <form id="sign_in_form" method="post">
+
+        <div class="wrap">
+            <label for="username">
+                Username
+           </label>
+           <input type="text" id="username" name="username" placeholder="Enter you username"  required>
+        </div>
+        <div class="wrap">
+            <label for="password">
+                Password
+           </label>
+           <input type="password" id="password" name="password" placeholder="Enter your password"  required>
+        </div>
+        <div class="wrap">
+        	<p id="error-info" style="visibility:hidden"></p>
+        </div>
+        <button type="submit" style="border:none;">Access Account</button>
+        <div class="wrap register-navigation">
+        	<p>Does not have account ? <a href="/MapFinder/signup.html">Register Now</a></p>
+        </div>
+    </form>
+   </div>
+   <footer>
+    <h2>Copyright &copy; 2025 SRIRAM-S &#174;</h2>
+  </footer>
+</body>
+<script>
+
+
+	document.addEventListener("visibilitychange", async function ()  {
+	    if (!document.hidden) {
+	    	let session=await isSessionExist();
+	    	if(session){
+	    		change("home")
+	    	}
+	    	else{
+	    		blockBackNavigation();
+	    	}
+	    }
+	});
+	
+	async function isSessionExist(){
+	    try{
+	        let res=await fetch("/MapFinder/checksession");
+	        let msg=await res.text();
+	
+	        if(msg==="failed"){
+	            localStorage.clear();
+	            console.log("session not exist");
+	            return false;
+	        }
+	
+	        console.log("session exist");
+	        return true;
+	
+	    } catch(err){
+	        console.log(err);
+	        return false;
+	    }
+	}
+	
+	
+	function change(uri){
+		window.location.replace(uri);
+	}
+	
+	function blockBackNavigation(){
+		history.pushState(null, null, location.href);
+		 window.onpopstate = function () {
+		        history.go(1);
+		 };
+	}
+		
+	window.onload=async function(){
+	   let session=await isSessionExist();
+	   if(session){
+		   change("home");
+	   }
+	   blockBackNavigation();
+	}
+	
+	window.addEventListener("popstate", async (event) => {
+		console.log("clicking back button");
+		let session= await isSessionExist();
+		if(!session){
+	    	console.log("session is alive");
+	
+			blockBackNavigation();
+		}
+		else{
+	    	console.log("no session going to signin");
+	
+			change("home");
+		}
+	});
+
+
+
+    let form=document.getElementById("sign_in_form");
+ 	form.addEventListener('submit',(e)=>{
+ 		e.preventDefault();
+            const username=document.querySelector("#username").value;
+            const password=document.querySelector("#password").value;
+            const data={username,password};
+           	fetch("/MapFinder/signin",{
+           		method:"POST",
+           		headers:{
+           			'Content-Type':'application/json'
+           		},
+           		body:JSON.stringify(data),
+           	}).then(res=>res.text()).then((msg)=>{
+           		if(msg==="failed"){
+           			const error=document.querySelector("#error-info");
+           			error.style.visibility="visible";
+           			error.innerText="invalid username or password";
+           		}
+           		else{
+           	        localStorage.setItem("sessionChecked", "true");
+           			change("home");
+           		}
+           	})
+        });
+</script>
+</html>

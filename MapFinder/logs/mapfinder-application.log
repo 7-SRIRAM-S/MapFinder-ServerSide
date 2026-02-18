@@ -1,0 +1,107 @@
+2026-02-18 01:51:03,183 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 01:51:03,196 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 09:37:47,255 [SignInServlet] TRACE ::: Entering into SigninServlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:37:47,258 [SignInServlet] INFO No Session Found ::: Redirecting login.html ::: 
+2026-02-18 09:37:47,344 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:37:47,344 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 09:37:59,461 [SignInServlet] TRACE ::: Entering into SigninServlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:37:59,461 [SignInServlet] INFO No Session Found ::: Redirecting login.html ::: 
+2026-02-18 09:37:59,649 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:37:59,649 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 09:38:15,389 [SignInServlet] TRACE ::: Entering into SigninServlet ::: POST ::: For Login Activity :::
+2026-02-18 09:38:15,390 [JSONUtil] TRACE ::: Reading json data from servlet ::: Utility ::: returning json data :::
+2026-02-18 09:38:15,394 [SignInServlet] WARN ::: No Data Found invalid request :::  For Login Activity :::
+2026-02-18 09:38:15,394 [SignInServlet] WARN ::: Login Failed :::  Redirect into Same Page :::
+2026-02-18 09:38:18,045 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:38:18,045 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 09:38:58,131 [SignUpServlet] TRACE ::: Entering into SignUpServlet ::: POST ::: For Login Activity :::
+2026-02-18 09:38:58,131 [JSONUtil] TRACE ::: Reading json data from servlet ::: Utility ::: returning json data :::
+2026-02-18 09:38:58,371 [UserManager] TRACE ::: Add User into DB :::  Creating Object for User ::: 
+2026-02-18 09:38:58,397 [UserDAOImpl] INFO New User Inserted into DB ::: User Id => 33   :::
+2026-02-18 09:38:58,397 [SignUpServlet] INFO ::: Register Successful :::  Session Set and Redirect /home :::
+2026-02-18 09:38:58,444 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 09:38:58,444 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 09:38:58,577 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:38:58,577 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:39:01,306 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 09:39:01,306 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 09:39:01,339 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:39:01,339 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:39:04,581 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 09:39:04,581 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 09:39:04,615 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:39:04,615 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:39:14,821 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:39:14,821 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:39:27,723 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:39:27,723 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:40:07,482 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:40:07,482 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:40:07,504 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 09:40:07,504 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 09:40:07,552 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:40:07,552 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 09:46:58,713 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 09:46:58,714 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 10:17:59,016 [SignInServlet] TRACE ::: Entering into SigninServlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:17:59,016 [SignInServlet] INFO No Session Found ::: Redirecting login.html ::: 
+2026-02-18 10:17:59,085 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:17:59,085 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 10:18:11,602 [SignInServlet] TRACE ::: Entering into SigninServlet ::: POST ::: For Login Activity :::
+2026-02-18 10:18:11,603 [JSONUtil] TRACE ::: Reading json data from servlet ::: Utility ::: returning json data :::
+2026-02-18 10:18:11,614 [SignInServlet] INFO ::: Login Successful :::  Session Set and Redirect /home :::
+2026-02-18 10:18:11,651 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 10:18:11,651 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 10:18:11,713 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:18:11,713 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 10:18:38,122 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:18:38,122 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 10:18:48,567 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:18:48,567 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 10:18:58,919 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:18:58,919 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 10:39:36,202 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:39:36,202 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 10:40:09,492 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:40:09,492 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 10:54:29,645 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:54:29,646 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 10:56:02,009 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:56:02,009 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 10:56:36,085 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 10:56:36,085 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 11:02:54,761 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:02:54,762 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 11:07:17,432 [SignInServlet] TRACE ::: Entering into SigninServlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:07:17,432 [SignInServlet] INFO No Session Found ::: Redirecting login.html ::: 
+2026-02-18 11:07:17,499 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:07:17,500 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 11:07:21,129 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:07:21,129 [SessionServlet] WARN No Session Found ::: in Backend ::: 
+2026-02-18 11:07:33,078 [SignUpServlet] TRACE ::: Entering into SignUpServlet ::: POST ::: For Login Activity :::
+2026-02-18 11:07:33,078 [JSONUtil] TRACE ::: Reading json data from servlet ::: Utility ::: returning json data :::
+2026-02-18 11:07:33,089 [UserManager] TRACE ::: Add User into DB :::  Creating Object for User ::: 
+2026-02-18 11:07:33,103 [UserDAOImpl] INFO New User Inserted into DB ::: User Id => 34   :::
+2026-02-18 11:07:33,103 [SignUpServlet] INFO ::: Register Successful :::  Session Set and Redirect /home :::
+2026-02-18 11:07:33,124 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 11:07:33,124 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 11:07:33,262 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:07:33,263 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 11:11:16,440 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:11:16,440 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 11:12:19,251 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:12:19,251 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 11:12:19,270 [AuthFilter] TRACE ::: Entering into Filter ::: Check for Home URL ::: 
+2026-02-18 11:12:19,270 [AuthFilter] INFO :::Session Found ::: Redirecting into home.html :::
+2026-02-18 11:12:19,299 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:12:19,300 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 11:13:00,162 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:13:00,162 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 11:13:39,479 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:13:39,480 [SessionServlet] INFO Session Found ::: in Backend ::: 
+2026-02-18 11:13:41,901 [LogOutServlet] TRACE ::: Entering into LogOutServlet ::: GET ::: Going to Logout ::: 
+2026-02-18 11:13:41,901 [LogOutServlet] TRACE ::: Session Cleared ::: Redirecting into /signin ::: 
+2026-02-18 11:13:41,927 [SignInServlet] TRACE ::: Entering into SigninServlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:13:41,927 [SignInServlet] INFO No Session Found ::: Redirecting login.html ::: 
+2026-02-18 11:13:41,963 [SessionServlet] TRACE ::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: 
+2026-02-18 11:13:41,963 [SessionServlet] WARN No Session Found ::: in Backend ::: 

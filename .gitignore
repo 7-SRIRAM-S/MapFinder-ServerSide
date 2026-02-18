@@ -1,0 +1,24 @@
+# Eclipse files
+.metadata/
+.classpath
+.project
+.settings/
+
+# Server configs
+Servers/
+
+# Build output
+bin/
+build/
+target/
+
+# Compiled Java files
+*.class
+
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
