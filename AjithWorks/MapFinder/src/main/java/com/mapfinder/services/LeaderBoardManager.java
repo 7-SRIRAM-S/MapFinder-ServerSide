@@ -1,0 +1,60 @@
+//$Id$
+package com.mapfinder.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+
+import com.mapfinder.dao.LeaderboardDAO;
+import com.mapfinder.modal.Leaderboard;
+import com.mapfinder.utils.JSONUtil;
+
+public class LeaderBoardManager {
+	private static LeaderboardDAO leaderBoard = new LeaderboardDAO();
+    private static final Logger LOGGER=LogManager.getLogger(LeaderBoardManager.class.getName());
+    
+    
+    public static boolean insertLeaderBoard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame, double averageScore, int rankPosition) {
+    	LOGGER.trace(new StringBuilder("::: Add Leaderboard into DB :::  Creating Object for LeaderBoard ::: ").toString());
+    	Leaderboard leader = null;
+    	try {
+    		
+    		leader = new Leaderboard(leaderboardId, userId, mapId, modeId, totalScore, totalGame, averageScore, rankPosition);
+    		
+    		return LeaderBoardManager.leaderBoard.insertLeaderBoad(leader);
+			
+		} catch (Exception e) {
+			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
+			return false;
+		}
+    }
+    
+    
+    public static JSONArray viewLeaderBoard(){
+    	LOGGER.trace(new StringBuilder("::: view Leaderboard  :::  Creating Object for LeaderBoard List ::: ").toString());
+    	List<Leaderboard> leaders = new ArrayList<>();
+    	try {
+			leaders = LeaderBoardManager.leaderBoard.viewAllLeaderboards();
+		} catch (Exception e) {
+			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
+		}
+    	return JSONUtil.convertLeaderBoardToJson(leaders);
+    }
+    
+    public static JSONArray topFiveLeaderBoard(){
+    	LOGGER.trace(new StringBuilder("::: view top 5 Leaderboard  :::  Creating Object for LeaderBoard List ::: ").toString());
+    	List<Leaderboard> leaders = new ArrayList<>();
+    	try {
+    		leaders = LeaderBoardManager.leaderBoard.findTopFiveLeaderBoard();
+    	}
+    	catch(Exception e) {
+			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
+    		
+    	}
+    	return JSONUtil.convertLeaderBoardToJson(leaders);
+    }
+    
+}

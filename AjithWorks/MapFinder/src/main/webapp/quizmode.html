@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Finder</title>
+    <link rel="icon" href="images/map_logo.png">
+    <link rel="stylesheet" href="css/quizmode.css">
+    <script src="script/quizmode.js" defer></script>
+    <style>
+        span{
+            font-family: monospace;
+            font-size:3.7rem;
+        }
+        .userIcon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: green;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="images/map_logo.png" alt="logo" class="logo" onclick="window.location.href='index.html'";>   
+        <div>
+            <h1>Map Finder</h1>
+            <p>Explore Click Learn</p>
+        </div>
+        </nav>
+        <button class="signupBtn" onclick="window.location.href='signup.html';">Sign Up</button> 
+   </header>
+   <center>
+    <br><br>
+    <button id="start_btn" onclick="start_quiz();">Start Quiz</button>
+   </center>
+   <div class="gap" style="height: 5rem;"></div>
+    <div class="container">
+        <div class="heading">
+            <h2 id="time">Time Left : 0s</h2>
+            <h2 id="qno"><span>Q</span> 1 / 10</h2>
+            <h2 id="scr">Score : 0</h2>
+        </div>
+        <br>
+        <div class="questions">
+            <p id="qtn"></p>
+            <div class="options">
+
+            </div>
+        </div>
+    </div>
+    <div class="gap" style="height: 15rem;"></div>
+    <footer>
+        <h2>Copyright &copy; 2025 SRIRAM-S &#174;</h2>
+      </footer>
+</body>
+<script>
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    let btn = document.querySelector(".signupBtn");
+    let username = localStorage.getItem("username");
+    if (!localStorage.getItem("hasVisited")) {
+        localStorage.clear();                 
+        localStorage.setItem("hasVisited", "true"); 
+    }
+    // console.log(username);
+    // console.log(btn);
+    if (username) {
+        btn.textContent = username[0].toUpperCase();
+        btn.classList.add("userIcon");
+        btn.title = username; 
+    } else {
+        btn.textContent = "Sign Up";
+        btn.classList.remove("userIcon");
+        btn.removeAttribute("title");
+    }
+    });
+
+    // localStorage.clear();
+</script>
+
+</html>

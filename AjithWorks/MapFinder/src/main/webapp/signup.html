@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Finder</title>
+    <link rel="icon" href="images/map_logo.png">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color:white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #333;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            /* padding-bottom: 8px; */
+            border-bottom: 3px solid green;
+            /* text-align: center; */
+        }
+        header h1{
+            font-size: 40px;
+        }
+        header p{
+            opacity: 0.5;
+        }
+        header div{
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+        }
+        nav{
+        display: flex;
+        }
+        .logo{
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+        }
+        footer{
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            border-top: 2px solid green;
+        }
+        img {
+            width: 50%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        .container{
+           
+            height: 900px;
+             display: flex;
+            /* flex-direction: column;  */
+            justify-content: center;
+            align-items: center; 
+            
+        }
+        form{
+            border-radius: 20px;
+            width: 600px;
+            background-color: #F0FDF4;
+            display: flex;
+            flex-direction: column;
+            gap: 2.3rem;
+            padding:3rem;
+
+        }
+        label{
+            text-align: left;
+            color: green;
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        input{
+            height: 40px;
+            font-size: 16px;
+            padding:20px;
+        }
+        button{
+            padding: 1rem;
+            background-color: orange;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            border-radius: 12px;
+            border-color: 1px solid orange;
+            cursor: pointer;
+            transition: 0.6s backgroud-color ease;
+        }
+        button:hover{
+            background-color: green;
+            /* border: 1px solid green; */
+        }
+        .wrap{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        #error-info{
+        	color:red;
+        }
+    </style>
+    <script>
+	    window.onload = function() {
+	    	if (localStorage.getItem("sessionChecked")) {
+	    		console.log("session exist");
+	            return; 
+	        }
+	    	else{
+	    		history.pushState(null,null,window.location.href);
+	    	}
+	    };
+    </Script>
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="images/map_logo.png" alt="logo" class="logo" onclick="window.location.reload();">   
+        <div>
+            <h1>Map Finder</h1>
+            <p>Explore Click Learn</p>
+        </div>
+        </nav>
+        <!-- <button class="signupBtn">Sign Up</button>  -->
+   </header>
+   <div class="container">
+    <form id="sign_in_form" method="post">
+
+        <div class="wrap">
+            <label for="username">
+                Username
+           </label>
+           <input type="text" id="username" name="username" placeholder="Enter you username"  required>
+        </div>
+        <div class="wrap">
+            <label for="password">
+                Password
+           </label>
+           <input type="password" id="password" name="password" placeholder="Enter your password"  required>
+        </div>
+        <div class="wrap">
+            <label for="password">
+                Confirm Password
+           </label>
+           <input type="password" id="confirm_password" name="password" placeholder="Enter your password" required>
+        </div>
+        <div class="wrap">
+        	<p id="error-info" style="display:none"></p>
+        </div>
+        <button type="submit" style="border:none;">Register Now</button>
+    </form>
+   </div>
+   <footer>
+    <h2>Copyright &copy; 2025 SRIRAM-S &#174;</h2>
+  </footer>
+</body>
+<script>
+
+history.pushState(null, null, window.location.href);
+
+
+document.addEventListener("visibilitychange", function() {
+    if (!document.hidden) {
+        let status = localStorage.getItem("sessionChecked");
+        if (status) {
+    		window.location.replace("home");
+        }
+        else{
+        	history.pushState(null, null, window.location.href);
+        }
+        
+    }
+});
+
+
+window.addEventListener("popstate", (event) => {
+	if(localStorage.getItem("sessionChecked")){
+		window.location.replace("home");
+	}
+	else{
+		history.pushState(null, null, window.location.href);
+	}
+});
+
+
+    let form=document.getElementById("sign_in_form");
+ 	form.addEventListener('submit',(e)=>{
+ 		e.preventDefault();
+            const username=document.querySelector("#username").value;
+            const password=document.querySelector("#password").value;
+            const confirmPassword=document.querySelector("#confirm_password").value;
+            const regex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if(!regex.test(password)){
+            	const error=document.querySelector("#error-info");
+            	error.style.display="block";
+            	console.log(error);
+            	error.innerText="Password must be 8-20 chars, include upper, lower, number & special character";
+            	return;
+            }
+            if(password!=confirmPassword){
+            	const error=document.querySelector("#error-info");
+            	error.style.display="block";
+            	error.innerText="give the same password to confirm";
+            	return;
+            }
+            
+            data={username,password};
+           	fetch("/MapFinder/signup",{
+           		method:"POST",
+           		headers:{
+           			'Content-Type':'application/json'
+           		},
+           		body:JSON.stringify(data),
+           	}).then(res=>res.text()).then((msg)=>{
+           		if(msg==="success"){
+           		 localStorage.setItem("sessionChecked", "true");
+           			window.location.href="home";
+           		}
+           		else if(msg==="duplicate"){
+           			alert("give another username");
+           		}
+           		else{
+           			alert("try again later");
+           		}
+           	})
+        });
+</script>
+</html>
