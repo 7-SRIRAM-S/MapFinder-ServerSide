@@ -56,20 +56,20 @@ public class DashboardServlet extends HttpServlet {
 				if(arr[3].equals("userdetails")) {
 					JSONObject json=new JSONObject();
 			
-					json.put("HINTS", UserManager.getHint(client_id));
-					json.put("POINTS", LeaderBoardManager.getTotalScore(client_id));
-					json.put("CERTIFICATE", CertificateManger.userCertificateCount(client_id));
+					json.put("HINTS", DashBoardManager.getHints(client_id));
+					json.put("POINTS", DashBoardManager.getPoint(client_id));
+					json.put("CERTIFICATE", DashBoardManager.getCertificateCount(client_id));
 			
 					res = ResponseUtil.buildResponce(json, "User detail data was processed");
 					
 			
 				}else if(arr[3].equals("topplayers")) {	
 					
-					res=ResponseUtil.buildResponce(LeaderBoardManager.topFiveLeaderBoard(client_id), "data recived"+client_id);
+					res=ResponseUtil.buildResponce(DashBoardManager.getTopPlayers(client_id), "data recived"+client_id);
 			
 				}else if(arr[3].equals("announcements")) {
 			
-					res = ResponseUtil.buildResponce(AnnouncementManager.getActiveAnnouncement(client_id), "data recived");
+					res = ResponseUtil.buildResponce(DashBoardManager.getAnnouncent(client_id), "data recived");
 				}
 				else { 
 					LOGGER.error(new StringBuilder("::: Bad request ::: No url found   :::").toString());
