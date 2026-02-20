@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/home.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="./script/Util.js"></script>
+    <script src="./script/home.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+ <div class="main-container">
+    <div id="home-container">
+        <header>
+            <nav>
+                <!-- <img src="./icons/goodbye.png" alt="logo" class="logo" onclick="window.location.href='index.html'";>    -->
+            <div>
+                <h1>Map Finder</h1>
+                <p>Explore Click Learn</p>
+            </div>
+            </nav>
+            <section class="header-icons">
+	            <button id="notification">
+	                <img src="./icons/notification-bell.png" alt="notification"  title="view notifications">
+	            </button>
+	             <button id="logout-btn">
+	                <img src="./icons/logout .png" alt="logout"  title="logout">
+	            </button>
+	            <button id="user">
+	                <img src="./icons/account.png" alt="user">
+	            </button>
+            </section>
+            <!-- <button class="signupBtn" id="logout-btn">Log Out</button>  -->
+       </header>
+        <div id="header-container">
+            <div id="header-left">
+                <div id="header-left-title">
+                    <h1 id="head-line">
+                        Welcome back, <span class="head-name">-----</span>!
+                        <img src="./icons/goodbye.png" alt="">
+                    </h1>
+                    <!-- <p>Ready to explore the map today?</p> -->
+                </div>
+            </div>
+         
+        </div>
+
+        <div id="user-detail-container">
+            <div id="streak-container">
+                <div id="streak-container-left">
+                    <p>Total Hints</p>
+                    <h2 class="hint-count">0</h2>
+                </div>
+                <div id="streak-container-right">
+                    <img id="streak-img" src="./icons/colorized-image.png.png" alt="">
+                </div>
+            </div>
+            <div id="points-container">
+                <div id="points-container-left">
+                    <p>Total points</p>
+                    <h2 class="point-count">0</h2>
+                </div>
+                <div id="points-container-right">
+                    <img id="points-img" src="./icons/colorized-favorites.png" alt="">
+                </div>
+            </div>
+            <div id="Certificates-container">
+                <div id="Certificates-container-left">
+                    <p>Certificates</p>
+                    <h2 class="certificate-count">0</h2>
+                </div>
+                <div id="Certificates-container-right">
+                    <img id="certificate-img" src="./icons/colorized-medal.png" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div id="view-container">
+            <div id="left-view">
+                <p>Choose Your Adventure <img src="./icons/rocket.png" alt=""></p>
+                <div id="mode-container">
+                    <div id="learn-mode" class="mode-panel" onclick="playGame('learnMode')">
+                        <div id="learn-icon-box">
+                            <img src="./icons/colorized-map.png.png" alt="">
+                        </div>
+                        <h3>Learn Mode</h3>
+                        <p>Click the map to discover places</p>
+                    </div>
+                    <div id="write-mode" class="mode-panel" onclick="playGame('writeMode')">
+                        <div id="write-icon-box">
+                            <img src="./icons/colorized-pencil.png" alt="">
+                        </div>
+                        <h3>Write Mode</h3>
+                        <p>Fill in the answers</p>
+                    </div>
+                    <div id="rectify-mode" class="mode-panel" onclick="playGame('rectifyMode')">
+                        <div id="rectify-icon-box">
+                            <img src="./icons/colorized-verify.png.png" alt="">
+                        </div>
+                        <h3>Rectify Mode</h3>
+                        <p>Fix your mistakes</p>
+                    </div>
+                    <div id="self-evaluate-mode" class="mode-panel" onclick="playGame('selfMode')">
+                        <div id="self-evaluate-icon-box">
+                            <img src="./icons/colorized-story.png" alt="">
+                        </div>
+                        <h3>Self-Evaluate</h3>
+                        <p>Review your progress</p>
+                    </div>
+                    <div id="bot-mode" class="mode-panel" onclick="playGame('botMode')">
+                        <div id="bot-icon-box">
+                            <img src="./icons/colorized-bot.png.png" alt="">
+                        </div>
+                        <h3>Bot Mode</h3>
+                        <p>Challenge the AI</p>
+                    </div>
+                    <div id="quiz-mode" class="mode-panel" onclick="playGame('quizMode')">
+                        <div id="quiz-icon-box">
+                            <img src="./icons/colorized-trophy.png" alt="">
+                        </div>
+                        <h3>Quiz Mode</h3>
+                        <p>Timed quizzes</p>
+                    </div>
+                </div>
+            </div>
+            <div id="right-view">
+                <div id="top-player-container">
+                    <div id="top-player-header">
+                        <h5><img  src="./icons/trophy(1).png" alt="">Top Players</h5>
+                        <a href="/MapFinder/leaderboard.html">View All</a>
+                    </div>
+                    <div id="top-player-list">
+                        <div id="top-one" class="top-1">
+                            <div id="top-one-detail">
+                                <div id="onenumber">1</div>
+                                <div id="top-1-name">-----</div>
+                            </div>
+                            <div id="top-one-score">
+                                Points
+                                <div id="top-1-points">0</div>
+                            </div>
+                        </div>
+                        <div id="top-two" class="top-2">
+                            <div id="top-two-detail">
+                                <div id="twonumber">2</div>
+                                <div id="top-2-name">-----</div>
+                            </div>
+                            <div id="top-two-score">
+                                Points
+                                <div id="top-2-points">0</div>
+                                
+                            </div>
+                        </div>
+                        <div id="top-three" class="top-3">
+                            <div id="top-three-detail">
+                                <div id="threenumber">3</div>
+                                <div id="top-3-name">-----</div>
+                            </div>
+                            <div id="top-three-score">
+                                Points
+                                <div id="top-3-points">0</div>
+                               
+                            </div>
+                        </div>
+                        <div id="top-four" class="top-4">
+                            <div id="top-four-detail">
+                                <div id="fournumber">4</div>
+                                <div id="top-4-name">-----</div>
+                            </div>
+                            <div id="top-four-score">
+                                Points
+                                <div id="top-4-points">0</div>
+                               
+                            </div>
+                        </div>
+                        <div id="top-five" class="top-5">
+                            <div id="top-five-detail">
+                                <div id="fivenumber">5</div>
+                                <div id="top-5-name">-----</div>
+                            </div>
+                            <div id="top-five-score">
+                                Points
+                                <div id="top-5-points">0</div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="notification-outer-container">
+                    <h3><img src="./icons/notification.png" alt="">Notifications</h3>
+                    <div id="notification-container">
+                        <div id="notification-1">
+                            <div class="notifiction-message">
+                                <img  src="./icons/party-popper.png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                -----------</div>
+                        </div>
+                        <div id="notification-2">
+                            <div class="notifiction-message">
+                                <img src="./icons/trophy(1).png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                ------------</div>
+                        </div>
+                        <div id="notification-3">
+                            <div class="notifiction-message">
+                                <img src="./icons/lightning.png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                -----------</div>
+                        </div>
+                        <div id="notification-3">
+                            <div class="notifiction-message">
+                                <img src="./icons/lightning.png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                -----------</div>
+                        </div>
+                        <div id="notification-3">
+                            <div class="notifiction-message">
+                                <img src="./icons/lightning.png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                -----------</div>
+                        </div>
+                        <div id="notification-3">
+                            <div class="notifiction-message">
+                                <img src="./icons/lightning.png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                -----------</div>
+                        </div>
+                        <div id="notification-3">
+                            <div class="notifiction-message">
+                                <img src="./icons/lightning.png" alt="">
+                                ---------------------</div>
+                            <div class="notification-time">
+                                <img id="clock" src="./icons/clock.png" alt="">
+                                -----------</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+           
+        </div>
+    </div>
+ 
+</div>
+
+</body>
+</html>

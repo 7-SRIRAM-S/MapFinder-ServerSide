@@ -2,6 +2,8 @@
 package com.mapfinder.dao;
 
 import com.mapfinder.modal.Leaderboard;
+import com.mapfinder.services.FriendRequestManager;
+import com.mapfinder.services.UserManager;
 import com.mapfinder.utils.DBUtil;
 import com.mapfinder.utils.QueryUtil;
 
@@ -36,19 +38,37 @@ public class LeaderboardDAO {
         	return false;
         }
     }
+    
+    
+    public int getTotalScore(int userId) {
+    	int totalScore=0;
+    	try(PreparedStatement stmt = conn.prepareStatement(QueryUtil.GET_TOTALSCORE)){
+    		stmt.setInt(1, userId);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            totalScore = rs.getInt("totalCertificates");
+	        }
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    	}
+        return totalScore;
+    }
 
     
 //  ================================================  FindAll LeaderBoard  ======================================================
     
-    public List<Leaderboard> viewAllLeaderboards()  {
+    public List<Leaderboard> viewAllLeaderboards(int userId)  {
         List<Leaderboard> list = new ArrayList<>();
         
         try (Statement stmt = conn.createStatement()) {
 
             ResultSet rs = stmt.executeQuery(QueryUtil.VIEW_LEADERBOARD);
-
             while (rs.next()) {
-                list.add(mapResultSet(rs));
+            	int certificate = (int) UserManager.getHint(rs.getInt("user_id"));
+            	boolean isFriend = FriendRequestManager.isFriend(userId, rs.getInt("user_id"));
+            	
+                list.add(mapResultSet(rs, certificate, isFriend));
             }
         }
         catch(Exception e) {
@@ -61,13 +81,16 @@ public class LeaderboardDAO {
     
 //    ===============================================  FindTopFiveLeaderBoard  ===========================================
     
-    public List<Leaderboard> findTopFiveLeaderBoard(){
+    public List<Leaderboard> findTopFiveLeaderBoard(int userId){
     	List<Leaderboard> list = new ArrayList<>();
     	try(Statement stmt = conn.createStatement()){
             ResultSet rs = stmt.executeQuery(QueryUtil.VIEW_TOPFIVE_LEADERBOARD);
 
             while (rs.next()) {
-                list.add(mapResultSet(rs));
+            	int certificate = (int) UserManager.getHint(rs.getInt("user_id"));
+            	boolean isFriend = FriendRequestManager.isFriend(userId, rs.getInt("user_id"));
+            	
+                list.add(mapResultSet(rs, certificate, isFriend));
             }
     	}
     	catch(Exception e) {
@@ -80,7 +103,7 @@ public class LeaderboardDAO {
     
 // --------------------------------------------------- mapResultSet ----------------------------------------------------------------
 
-    private Leaderboard mapResultSet(ResultSet rs) throws SQLException {
+    private Leaderboard mapResultSet(ResultSet rs , int certificate , boolean isFriend) throws SQLException {
         return new Leaderboard(
                 rs.getInt("leaderboard_id"),
                 rs.getInt("user_id"),
@@ -90,7 +113,9 @@ public class LeaderboardDAO {
                 rs.getInt("total_games"),
                 rs.getDouble("average_score"),
                 rs.getInt("rank_position"),
-                rs.getString("username")
+                rs.getString("username"),
+                certificate,
+                isFriend
         );
     }
 }

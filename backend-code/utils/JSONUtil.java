@@ -52,6 +52,8 @@ public class JSONUtil {
 			obj.put("averageScore", leader.getAverageScore());
 			obj.put("rankPosition", leader.getRankPosition());
 			obj.put("userName", leader.getUserName());
+			obj.put("totalCertificate" , leader.getCertificateCount());
+			obj.put("isFriend", leader.getIsFriend());
 			mapList.put(obj);
 		}
 		return mapList;

@@ -32,11 +32,11 @@ public class AnnouncementManager {
 		return false;
 	}
 	
-	public static JSONArray getActiveAnnouncement(){
+	public static JSONArray getActiveAnnouncement(int userId){
 		LOGGER.trace(new StringBuilder("::: view Announcement into DB :::  Creating Object for Announcement ::: ").toString());
 		List<Announcement> announcement = new ArrayList<Announcement>();
 		try {
-			announcement = AnnouncementManager.announcement.findActive();
+			announcement = AnnouncementManager.announcement.findActive(userId);
 			
 		} catch (Exception e) {
 

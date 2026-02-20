@@ -1,0 +1,485 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+
+main {
+    background-color: #FFF9F2;
+    padding: 2% 0 2% 0;
+    margin: 0 auto;
+    /* max-width: 1200px;  */
+    min-height: 54.6rem;
+    user-select: none;
+}
+
+main>* {
+    width: 55%;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+}
+
+
+
+
+header,
+section {
+    margin-bottom: 1%;
+    background-color: white;
+    padding: 1.4%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* pushes Arya to right */
+}
+
+header > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+header > div:first-child > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #FEF9C2;
+    border-radius: 50%;
+}
+
+header > div:first-child > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+header > div > div:last-child p {
+    line-height: 1.4;
+}
+
+
+
+/* --------------------------------------------------------------- */
+
+
+/* header>div,
+header>div>div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+}
+
+header>div>div:first-child {
+    padding: 6%;
+    background-color: #FEF9C2;
+    border-radius: 50%;
+} */
+
+
+.leaderboad-heading {
+    font-size: 1.9em;
+    font-weight: 500;
+}
+
+/* ------------------------------------------------------------------------ */
+
+/* header>div>div:last-child p {
+    text-wrap: nowrap;
+
+    line-height: 1.5;
+
+} */
+
+.filer-users {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-name {
+    font-size: 1.2em;
+}
+
+
+.filer-users button {
+    padding: 0.5em 1.2em;
+    border: none;
+    font-size: 1.1em;
+    border-radius: 1em;
+}
+
+
+
+.filer-users button:hover {
+    transition: 1s;
+    background-color: rgb(223, 217, 217);
+
+}
+
+
+
+input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 3px solid #E5E7EB;
+}
+
+
+.leaderboard-toplist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+
+.leaderboard-toplist>div {
+    /* padding: 2%; */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+
+}
+
+.user-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #F5BF00;
+    border: 2px solid #dbb320;
+}
+
+.user-icon p {
+    font-size: 2em;
+}
+
+.users-details {
+    width: 300px;
+    height: 150px;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    background-color: #F3F4F6;
+}
+
+
+h2 {
+    font-size: 1.4em;
+    font-weight: 500;
+
+}
+
+.users-details>div {
+    color: orange;
+    letter-spacing: 0.3px;
+}
+
+.leaderboard-toplist>div:first-child .users-details {
+    background-color: #F3F4F6;
+
+}
+
+
+.leaderboard-toplist>div:nth-child(2) .users-details {
+    background-color: #FEFCE8;
+
+}
+
+
+.leaderboard-toplist>div:last-child .users-details {
+    background-color: #FFF7ED;
+}
+
+
+.ranking-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 19px;
+    flex-direction: column;
+}
+
+
+.ranking {
+    border: 2px solid rgb(233, 233, 247);
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px;
+    background-color: #F9FAFB;
+}
+
+
+
+
+.ranked-user-name {}
+
+
+.pointing-position {
+    border: 1px solid rgb(145, 143, 143);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+
+}
+
+
+.ranked-user-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.scoreText {
+    font-size: 1.3em;
+}
+
+.user-achivement {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:26px;
+}
+
+
+.user-achivement>div {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.friend-request{
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+
+.user-achivement>div>div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+
+.friend-request>img{
+    height: 25px;
+    width: 25px;
+}
+
+
+img {
+    height: 20px;
+    width: 20px;
+}
+
+#no-data{
+    color:#FF7B00;
+    text-align: center;
+    padding: 5px;
+}
+
+#topList{
+ width: 100%;
+}
+#topList .users-details{
+    width: 100%;
+}
+
+button,#back,.friend-request{
+    cursor: pointer;
+}
+
+
+@media (max-width: 1272px) {
+    main>* {
+        width: 85%;
+    }
+    
+}
+
+@media (max-width: 1024px) and (min-width:957px) {
+    main>* {
+        width: 85%;
+    }
+
+    .user-icon p {
+        font-size: 1.8em
+    }
+
+    .users-details {
+        width: 256px;
+        height: 136px;
+    }
+
+    h2 {
+        font-size: 1em;
+    }
+
+}
+
+
+@media (max-width: 1440px) and (min-width: 1282px) {
+    main>* {
+        width: 75%;
+    }
+}
+
+@media (max-width:768px) {
+    main {
+        width: 95%;
+    }
+
+    main>* {
+        width: 100%;
+    }
+
+
+    .user-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+
+    .user-icon p {
+        font-size: 1.3em
+    }
+
+    .users-details {
+        width: 220px;
+        height: 120px;
+    }
+    
+
+    h2 {
+/*         font-size: 0.9em; */
+    }
+}
+
+
+@media (max-width:425px) {
+    main {
+        width: 100%;
+    }
+
+    main>* {
+        width: 100%;
+    }
+
+
+    .user-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+
+    .user-icon p {
+        font-size: 1.3em
+    }
+
+    .users-details {
+        width: 95%;
+        height: 150px;
+    }
+
+    h2 {
+        font-size: 0.9em;
+    }
+
+
+    .leaderboard-toplist {
+        flex-wrap: wrap;
+    }
+
+
+    .leaderboard-toplist>div {
+        width: 95%;
+    }
+
+    .scoreText {
+        font-size: 1em;
+    }
+
+    .leaderboad-heading {
+        font-size: 1.5em;
+    }
+
+    input {
+        padding: 8px;
+    }
+
+
+    .filer-users button {
+
+        padding: 0.5em 0.7em;
+        font-size: 0.9em;
+    }
+}
+
+
+@keyframes slideUp {
+    from {
+      transform: translateY(100px) translateX(5px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100px) translateX(-5px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) translateX(0);
+      opacity: 1;
+    }
+  }
+  header{
+    opacity: 0;
+    animation: slideDown 200ms ease-in-out 70ms 1 forwards;
+  }
+  .filer-users{
+    opacity: 0;
+    animation: slideUp 200ms ease-in-out 50ms 1 forwards;
+  }
+  .leaderboard-toplist{
+    opacity: 0;
+    animation: slideUp 200ms ease-in-out 150ms 1 forwards;
+  }
+  .ranking-board{
+    opacity: 0;
+    animation: slideUp 200ms ease-in-out 250ms 1 forwards;
+  }

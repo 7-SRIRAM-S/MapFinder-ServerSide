@@ -1,16 +1,8 @@
+//$Id$
 package com.mapfinder.utils;
 
-public class QueryUtil {
-	
-//	------------------------- ------  user  ----- -----------------------------------------
-	public static final String CHECK_USERNAME = "SELECT * FROM USERS WHERE USERNAME=?";
-	public static final String INSERT_USER = "INSERT INTO USERS (USERNAME, PASSWORD) VALUES(?, AES_ENCRYPT(?, ?))";
-	public static final String VIEW_USER = "SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = AES_ENCRYPT(?, ?)";
-	public static final String ADD_HINT="UPDATE USERS SET HINTS = HINTS + 1 WHERE USERS_ID = ? RETURNING HINTS";
-	public static final String SELECT_HINT="SELECT HINTS FROM USERS WHERE USERS_ID = ?";
-	public static final String SELECT_USERNAME="SELECT USERNAME FROM USERS WHERE USERS_ID = ?";
-	public static final String GET_USERID_BYNAME="SELECT USERS_ID USERS FROM USERS WHERE USERNAME=?";
-	
+
+public class Queries {
 	
 //	------------------------------ --------- maps queries  ------- --------------------------------------------------
 	
@@ -42,36 +34,25 @@ public class QueryUtil {
 	
 //	-----------------------------  -------- Leaderboard  ------- -----------------------------------------------------
 	
-	public static final String VIEW_LEADERBOARD = "SELECT l.leaderboard_id, l.user_id, u.username, l.map_id, l.mode_id,        l.total_score, l.total_games, l.average_score, l.rank_position FROM leaderboard l JOIN USERS u ON u.users_id = l.user_id ORDER BY l.rank_position;;";
-	public static final String VIEW_TOPFIVE_LEADERBOARD="SELECT l.leaderboard_id, l.user_id, u.username, l.map_id, l.mode_id,        l.total_score, l.total_games, l.average_score, l.rank_position FROM leaderboard l JOIN USERS u ON u.users_id = l.user_id ORDER BY l.rank_position ASC LIMIT 5;";
+	public static final String VIEW_LEADERBOARD = "SELECT * FROM leaderboard ORDER BY total_score DESC";
 	public static final String INSERT_LEADERBOARD = "INSERT INTO leaderboard (user_id, map_id, mode_id, total_score, total_games, average_score, rank_position) VALUES (?, ?, ?, ?, ?, ?, ?)";
-	public static final String GET_TOTALSCORE ="select total_score  from leaderboard where user_id = ?";
 	
 	
 //	-------------------------------- -------- Announcement  ------- ------------------------------------------------
 	
-	public static final String VIEW_ANNOUNCEMENT = "SELECT * FROM announcements WHERE is_active = TRUE and created_by = ? ";
+	public static final String VIEW_ANNOUNCEMENT = "SELECT * FROM announcements WHERE is_active = TRUE";
 	public static final String INSERT_ANNOUNCEMENT = "INSERT INTO announcements (title, message, created_by, is_active) VALUES (?, ?, ?, ?)";
 	
 	
 // -------------------------------- ------- friend request  ---------  -----------------------------------------------
 	
 	public static final String INSERT_FRIEND_REQUEST = "insert into friend_requests (request_id, sender_id, receiver_id, status, created_at) values(? ,? ,?, ?, ?)";
-	public static final String GET_FRIENDS = "SELECT u2.* FROM friends f JOIN USERS u1 ON u1.USERS_ID = f.user_id JOIN USERS u2 ON u2.USERS_ID = f.friend_id WHERE u1.USERS_ID = ?;";
+	public static final String GET_FRIENDS = "SELECT u2.* FROM friends f JOIN USERS u1 ON u1.USERS_ID = f.user_id JOIN USERS u2 ON u2.USERS_ID = f.friend_id WHERE u1.USERS_ID = 1;";
 	public static final String REMOVE_FRIEND = "delete from friends where friend_id = ? and user_id = ? ";
-	public static final String IS_FRIEND = "select * from friends where user_id = ? and friend_id = ?";
 
 	
 //	------------------------------------ ------ Error states  ------ -------------------------------------------------
 	
 	public static final String INSERT_ERROR_STATE = "INSERT INTO error_states (user_id, mode_id, state_id, wrong_answer, correct_answer, attempt_number) VALUES (?, ?, ?, ?, ?, ?)";
 	public static final String VIEW_ERROR_STATE = "SELECT * FROM error_states WHERE user_id = ?";
-	
-	
-//	---------------------------------------- ----- certificates -------- -------------------------------------------------------
-	
-	public static final String INSERT_CERTIFICATE = "insert into certificate (name,rating,issued_by) values(?,?,?)";
-	public static final String INSERT_INTO_USER_CERTIFICATE = "insert into user_certificates(user_id ,certificate_id) values(?,?)";
-	public static final String GET_CERTIFICATE_USERS = "select count(*) as totalCertificates from user_certificates where user_id= ? ;";
-
 }

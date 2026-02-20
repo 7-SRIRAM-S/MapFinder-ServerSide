@@ -18,7 +18,7 @@ public class FriendRequestManager {
     
     
 
-    public static boolean addGame(int requestId, int senderId, int receiverId, String status, Date createdAt) {
+    public static boolean addFriend(int requestId, int senderId, int receiverId, String status, Date createdAt) {
     	LOGGER.trace(new StringBuilder("::: Add frdRequest into DB :::  Creating Object for frdRequest ::: ").toString());
     	FriendRequest frRequest= null;
     	try {
@@ -30,12 +30,12 @@ public class FriendRequestManager {
     	return false;
     }
     
-    public static List<Users> listAllLocations(){
+    public static List<Users> listAllFriends(int userId){
     	LOGGER.trace(new StringBuilder("::: view all friends into DB :::  Creating Object for friends ::: ").toString());
     	List<Users> frdRequest = new ArrayList<>();
     	try {
     		
-    		frdRequest = FriendRequestManager.frdRequest.getFriends();
+    		frdRequest = FriendRequestManager.frdRequest.getFriends(userId);
 			
 		} catch (Exception e) {
 			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
@@ -43,6 +43,17 @@ public class FriendRequestManager {
     	
     	return frdRequest;
     	
+    }
+    
+    
+    public static boolean isFriend(int userId , int friendId) {
+    	LOGGER.trace(new StringBuilder("::: isFriend  into DB :::  Creating Object for friends ::: ").toString());
+    	try {
+    		return  FriendRequestManager.frdRequest.isFriend(userId, friendId);
+		} catch (Exception e) {
+			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
+		}
+    	return false;
     }
     
     

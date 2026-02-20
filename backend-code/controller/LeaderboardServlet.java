@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,39 +16,61 @@ import com.mapfinder.modal.Leaderboard;
 import com.mapfinder.modal.Map;
 import com.mapfinder.services.LeaderBoardManager;
 import com.mapfinder.services.MapManager;
+import com.mapfinder.services.UserManager;
+import com.mapfinder.utils.ResponseUtil;
 
 /**
  * Servlet implementation class LeaderboardServlet
  */
 public class LeaderboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LeaderboardServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONArray leaderBoardList = LeaderBoardManager.viewLeaderBoard();
-		JSONObject responseObject = new JSONObject();
-		responseObject.put("data" , leaderBoardList);
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    response.setStatus(200);
-	    response.getWriter().write(responseObject.toString());
+	public LeaderboardServlet() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int client_id = -1;
+		JSONObject responseObject = new JSONObject();
+		try {
+			HttpSession session = null;
+			session = request.getSession(false);
+
+			if ((session = request.getSession(false)) != null) {
+				String userName = (String) session.getAttribute("user");
+				client_id = (int) UserManager.getIdByName(userName);
+			}
+
+			if (client_id == -1) {
+				System.out.println("problem in session");
+				return;
+			}
+
+			JSONArray leaderBoardList = LeaderBoardManager.viewLeaderBoard(client_id);
+			responseObject = ResponseUtil.buildResponce(leaderBoardList, "leader board data ");
+			ResponseUtil.ProcessResponse(responseObject, response);
+		} catch (Exception e) {
+			responseObject = ResponseUtil.buildResponceError(response.SC_BAD_REQUEST, e.getMessage());
+			ResponseUtil.ProcessResponse(responseObject, response);
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 	}
 
 }

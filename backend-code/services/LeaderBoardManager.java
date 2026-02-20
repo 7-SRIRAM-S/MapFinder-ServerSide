@@ -32,23 +32,35 @@ public class LeaderBoardManager {
 		}
     }
     
+    public static int getTotalScore(int userId) {
+    	LOGGER.trace(new StringBuilder("::: Get TotalScore into DB :::  Creating Object for LeaderBoard ::: ").toString());
+    	try {
+    		return leaderBoard.getTotalScore(userId);
+    		
+    	}
+    	catch(Exception e) {
+    		LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
+        	return 0;
+    	}
+    }
     
-    public static JSONArray viewLeaderBoard(){
+    
+    public static JSONArray viewLeaderBoard(int userId){
     	LOGGER.trace(new StringBuilder("::: view Leaderboard  :::  Creating Object for LeaderBoard List ::: ").toString());
     	List<Leaderboard> leaders = new ArrayList<>();
     	try {
-			leaders = LeaderBoardManager.leaderBoard.viewAllLeaderboards();
+			leaders = LeaderBoardManager.leaderBoard.viewAllLeaderboards(userId);
 		} catch (Exception e) {
 			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
 		}
     	return JSONUtil.convertLeaderBoardToJson(leaders);
     }
     
-    public static JSONArray topFiveLeaderBoard(){
+    public static JSONArray topFiveLeaderBoard(int userId){
     	LOGGER.trace(new StringBuilder("::: view top 5 Leaderboard  :::  Creating Object for LeaderBoard List ::: ").toString());
     	List<Leaderboard> leaders = new ArrayList<>();
     	try {
-    		leaders = LeaderBoardManager.leaderBoard.findTopFiveLeaderBoard();
+    		leaders = LeaderBoardManager.leaderBoard.findTopFiveLeaderBoard(userId);
     	}
     	catch(Exception e) {
 			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());

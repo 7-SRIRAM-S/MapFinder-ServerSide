@@ -33,12 +33,13 @@ public class AnnouncementDAO {
 		}
     }
 
-    public List<Announcement> findActive() {
+    public List<Announcement> findActive(int userId) {
         List<Announcement> list = new ArrayList<>();
 
-        try (Statement stmt = conn.createStatement()) {
+        try (PreparedStatement stmt = conn.prepareStatement(QueryUtil.VIEW_ANNOUNCEMENT)) {
 
-            ResultSet rs = stmt.executeQuery(QueryUtil.VIEW_ANNOUNCEMENT);
+        	stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 list.add(new Announcement(

@@ -34,9 +34,10 @@ public class FriendRequestDAO {
 	}
 	
 	
-	public List<Users> getFriends(){
+	public List<Users> getFriends(int userId){
 		List<Users> listUsers = new ArrayList<Users>();
 		try(PreparedStatement stmt = conn.prepareStatement(QueryUtil.GET_FRIENDS)){
+			stmt.setInt(userId, userId);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				listUsers.add(new Users(rs.getInt("USERS_ID"), rs.getString("USERNAME"), rs.getString("PASSWORD") , rs.getString("ROLE"),rs.getDate("CREATED_AT")));
@@ -61,6 +62,22 @@ public class FriendRequestDAO {
         catch (Exception e) {
         	return false;
 		}
+    }
+    
+    
+    public boolean isFriend(int userId , int friendId) {
+    	try(PreparedStatement stmt = conn.prepareStatement(QueryUtil.IS_FRIEND)){
+    		stmt.setInt(1, userId);
+    		stmt.setInt(2, friendId);
+    		ResultSet rs= stmt.executeQuery();
+    		while(rs.next()) {
+    			return true;
+    		}
+    	}
+    	catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return false;
     }
 }
 
