@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.mapfinder.services.UserManager;
 import com.mapfinder.utils.JSONUtil;
+import com.mapfinder.utils.ResponseUtil;
 import com.mapfinder.utils.ValidationUtil;
 
 public class SignInServlet extends HttpServlet {
@@ -52,7 +53,7 @@ public class SignInServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		LOGGER.trace(new StringBuilder("::: Entering into SigninServlet ::: POST ::: For Login Activity :::").toString());
-
+		JSONObject responseJson=null;
 		JSONObject json=JSONUtil.readAsJSON(request);
 		String username=json.optString("username");
 		String password=json.optString("password");
@@ -60,14 +61,13 @@ public class SignInServlet extends HttpServlet {
 			if(UserManager.isValidUser(username, password)) {
 				LOGGER.info(new StringBuilder("::: Login Successful ::: "+" Session Set and Redirect /home :::").toString());
 				HttpSession session=request.getSession(); 
-				session.setAttribute("user", username);
-				response.getWriter().write("success");
-				return;
+				session.setAttribute("user", String.valueOf(UserManager.getIdByName(username)));
+				responseJson=ResponseUtil.buildSuccessResponse(HttpServletResponse.SC_OK, "login successful");
+
 			}
 			else {
 				LOGGER.warn(new StringBuilder("::: Invalid User login ::: For Login Activity :::").toString());
-				response.getWriter().write("failed");
-				return;
+				responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_UNAUTHORIZED, "login failed");
 			}
 		}
 		else {
@@ -77,7 +77,7 @@ public class SignInServlet extends HttpServlet {
 		
 		LOGGER.warn(new StringBuilder("::: Login Failed :::  Redirect into Same Page :::").toString());
 
-		response.getWriter().write("failed");
+		ResponseUtil.ProcessResponse(responseJson, response);
 	}
 
 }

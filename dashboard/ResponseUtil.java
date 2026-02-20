@@ -9,35 +9,35 @@ import org.json.JSONObject;
 
 public class ResponseUtil {
 	
-	public static JSONObject buildResponce(JSONObject data,String message) {
+	public static JSONObject buildResponse(JSONObject data,String message) {
 			
-		JSONObject res=new JSONObject();
+		JSONObject response=new JSONObject();
 		
-		res.put("data", data);
-		res.put("status", "Success");
-		res.put("message", message);
+		response.put("data", data);
+		response.put("status", "success");
+		response.put("message", message);
 		
 		
-		return res;
+		return response;
 	}
 	
-	public static JSONObject buildResponce(JSONArray data,String message) {
+	public static JSONObject buildResponse(JSONArray data,String message) {
 		
-		JSONObject res=new JSONObject();
+		JSONObject response=new JSONObject();
 		
-		res.put("data", data);
-		res.put("status", "Success");
-		res.put("message", message);
+		response.put("data", data);
+		response.put("status", "success");
+		response.put("message", message);
 		
 		
-		return res;
+		return response;
 	}
 	
-	public static JSONObject buildResponceError(int httpStatuscode,String message) {
+	public static JSONObject buildResponseError(int httpStatuscode,String message) {
 		JSONObject json = new JSONObject();
 		
 		return json.put("Status_Code", httpStatuscode)
-				.put("Status", "Failed")
+				.put("Status", "failed")
 				.put("message",message);
 	}
 	

@@ -10,7 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mapfinder.utils.SessionUtil;
+import com.mapfinder.utils.ResponseUtil;
+
 
 public class LogOutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +32,7 @@ public class LogOutServlet extends HttpServlet {
 			LOGGER.trace(new StringBuilder("::: Session Cleared ::: Redirecting into /signin ::: ").toString());
 	        session.invalidate(); 
 	    }
-	    response.getWriter().write("logout");
+	    ResponseUtil.ProcessResponse(ResponseUtil.buildSuccessResponse(HttpServletResponse.SC_ACCEPTED, "logout is successful"), response);
 	    return;
 //	    response.sendRedirect("signin");
 	}

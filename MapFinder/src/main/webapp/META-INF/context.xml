@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Manager className="org.apache.catalina.session.PersistentManager">
+        <Store className="org.apache.catalina.session.FileStore"
+               directory="session_store"/>
+    </Manager>
+</Context>

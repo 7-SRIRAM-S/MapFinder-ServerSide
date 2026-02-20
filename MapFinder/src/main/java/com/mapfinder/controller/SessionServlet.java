@@ -9,6 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
+
+import com.mapfinder.services.UserManager;
+import com.mapfinder.utils.ResponseUtil;
 
 /**
  * Servlet implementation class SessionServlet
@@ -21,6 +25,8 @@ public class SessionServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		JSONObject responseJson=null;
+		
 		LOGGER.trace(new StringBuilder("::: Entering into Session Servlet ::: GET ::: Check for Session Exist ::: ").toString());
 		
 		HttpSession session = request.getSession(false);
@@ -28,15 +34,18 @@ public class SessionServlet extends HttpServlet {
 	 	
 	    if (session != null && session.getAttribute("user") != null) {
 			LOGGER.info(new StringBuilder("Session Found ::: in Backend ::: ").toString());
-
-	        response.getWriter().write("success");
-	        return;
+			responseJson=ResponseUtil.buildSuccessResponse(HttpServletResponse.SC_CONTINUE, UserManager.getUsernameById(Integer.parseInt((String)session.getAttribute("user"))));
 	    }
 	    
-		LOGGER.warn(new StringBuilder("No Session Found ::: in Backend ::: ").toString());
-
-
-	    response.getWriter().write("failed");
+	    else {
+	    
+	    	LOGGER.warn(new StringBuilder("No Session Found ::: in Backend ::: ").toString());
+	    	responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_FORBIDDEN, "session not found");
+		
+	    }
+	    
+	    ResponseUtil.ProcessResponse(responseJson, response);
+	   
 	}
 
 

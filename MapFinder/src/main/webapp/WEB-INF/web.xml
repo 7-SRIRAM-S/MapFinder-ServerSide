@@ -7,9 +7,20 @@
 		<filter-name>AuthFilter</filter-name>
 		<filter-class>com.mapfinder.filters.AuthFilter</filter-class>
 	</filter>
+	<filter>
+		<description>
+		</description>
+		<display-name>UserLoggingFilter</display-name>
+		<filter-name>UserLoggingFilter</filter-name>
+		<filter-class>com.mapfinder.filters.UserLoggingFilter</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/home</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UserLoggingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<servlet>
 		<servlet-name>SignUpServlet</servlet-name>
@@ -37,6 +48,18 @@
 		<servlet-name>SessionServlet</servlet-name>
 		<servlet-class>com.mapfinder.controller.SessionServlet</servlet-class>
 	</servlet>
+	<servlet>
+
+		<display-name>DashboardServlet</display-name>
+		<servlet-name>DashboardServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.DashboardServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>LeaderboardServlet</display-name>
+		<servlet-name>LeaderboardServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.LeaderboardServlet</servlet-class>
+	</servlet>
 
 	
 	<servlet-mapping>
@@ -58,6 +81,14 @@
 	<servlet-mapping>
 		<servlet-name>SessionServlet</servlet-name>
 		<url-pattern>/checksession</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DashboardServlet</servlet-name>
+		<url-pattern>/dashboard/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LeaderboardServlet</servlet-name>
+		<url-pattern>/leaderboard/*</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>signin</welcome-file>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map Finder</title>
     <link rel="icon" href="images/map_logo.png">
+    <script src="./script/Util.js"></script>
     <style>
         *{
             margin: 0;
@@ -159,68 +160,36 @@
 <script>
 	document.addEventListener("visibilitychange", async function ()  {
 	    if (!document.hidden) {
-	    	let session=await isSessionExist();
+	    	let session=await SESSION.checkSession();
 	    	if(session){
-	    		change("home")
+	    		WINDOW.changeUrl("home")
 	    	}
 	    	else{
-	    		blockBackNavigation();
+	    		WINDOW.blockGoBack();
 	    	}
 	    }
 	});
 	
-	async function isSessionExist(){
-	    try{
-	        let res=await fetch("/MapFinder/checksession");
-	        let msg=await res.text();
-	
-	        if(msg==="failed"){
-	            localStorage.clear();
-	            console.log("session not exist");
-	            return false;
-	        }
-	
-	        console.log("session exist");
-	        return true;
-	
-	    } catch(err){
-	        console.log(err); 
 
-	        return false;
-	    }
-	}
-	
-	
-	function change(uri){
-		window.location.replace(uri);
-	}
-	
-	function blockBackNavigation(){
-		history.pushState(null, null, location.href);
-		 window.onpopstate = function () {
-		        history.go(1);
-		 };
-	}
-		
 	window.onload=async function(){
-	   let session=await isSessionExist();
+	   let session=await SESSION.checkSession();
 	   if(session){
-		   change("home");
+		   WINDOW.changeUrl("home");
 	   }
-	   blockBackNavigation();
+	   WINDOW.blockGoBack();
 	}
 	
 	window.addEventListener("popstate", async (event) => {
 		console.log("clicking back button");
-		let session= await isSessionExist();
+		let session= await SESSION.checkSession();
 		if(!session){
 	    	console.log("session is alive");
-			blockBackNavigation();
+			WINDOW.blockGoBack();
 		}
 		else{
 	    	console.log("no session going to signin");
 	
-			change("home");
+			WINDOW.changeUrl("home");
 		}
 	});
 
@@ -252,16 +221,18 @@
            			'Content-Type':'application/json'
            		},
            		body:JSON.stringify(data),
-           	}).then(res=>res.text()).then((msg)=>{
-           		if(msg==="success"){
+           	}).then(res=>res.json()).then((msg)=>{
+           		if(msg.status==="success"){
            		 localStorage.setItem("sessionChecked", "true");
            			window.location.href="home";
            		}
-           		else if(msg==="duplicate"){
-           			alert("give another username");
+           		else if(msg.status==="failed"){
+           			alert("try again later");
+
            		}
            		else{
-           			alert("try again later");
+           			alert("give another username");
+
            		}
            	})
         });

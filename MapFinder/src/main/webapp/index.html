@@ -67,9 +67,9 @@
     
     document.addEventListener("visibilitychange", async function ()  {
         if (!document.hidden) {
-        	let session= await isSessionExist();
+        	let session= await SESSION.checkSession();
         	if(session){
-        		blockBackNavigation();
+        		WINDOW.blockGoBack();
         	}
         	else{
         		console.log("triggering logout");
@@ -77,77 +77,49 @@
         	}
         }
     });
-    
-    async function isSessionExist(){
-        try{
-            let res=await fetch("/MapFinder/checksession");
-            let msg=await res.text();
+  
 
-            if(msg==="failed"){
-                localStorage.clear();
-                console.log("session not exist");
-                return false;
-            }
-
-            console.log("session exist");
-            return true;
-
-        } catch(err){
-            console.log(err);
-            return false;
-        }
-    }
-
-    
-    function change(uri){
-    	window.location.replace(uri);
-    }
-    
-    function blockBackNavigation(){
-    	history.pushState(null, null, location.href);
-    	 window.onpopstate = function () {
-    	        history.go(1);
-    	 };
-    }
+   
+   
     	
    window.onload=async function(){
-	   let session=await isSessionExist();
+	   let session=await SESSION.checkSession();
 	   if(!session){
-		   change("signin");
+		   WINDOW.changeUrl("signin");
 	   }
-	   blockBackNavigation();
+	   WINDOW.blockGoBack();
    }
 
     window.addEventListener("popstate", async (event) => {
     	console.log("clicking back button");
-    	let session= await isSessionExist();
+    	let session= await SESSION.checkSession();
     	if(session){
         	console.log("session is alive");
 
-    		blockBackNavigation();
+    		WINDOW.blockGoBack();
     	}
     	else{
         	console.log("no session going to signin");
 
-    		change("signin");
+    		WINDOW.changeUrl("signin");
     	}
     });
 
 		
 		
     	document.querySelector("#logout-btn").addEventListener("click",()=>{
+    		logoutBtn.disabled=true; 
 			logout();			
     	});
     	
     	function logout(){
     		console.log("log out...")
     		localStorage.clear();
-    		fetch("/MapFinder/logout").then(res=>res.text())
-    		.then((msg)=>{
-    			
-    				if(msg==="logout"){
-    					console.log(msg);
-    					window.location.replace("signin");
+    		fetch("/MapFinder/logout").then(res=>res.json())
+    		.then((data)=>{
+    				if(data.status==="success"){
+    					console.log(data);
+    					WINDOW.changeUrl("signin");
     				}
     			}).catch((err)=>console.log(err));
     	}

@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mapfinder.controller.SignUpServlet;
 import com.mapfinder.modal.User;
 import com.mapfinder.utils.DBUtil;
 
@@ -21,7 +22,7 @@ public class UserDAOImpl implements UserDAO{
     private static final Logger LOGGER=LogManager.getLogger(UserDAOImpl.class.getName());
 
 	
-	public boolean insertUser(User user) {
+	public long insertUser(User user) {
 		try  {
 			PreparedStatement ps=con.prepareStatement(QueryUtil.INSERT_USER,Statement.RETURN_GENERATED_KEYS);
 			
@@ -37,11 +38,11 @@ public class UserDAOImpl implements UserDAO{
 					LOGGER.info(new StringBuilder("New User Inserted into DB ::: User Id => "+user.getUserId()+"   :::").toString());
 				}
 			}
-			return true;
+			return user.getUserId();
 		} catch (SQLException e) {
 			LOGGER.error(new StringBuilder("Problem in Insert User into DB ::: "+e.getMessage()+"   :::").toString());
 		}
-		return false;
+		return -1L;
 	}
 
 	public  boolean updateUser(User user) {
@@ -86,5 +87,64 @@ public class UserDAOImpl implements UserDAO{
 		}
 		return false;
 	}
+
+	public long getUserIdByName(String username) {
+		try {
+			PreparedStatement ps=con.prepareStatement(QueryUtil.GET_USERID_BYNAME);
+			ps.setString(1, username);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			LOGGER.error(new StringBuilder("Problem in Fetch User :::  "+e.getMessage()+"   :::").toString());
+		}
+		return -1L;
+	}
+
+	public long addHint(int userId) {
+		try {
+			PreparedStatement ps=con.prepareStatement(QueryUtil.ADD_HINT);
+			ps.setInt(1, userId);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("HINTS");
+			}
+		} catch (SQLException e) {
+			LOGGER.error(new StringBuilder("Problem in Fetch User :::  "+e.getMessage()+"   :::").toString());
+		}
+		return -1L;
+	}
+	
+	public long getHint(int userId) {
+		try {
+			PreparedStatement ps=con.prepareStatement(QueryUtil.SELECT_HINT);
+			ps.setInt(1, userId);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("HINTS");
+			}
+		} catch (SQLException e) {
+			LOGGER.error(new StringBuilder("Problem in Fetch User Hints Count :::  "+e.getMessage()+"   :::").toString());
+		}
+		return -1L;
+	}
+
+	public String getUsernameById(int userId) {
+		try {
+			PreparedStatement ps=con.prepareStatement(QueryUtil.SELECT_USERNAME);
+			ps.setInt(1, userId);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				return rs.getString("USERNAME");
+			}
+		} catch (SQLException e) {
+			LOGGER.error(new StringBuilder("Problem in Fetch UserName By ID :::  "+e.getMessage()+"   :::").toString());
+		}
+		return null;
+	}
+	
+
+
 
 }

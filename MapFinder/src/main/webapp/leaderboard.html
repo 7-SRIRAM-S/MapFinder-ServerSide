@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/leaderboard.css">
+    <script src="./script/Util.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <main>
+
+        <header>
+            <div id="back">
+                <div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-arrow-left w-6 h-6 text-yellow-600" aria-hidden="true"
+                        data-fg-ckyr7=":1.10313:/components/Leaderboard.tsx:32:17:1220:49:e:ArrowLeft::::::EIC8">
+                        <path d="m12 19-7-7 7-7"></path>
+                        <path d="M19 12H5"></path>
+                    </svg>
+                </div>
+                <div>
+                    <p class="leaderboad-heading">Leaderboard 🏆</p>
+                    <p> See how you rank against others</p>
+                </div>
+            </div>
+            <div>
+               
+            </div>
+        </header>
+        <section class="filer-users">
+            <div>
+                <button id="global">Global</button>
+                <button>Friends</button>
+            </div>
+            <div>
+                <input type="text" placeholder="search users...." id="input">
+            </div>
+        </section>
+        <section class="leaderboard-toplist">
+            
+            <div>
+                <div class="user-icon">
+                    <p>👧</p>
+                </div>
+                <div class="users-details">
+                    <h1>🥈</h1>
+                    <p class="user-name-2">Rohan</p>
+                    <h2 class="user-points-2">1180</h2>
+                    
+                </div>
+            </div>
+            <div>
+                <div class="user-icon">
+                    <p>👦</p>
+                </div>
+                <div class="users-details">
+                    <h1>👑</h1>
+                    <p class="user-name-1">Priya</p>
+                    <h2 class="user-points-1">1250</h2>
+                    
+                </div>
+            </div>
+            <div>
+                <div class="user-icon">
+                    <p>👦</p>
+                </div>
+                <div class="users-details">
+                    <h1>🥉</h1>
+                    <p class="user-name-3">Arya</p>
+                    <h2 class="user-points-3">1050</h2>
+                </div>
+            </div>
+        </section>
+
+        <section class="ranking-board">
+            <p class="leaderboad-heading">All Rankings</p>
+            <div class="ranking-container">
+               
+            </div>
+        </section>
+    </main>
+    <script src="./script/leaderboard.js"></script>
+</body>
+
+</html>

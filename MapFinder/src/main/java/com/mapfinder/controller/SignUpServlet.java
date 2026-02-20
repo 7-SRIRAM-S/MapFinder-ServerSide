@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import com.mapfinder.services.UserManager;
 import com.mapfinder.utils.JSONUtil;
+import com.mapfinder.utils.ResponseUtil;
 import com.mapfinder.utils.SessionUtil;
 import com.mapfinder.utils.ValidationUtil;
 
@@ -49,38 +50,38 @@ public class SignUpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		LOGGER.trace(new StringBuilder("::: Entering into SignUpServlet ::: POST ::: For Login Activity :::").toString());
-
+		
+		JSONObject responseJson=null;
 		JSONObject json=JSONUtil.readAsJSON(request);
 		String username=json.optString("username");
 		String password=json.optString("password");
 		if(ValidationUtil.isNotEmpty(username)) {
 			if(UserManager.isUserNameExist(username)) {
 				LOGGER.warn(new StringBuilder("::: Duplicate username entrolled :::  For Signup Activity :::").toString());
-				response.getWriter().write("duplicate");
-				return;
+				responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_CONFLICT, "username already exists");
 			}
 			if(ValidationUtil.isNotEmpty(password)&&ValidationUtil.isValidPassword(password)) {
-				if(UserManager.addUser(username, password)) {
+				long userId=UserManager.addUser(username, password);
+				if(userId!=-1L) {
 					LOGGER.info(new StringBuilder("::: Register Successful ::: "+" Session Set and Redirect /home :::").toString());
 					HttpSession session=request.getSession(); 
-					session.setAttribute("user", username);
-					response.getWriter().write("success");
-					return;
+					session.setAttribute("user", String.valueOf(userId));
+					responseJson=ResponseUtil.buildSuccessResponse(HttpServletResponse.SC_CREATED, "user registered successfully");
 				}
 				else {
-					response.getWriter().write("failed");
-					return;
+					responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "problem in adding user");
 				}
 			}
 		}
 		else {
 			LOGGER.warn(new StringBuilder("::: No Data Found invalid request :::  For Signup Activity :::").toString());
-
+			responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "invalid request");
 		}
 		
 		LOGGER.warn(new StringBuilder("::: Register Failed :::  Redirect into Same Page :::").toString());
+		
+		ResponseUtil.ProcessResponse(responseJson, response);
 
-		response.getWriter().write("failed");
 	}
 
 }

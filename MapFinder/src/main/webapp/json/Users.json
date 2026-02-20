@@ -1,0 +1,9 @@
+[
+{ "name": "Kowsik", "points": 1850 ,"certificate":100 },
+{ "name": "Arya Stark", "points": 1800 ,"certificate" : 30},
+{ "name": "Jon Snow", "points": 1700 ,"certificate" : 20},
+{ "name": "Daenerys T", "points": 1600 ,"certificate" : 10},
+{ "name": "Tyrion L", "points": 1500 ,"certificate" : 50},
+{ "name": "Sansa S", "points": 1400 ,"certificate":50},
+{ "name": "Bran S", "points": 1300 ,"certificate" : 60}
+]

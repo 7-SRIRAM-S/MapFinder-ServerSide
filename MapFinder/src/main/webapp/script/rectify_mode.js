@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let count=1;
     if(states==null||states.length==0){
         alert("You have now mastered the course. Good to go and try other modes");
-        window.location.href = "index.html";
+        WINDOW.changeUrl("home");
         return;
     }
 
