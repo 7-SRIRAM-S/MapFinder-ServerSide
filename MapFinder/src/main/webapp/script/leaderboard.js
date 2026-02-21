@@ -1,5 +1,8 @@
+var userName="";
+
 LeaderBoard = (function() {
 
+	
     var Api = {
         show: {
             LeaderBoardUrl: "/MapFinder/leaderboard"
@@ -11,6 +14,7 @@ LeaderBoard = (function() {
 
     return {
         init: function() {
+			userName=localStorage.getItem("username");
             $("#back").on("click", () => {
                 window.location.assign("/MapFinder/home.html");
             });
@@ -155,8 +159,13 @@ LeaderBoard = (function() {
 LeaderBoard.init();
 
 
+function giveFriendRequest(name){
+	console.log("friend request to "+name+" from "+userName);
+}
+
 function buildHtml(count, name, points, certificate, isFriend) {
 
+	
     // Main container
     const ranking = document.createElement("div");
     ranking.className = "ranking";
@@ -183,23 +192,38 @@ function buildHtml(count, name, points, certificate, isFriend) {
     userAchievement.className = "user-achivement";
 
     // ---- friend request ----
-    const friendRequest = document.createElement("div");
-    friendRequest.className = "friend-request";
-
-    const addUserImg = document.createElement("img");
-    if (!isFriend) {
-        addUserImg.src = "./images/add-user.png";
-        addUserImg.alt = "adduser";
-        addUserImg.title = "Make Friend";
+    
+        if(userName!=name) {
+    
+		    const friendRequest = document.createElement("div");
+		    friendRequest.className = "friend-request";
+		
+		    
+		    
+		
+			
+			const addUserImg = document.createElement("img");
+			    if (!isFriend) {
+			        addUserImg.src = "./images/add-user.png";
+			        addUserImg.alt = "adduser";
+			        addUserImg.title = "Make Friend";
+			        addUserImg.onclick=()=>{
+						giveFriendRequest(name);
+					}
+			    }
+			    else {
+			        addUserImg.src = "./icons/friends.png";
+			        addUserImg.alt = "friend";
+			
+			    }
+			
+		
+		
+		    friendRequest.appendChild(addUserImg);
+		    
+		    userAchievement.appendChild(friendRequest);
+    
     }
-    else {
-        addUserImg.src = "./icons/friends.png";
-        addUserImg.alt = "friend";
-
-    }
-
-
-    friendRequest.appendChild(addUserImg);
     // ---- score section ----
     const scoreContainer = document.createElement("div");
 
@@ -239,13 +263,17 @@ function buildHtml(count, name, points, certificate, isFriend) {
     certContainer.appendChild(certText);
 
     // Append all to userAchievement
-    userAchievement.appendChild(friendRequest);
+    
     userAchievement.appendChild(scoreContainer);
     userAchievement.appendChild(certContainer);
 
     // Append everything to ranking
     ranking.appendChild(rankedUserName);
     ranking.appendChild(userAchievement);
+    
+    if(name==userName){
+		ranking.style.backgroundColor="yellow";
+	}
 
     return ranking;
 }

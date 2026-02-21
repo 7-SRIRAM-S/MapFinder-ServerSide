@@ -46,7 +46,7 @@ public class LeaderboardDAO {
     		stmt.setInt(1, userId);
 	        ResultSet rs = stmt.executeQuery();
 	        if (rs.next()) {
-	            totalScore = rs.getInt("total_score");
+	            totalScore = rs.getInt("total_Score");
 	        }
     	}
     	catch(Exception e) {
@@ -107,12 +107,9 @@ public class LeaderboardDAO {
         return new Leaderboard(
                 rs.getInt("leaderboard_id"),
                 rs.getInt("user_id"),
-                rs.getInt("map_id"),
-                rs.getInt("mode_id"),
                 rs.getInt("total_score"),
                 rs.getInt("total_games"),
                 rs.getDouble("average_score"),
-                rs.getInt("rank_position"),
                 rs.getString("username"),
                 certificate,
                 isFriend

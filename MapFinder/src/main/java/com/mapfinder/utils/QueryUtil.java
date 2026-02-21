@@ -44,8 +44,8 @@ public class QueryUtil {
 	
 //	-----------------------------  -------- Leaderboard  ------- -----------------------------------------------------
 	
-	public static final String VIEW_LEADERBOARD = "SELECT l.leaderboard_id, l.user_id, u.username, l.map_id, l.mode_id,        l.total_score, l.total_games, l.average_score, l.rank_position FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY l.rank_position;;";
-	public static final String VIEW_TOPFIVE_LEADERBOARD="SELECT l.leaderboard_id, l.user_id, u.username, l.map_id, l.mode_id,        l.total_score, l.total_games, l.average_score, l.rank_position FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY l.rank_position ASC LIMIT 5;";
+	public static final String VIEW_LEADERBOARD = "SELECT l.leaderboard_id, l.user_id, u.username, l.total_score, l.total_games, l.average_score FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY total_score desc;";
+	public static final String VIEW_TOPFIVE_LEADERBOARD="SELECT l.leaderboard_id, l.user_id, u.username, l.total_score, l.total_games, l.average_score FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY total_score DESC LIMIT 5;";
 	public static final String INSERT_LEADERBOARD = "INSERT INTO leaderboard (user_id, map_id, mode_id, total_score, total_games, average_score, rank_position) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	public static final String GET_TOTALSCORE ="select total_score  from leaderboard where user_id = ?";
 	

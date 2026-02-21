@@ -41,7 +41,7 @@ public class Leaderboard {
 	}
 
 	public Leaderboard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame,
-			double averageScore, int rankPosition, String userName , int certificate , boolean isFriends) {
+			double averageScore,  String userName , int certificate , boolean isFriends) {
 		this.leaderboardId = leaderboardId;
 		this.userId = userId;
 		this.mapId = mapId;
@@ -49,12 +49,25 @@ public class Leaderboard {
 		this.totalScore = totalScore;
 		this.totalGame = totalGame;
 		this.averageScore = averageScore;
-		this.rankPosition = rankPosition;
 		this.userName = userName;
 		this.certificateCount = certificate;
 		this.isFriend = isFriends;
 	}
 	
+	
+	
+	public Leaderboard(int leaderboardId, int userId, int totalScore, int totalGame, double averageScore,
+			 String userName, int certificateCount, boolean isFriend) {
+		this.leaderboardId = leaderboardId;
+		this.userId = userId;
+		this.totalScore = totalScore;
+		this.totalGame = totalGame;
+		this.averageScore = averageScore;
+		this.userName = userName;
+		this.certificateCount = certificateCount;
+		this.isFriend = isFriend;
+	}
+
 	public Leaderboard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame,
 			double averageScore, int rankPosition, String userName) {
 		this.leaderboardId = leaderboardId;
