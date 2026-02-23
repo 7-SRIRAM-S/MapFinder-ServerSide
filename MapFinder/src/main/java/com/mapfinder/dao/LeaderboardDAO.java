@@ -67,21 +67,37 @@ public class LeaderboardDAO {
             while (rs.next()) {
             	int certificate = (int) UserManager.getHint(rs.getInt("user_id"));
             	boolean isFriend = FriendRequestManager.isFriend(userId, rs.getInt("user_id"));
-            	
-                list.add(mapResultSet(rs, certificate, isFriend));
+            	boolean isFriendRequested=FriendRequestManager.isAlreadyRequested(userId, rs.getInt("user_id"));
+	            	if(isFriendRequested&&(!(isFriend))) {
+	            		list.add(new Leaderboard(
+	                            	isFriendRequested,
+	                            	rs.getInt("leaderboard_id"),
+	                                rs.getInt("user_id"),
+	                                rs.getInt("total_score"),
+	                                rs.getInt("total_games"),
+	                                rs.getDouble("average_score"),
+	                                rs.getString("username"),
+	                                certificate
+	            				));
+	            	}
+	            
+            	else {
+            		list.add(mapResultSet(rs, certificate, isFriend));
+            	}
             }
         }
         catch(Exception e) {
         	e.printStackTrace();
         	
         }
+        System.out.println(list);
         return list;
     }
     
     
 //    ===============================================  FindTopFiveLeaderBoard  ===========================================
     
-    public List<Leaderboard> findTopFiveLeaderBoard(int userId){
+    public List<Leaderboard> findTopFiveLeaderBoard(int userId) {
     	List<Leaderboard> list = new ArrayList<>();
     	try(Statement stmt = conn.createStatement()){
             ResultSet rs = stmt.executeQuery(QueryUtil.VIEW_TOPFIVE_LEADERBOARD);
@@ -89,8 +105,9 @@ public class LeaderboardDAO {
             while (rs.next()) {
             	int certificate = (int) UserManager.getHint(rs.getInt("user_id"));
             	boolean isFriend = FriendRequestManager.isFriend(userId, rs.getInt("user_id"));
+
+            		list.add(mapResultSet(rs, certificate, isFriend));
             	
-                list.add(mapResultSet(rs, certificate, isFriend));
             }
     	}
     	catch(Exception e) {

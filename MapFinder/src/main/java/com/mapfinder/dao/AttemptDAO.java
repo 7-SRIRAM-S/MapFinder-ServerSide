@@ -13,28 +13,28 @@ import java.util.List;
 public class AttemptDAO {
 	Connection conn = DBUtil.getInstance().getConnection();
     
-    public boolean inserAttempt(Attempts attempt) {
+    public int inserAttempt(Attempts attempt) {
 
-        try (PreparedStatement stmt = conn.prepareStatement(QueryUtil.INSERT_ATTEMPT)) {
+    	int attemptId = -1;
+
+        try (PreparedStatement stmt = conn.prepareStatement(QueryUtil.INSERT_ATTEMPT,Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setInt(1, attempt.getUserId());
-            stmt.setInt(2, attempt.getMapId());
-            stmt.setInt(3, attempt.getModeId());
-            stmt.setInt(4, attempt.getScore());
-            stmt.setInt(5, attempt.getTotalScore());
-            stmt.setInt(6, attempt.getCorrectAnswer());
-            stmt.setInt(7, attempt.getWrongAnswer());
-            stmt.setDate(8, (Date) attempt.getStartedAt());
-            stmt.setDate(9, (Date) attempt.getEndedAt());
-            stmt.setInt(10, attempt.getDurationSeconds());
+            stmt.setInt(2, attempt.getModeId());
 
-            stmt.executeUpdate();
-            return true;
+
+            int rows =stmt.executeUpdate();
+            if (rows > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    attemptId = rs.getInt(1);
+                }
+            }
         }
         catch(Exception e) {
         	e.printStackTrace();
-        	return false;
         }
+        return attemptId;
     }
 
     public List<Attempts> findByUserId(int userId) throws SQLException {
@@ -54,6 +54,23 @@ public class AttemptDAO {
 		}
         return attempts;
     }
+    
+    public boolean updateAttempt(int score, int attemptId) {
+    	System.out.println("updating the score of attempt");
+    	String sql = "UPDATE attempts " +
+                "SET score = ? WHERE attempt_id = ?";
+
+		   try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+		       stmt.setInt(1, score);                 
+		       stmt.setInt(2, attemptId);              
+		             
+		       int updatedRows = stmt.executeUpdate();
+		       return updatedRows > 0;
+		   } catch (Exception e) {
+		       e.printStackTrace();
+		       return false;
+		   }
+	}
 
     private Attempts mapResultSet(ResultSet rs) throws SQLException {
         return new Attempts(
@@ -70,4 +87,6 @@ public class AttemptDAO {
                 rs.getInt("duration_seconds")
         );
     }
+
+	
 }

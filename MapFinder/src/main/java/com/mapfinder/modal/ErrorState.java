@@ -28,6 +28,14 @@ public class ErrorState {
 		this.updateAt = updateAt;
 	}
 	
+	public ErrorState(String correctAnswer, String wrongAnswer, long userId, int attemptId, int modeId) {
+        this.correctAnswer = correctAnswer;
+        this.wrongAnswer = wrongAnswer;
+        this.userId = (int) userId;      
+        this.attemptNumber = attemptId;
+        this.modeId = modeId;
+    }
+	
 	
 	public ErrorState( int userId, int modeId, int stateId, String wrongAnswer, String correctAnswer, int attemptNumber, Date createdAt, Date updateAt) {
 		

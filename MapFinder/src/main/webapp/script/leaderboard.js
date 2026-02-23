@@ -57,7 +57,8 @@ LeaderBoard = (function() {
 				        data[i].userName,
 				        data[i].totalScore,
 				        data[i].totalCertificate,
-				        data[i].isFriend
+				        data[i].isFriend,
+				        data[i].isAlreadyRequested
 				    );
 
 				    container.append(element);
@@ -66,9 +67,7 @@ LeaderBoard = (function() {
             },
             search: async function() {
                 let value = $("#input").val().toLowerCase().trim();
-                //              let  data = await LeaderBoard.get.view();
-                //				data = data.data;
-//                let count = 1;
+
                 let html = "";
 
                 LeaderBoard.show.TopOnePlayer("", "");
@@ -93,11 +92,12 @@ LeaderBoard = (function() {
 				        }
 
 				        const element = buildHtml(
-				            data[i].rankPosition,
+				            i+1,
 				            data[i].userName,
 				            data[i].totalScore,
 				            data[i].totalCertificate,
-				            data[i].isFriend
+				            data[i].isFriend,
+				            data[i].isAlreadyRequested
 				        );
 
 				        container.append(element); 
@@ -159,11 +159,32 @@ LeaderBoard = (function() {
 LeaderBoard.init();
 
 
-function giveFriendRequest(name){
-	console.log("friend request to "+name+" from "+userName);
+function giveFriendRequest(friendName){
+	console.log("friend request to "+friendName+" from "+userName);
+	data={userName,friendName};
+	fetch("/MapFinder/friendrequest/",{
+		method:"POST",
+		headers:{
+           	'Content-Type':'application/json'
+        },
+		body:JSON.stringify(data)
+	}).then((res)=>res.json())
+	.then((response)=>{
+		console.log(response);
+		if(response.status==="failed"){
+			console.log(response.message);
+			alert(response.message);
+		}
+		else{
+			alert("friend requested successfully");
+			console.log(response.status,response.message)
+		}
+	})
+	
+	LeaderBoard.show.view();
 }
 
-function buildHtml(count, name, points, certificate, isFriend) {
+function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequested) {
 
 	
     // Main container
@@ -203,19 +224,27 @@ function buildHtml(count, name, points, certificate, isFriend) {
 		
 			
 			const addUserImg = document.createElement("img");
-			    if (!isFriend) {
+			console.log(isFriend,isAlreadyRequested);
+			if(isFriend){
+				addUserImg.src = "./icons/friends.png";
+				addUserImg.title = "Friend";
+							        addUserImg.alt = "friend";
+
+			}
+			else if(isAlreadyRequested){
+				addUserImg.src = "./icons/friend-request.png";
+				addUserImg.title = "Friend Requested";
+							        addUserImg.alt = "friend";
+
+			}
+			else {
 			        addUserImg.src = "./images/add-user.png";
-			        addUserImg.alt = "adduser";
+			        addUserImg.alt = "friend";
 			        addUserImg.title = "Make Friend";
 			        addUserImg.onclick=()=>{
 						giveFriendRequest(name);
 					}
-			    }
-			    else {
-			        addUserImg.src = "./icons/friends.png";
-			        addUserImg.alt = "friend";
-			
-			    }
+			}
 			
 		
 		

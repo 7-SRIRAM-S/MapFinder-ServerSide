@@ -730,37 +730,7 @@
 
 </div>
 
-<!-- <div>
-    Timer: <input type="range" id="timerRange" min="5" max="30" value="10">
-    <span id="timerValue">10</span> sec
-</div> -->
-<!-- <br><br> -->
-<footer>
-  <center><h2><br>Copyright &copy; 2025 SRIRAM-S &#174;</h2></center>
-</footer>
+
 
   </body>
-  <script>
-
-  document.addEventListener("DOMContentLoaded", () => {
-    let btn = document.querySelector(".signupBtn");
-    let username = localStorage.getItem("username");
-    if (!localStorage.getItem("hasVisited")) {
-        localStorage.clear();                 
-        localStorage.setItem("hasVisited", "true"); 
-    }
-    console.log(username);
-    console.log(btn);
-    if (username) {
-        btn.textContent = username[0].toUpperCase();
-        btn.classList.add("userIcon");
-        btn.title = username; 
-    } else {
-        btn.textContent = "Sign Up";
-        btn.classList.remove("userIcon");
-        btn.removeAttribute("title");
-    }
-    });
-
-  </script>
 </html>

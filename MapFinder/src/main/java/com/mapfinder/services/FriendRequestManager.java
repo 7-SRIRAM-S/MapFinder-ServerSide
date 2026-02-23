@@ -18,36 +18,21 @@ public class FriendRequestManager {
     
     
 
-    public static boolean addFriend(int requestId, int senderId, int receiverId, String status, Date createdAt) {
-    	LOGGER.trace(new StringBuilder("::: Add frdRequest into DB :::  Creating Object for frdRequest ::: ").toString());
+    public static boolean addFriend( int senderId, int receiverId) {
     	FriendRequest frRequest= null;
     	try {
-    		frRequest=new FriendRequest(requestId, senderId, receiverId, status, createdAt);
-			return FriendRequestManager.frdRequest.insertFriendRequest(frRequest);
+    		frRequest=new FriendRequest( senderId, receiverId);
+			return frdRequest.insertFriendRequest(frRequest);
 		} catch (Exception e) {
 			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
 		}
     	return false;
     }
     
-    public static List<Users> listAllFriends(int userId){
-    	LOGGER.trace(new StringBuilder("::: view all friends into DB :::  Creating Object for friends ::: ").toString());
-    	List<Users> frdRequest = new ArrayList<>();
-    	try {
-    		
-    		frdRequest = FriendRequestManager.frdRequest.getFriends(userId);
-			
-		} catch (Exception e) {
-			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
-		}
-    	
-    	return frdRequest;
-    	
-    }
+    
     
     
     public static boolean isFriend(int userId , int friendId) {
-    	LOGGER.trace(new StringBuilder("::: isFriend  into DB :::  Creating Object for friends ::: ").toString());
     	try {
     		return  FriendRequestManager.frdRequest.isFriend(userId, friendId);
 		} catch (Exception e) {
@@ -56,9 +41,13 @@ public class FriendRequestManager {
     	return false;
     }
     
+    public static boolean isAlreadyRequested(int userId,int friendId) {
+    	
+    	return frdRequest.isAlreadyRequestedDAO(userId,friendId);
+    }
+    
     
     public static boolean removeFrd(int frdId,int userId) {
-    	LOGGER.trace(new StringBuilder("::: removeFrd  into DB :::  Creating Object for friends ::: ").toString());
     	try {
 			return FriendRequestManager.frdRequest.delete(frdId, userId);	
 		} catch (Exception e) {

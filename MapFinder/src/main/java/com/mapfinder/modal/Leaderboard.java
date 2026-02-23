@@ -4,58 +4,16 @@ public class Leaderboard {
 
 	private int leaderboardId;
 	private int userId;
-	private int mapId;
-	private int modeId;
 	private int totalScore;
 	private int totalGame;
 	private double averageScore;
-	private int rankPosition;
 	private String userName;
 	private int certificateCount;
 	private boolean isFriend;
+	private boolean isAlreadyRequested;
 
-	public Leaderboard() {
-	}
-
-	public Leaderboard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame,
-			double averageScore, int rankPosition) {
-		this.leaderboardId = leaderboardId;
-		this.userId = userId;
-		this.mapId = mapId;
-		this.modeId = modeId;
-		this.totalScore = totalScore;
-		this.totalGame = totalGame;
-		this.averageScore = averageScore;
-		this.rankPosition = rankPosition;
-	}
-
-	public Leaderboard(int userId, int mapId, int modeId, int totalScore, int totalGame, double averageScore,
-			int rankPosition) {
-		this.userId = userId;
-		this.mapId = mapId;
-		this.modeId = modeId;
-		this.totalScore = totalScore;
-		this.totalGame = totalGame;
-		this.averageScore = averageScore;
-		this.rankPosition = rankPosition;
-	}
-
-	public Leaderboard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame,
-			double averageScore,  String userName , int certificate , boolean isFriends) {
-		this.leaderboardId = leaderboardId;
-		this.userId = userId;
-		this.mapId = mapId;
-		this.modeId = modeId;
-		this.totalScore = totalScore;
-		this.totalGame = totalGame;
-		this.averageScore = averageScore;
-		this.userName = userName;
-		this.certificateCount = certificate;
-		this.isFriend = isFriends;
-	}
 	
-	
-	
+
 	public Leaderboard(int leaderboardId, int userId, int totalScore, int totalGame, double averageScore,
 			 String userName, int certificateCount, boolean isFriend) {
 		this.leaderboardId = leaderboardId;
@@ -67,20 +25,25 @@ public class Leaderboard {
 		this.certificateCount = certificateCount;
 		this.isFriend = isFriend;
 	}
-
-	public Leaderboard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame,
-			double averageScore, int rankPosition, String userName) {
+	
+	
+	public Leaderboard(boolean isFriend,int leaderboardId, int userId, int totalScore, int totalGame, double averageScore,
+			 String userName, int certificateCount) {
 		this.leaderboardId = leaderboardId;
 		this.userId = userId;
-		this.mapId = mapId;
-		this.modeId = modeId;
 		this.totalScore = totalScore;
 		this.totalGame = totalGame;
 		this.averageScore = averageScore;
-		this.rankPosition = rankPosition;
 		this.userName = userName;
+		this.certificateCount = certificateCount;
+		this.isAlreadyRequested = isFriend;
 	}
+
 	
+	
+	
+
+
 	public int getCertificateCount() {
 		return certificateCount;
 	}
@@ -117,23 +80,7 @@ public class Leaderboard {
 			this.userId = userId;
 	}
 
-	public int getMapId() {
-		return this.mapId;
-	}
-
-	public void setMapId(int mapId) {
-		if (mapId >= 0)
-			this.mapId = mapId;
-	}
-
-	public int getModeId() {
-		return this.modeId;
-	}
-
-	public void setModeId(int modeId) {
-		if (modeId >= 0)
-			this.modeId = modeId;
-	}
+	
 
 	public int getTotalScore() {
 		return this.totalScore;
@@ -162,14 +109,7 @@ public class Leaderboard {
 			this.averageScore = averageScore;
 	}
 
-	public int getRankPosition() {
-		return this.rankPosition;
-	}
-
-	public void setRankPosition(int rankPosition) {
-		if (rankPosition >= 0)
-			this.rankPosition = rankPosition;
-	}
+	
 
 	public void setUserName(String userName) {
 		if (userName != null)
@@ -178,6 +118,14 @@ public class Leaderboard {
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public boolean isAlreadyRequested() {
+		return isAlreadyRequested;
+	}
+
+	public void setAlreadyRequested(boolean isAlreadyRequested) {
+		this.isAlreadyRequested = isAlreadyRequested;
 	}
 	
 	

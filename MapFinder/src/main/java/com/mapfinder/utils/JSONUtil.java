@@ -45,17 +45,14 @@ public class JSONUtil {
 		JSONArray mapList = new JSONArray();
 		for(Leaderboard leader: leaderboards) {
 			JSONObject obj=new JSONObject();
-			obj.put("leaderboardId", leader.getLeaderboardId());
-			obj.put("userId", leader.getUserId());
-			obj.put("mapId", leader.getMapId());
-			obj.put("modeId" , leader.getModeId());
+
 			obj.put("totalScore", leader.getTotalScore());
 			obj.put("totalGame", leader.getTotalGame());
 			obj.put("averageScore", leader.getAverageScore());
-			obj.put("rankPosition", leader.getRankPosition());
 			obj.put("userName", leader.getUserName());
 			obj.put("totalCertificate" , leader.getCertificateCount());
 			obj.put("isFriend", leader.getIsFriend());
+			obj.put("isAlreadyRequested",leader.isAlreadyRequested());
 			mapList.put(obj);
 		}
 		return mapList;

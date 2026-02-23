@@ -26,6 +26,12 @@ public class FriendRequest {
 		this.status = status;
 		this.createdAt = createdAt;
 	}
+	
+	public FriendRequest( int senderId, int receiverId) {
+		this.senderId = senderId;
+		this.receiverId = receiverId;
+	}
+	
 
 	public int getRequestId() {
 		return this.requestId;

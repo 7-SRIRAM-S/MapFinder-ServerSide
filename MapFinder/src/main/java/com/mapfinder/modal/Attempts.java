@@ -34,9 +34,9 @@ public class Attempts {
 	}
 
 
-	public Attempts( int userId, int mapId, int modeId, int score, int totalScore, int correctAnswer, int wrongAnswer, Date startedAt, Date endedAt, int durationSeconds) {
+	public Attempts( int userId, int modeId, int score, int totalScore, int correctAnswer, int wrongAnswer, Date startedAt, Date endedAt, int durationSeconds) {
 		this.userId = userId;
-		this.mapId = mapId;
+		
 		this.modeId = modeId;
 		this.score = score;
 		this.totalScore = totalScore;
@@ -45,6 +45,11 @@ public class Attempts {
 		this.startedAt = startedAt;
 		this.endedAt = endedAt;
 		this.durationSeconds = durationSeconds;
+	}
+	
+	public Attempts(int userId,int modeId) {
+		this.userId=userId;
+		this.modeId=modeId;
 	}
 	
 	public int getAttemptId() {

@@ -11,7 +11,6 @@ public class CertificateManger {
 	
 	
 	public static int userCertificateCount(int userId) {
-		LOGGER.trace(new StringBuilder("::: get UserCertificate into DB :::  Creating Object for Certificate ::: ").toString());
 		try {
 			return CertificateManger.certificate.userCertificateCount(userId);
 			

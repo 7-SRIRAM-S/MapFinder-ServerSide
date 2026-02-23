@@ -12,27 +12,18 @@ import com.mapfinder.dao.AttemptDAO;
 import com.mapfinder.modal.Attempts;
 
 public class AttemptManager {
-	private static AttemptDAO  attempt= new AttemptDAO();
+	private static AttemptDAO  attemptDAO= new AttemptDAO();
 	private static final Logger LOGGER=LogManager.getLogger(AttemptManager.class.getName());
 	
-	public static boolean addAttempt(int attemptId, int userId, int mapId, int modeId, int score, int totalScore, int correctAnswer, int wrongAnswer, Date startedAt, Date endedAt, int durationSeconds) {
-		LOGGER.trace(new StringBuilder("::: Add Attempts into DB :::  Creating Object for Attempt ::: ").toString());
-		Attempts attempt = null;
-		
-		try {
-			attempt = new Attempts(attemptId, userId, mapId, modeId, score, totalScore, correctAnswer, wrongAnswer, startedAt, endedAt, durationSeconds);
-			return AttemptManager.attempt.inserAttempt(attempt);
-		} catch (Exception e) {
-			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
-			
-		}
-		return false;
+	public static int addAttempt(int userId, int modeId) {
+		Attempts attempt = new Attempts(userId,modeId);
+		return attemptDAO.inserAttempt(attempt);
 	}
 	
 	public static List<Attempts> getAttemptById(int userId){
 		List<Attempts> errorState = new ArrayList<Attempts>();
 		try {
-			errorState = AttemptManager.attempt.findByUserId(userId);
+			errorState = AttemptManager.attemptDAO.findByUserId(userId);
 			
 		} catch (Exception e) {
 
@@ -40,5 +31,10 @@ public class AttemptManager {
 			
 		}
 		return errorState;
+	}
+	
+	
+	public static boolean updateAttempt(int score,int attemptId) {
+		return attemptDAO.updateAttempt(score,attemptId);
 	}
 }

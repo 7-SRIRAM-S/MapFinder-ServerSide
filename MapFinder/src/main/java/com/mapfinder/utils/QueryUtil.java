@@ -39,7 +39,7 @@ public class QueryUtil {
 //	------------------------------  -------  Attempts   ---------  --------------------------------------------------
 	
 	public static final String ATTEMPT_FINDBY_USERID = "SELECT * FROM attempts WHERE user_id = ?";
-	public static final String INSERT_ATTEMPT = "INSERT INTO attempts (user_id, map_id, mode_id, score, total_questions, correct_answers, wrong_answers, started_at, ended_at, duration_seconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String INSERT_ATTEMPT = "INSERT INTO attempts (user_id, mode_id, started_at) VALUES (?, ?, NOW())";
 	
 	
 //	-----------------------------  -------- Leaderboard  ------- -----------------------------------------------------
@@ -58,15 +58,17 @@ public class QueryUtil {
 	
 // -------------------------------- ------- friend request  ---------  -----------------------------------------------
 	
-	public static final String INSERT_FRIEND_REQUEST = "insert into friend_requests (request_id, sender_id, receiver_id, status, created_at) values(? ,? ,?, ?, ?)";
+	public static final String INSERT_FRIEND_REQUEST = "insert into friend_requests (sender_id, receiver_id) values(? ,? )";
 	public static final String GET_FRIENDS = "SELECT u2.* FROM friends f JOIN users u1 ON u1.user_id = f.user_id JOIN users u2 ON u2.user_id = f.friend_id WHERE u1.user_id = ?;";
 	public static final String REMOVE_FRIEND = "delete from friends where friend_id = ? and user_id = ? ";
-	public static final String IS_FRIEND = "select * from friends where user_id = ? and friend_id = ?";
+	public static final String IS_ALREADY_REQUESTED = "select * from friend_requests where sender_id=? and receiver_id=? or sender_id=? and receiver_id=?";
+	public static final String IS_FRIEND = "select * from friends where user_id = ? and friend_id = ? or user_id=? and friend_id=?";
+
 
 	
 //	------------------------------------ ------ Error states  ------ -------------------------------------------------
 	
-	public static final String INSERT_ERROR_STATE = "INSERT INTO error_states (user_id, mode_id, state_id, wrong_answer, correct_answer, attempt_number) VALUES (?, ?, ?, ?, ?, ?)";
+	public static final String INSERT_ERROR_STATE = "INSERT INTO error_states (user_id, mode_id,  correct_answer, wrong_answer, attempt_id) VALUES (?, ?, ?, ?, ?)";
 	public static final String VIEW_ERROR_STATE = "SELECT * FROM error_states WHERE user_id = ?";
 	
 	

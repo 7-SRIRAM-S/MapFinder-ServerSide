@@ -60,6 +60,30 @@
 		<servlet-name>LeaderboardServlet</servlet-name>
 		<servlet-class>com.mapfinder.controller.LeaderboardServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<display-name>FriendRequestServlet</display-name>
+		<servlet-name>FriendRequestServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.FriendRequestServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>GamemodeServlet</display-name>
+		<servlet-name>GamemodeServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.GamemodeServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<display-name>ErrorStateServlet</display-name>
+		<servlet-name>ErrorStateServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.ErrorStateServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>AttemptServlet</display-name>
+		<servlet-name>AttemptServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.AttemptServlet</servlet-class>
+	</servlet>
+	
+	
 
 	
 	<servlet-mapping>
@@ -90,6 +114,24 @@
 		<servlet-name>LeaderboardServlet</servlet-name>
 		<url-pattern>/leaderboard/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>FriendRequestServlet</servlet-name>
+		<url-pattern>/friendrequest/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GamemodeServlet</servlet-name>
+		<url-pattern>/gamemode/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ErrorStateServlet</servlet-name>
+		<url-pattern>/errorstates/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>AttemptServlet</servlet-name>
+		<url-pattern>/attempt/*</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>signin</welcome-file>
 		<welcome-file>index.jsp</welcome-file>

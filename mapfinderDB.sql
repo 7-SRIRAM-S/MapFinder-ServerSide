@@ -232,5 +232,70 @@ CREATE TABLE user_certificates (
  
  
  CREATE TABLE certificates (id int primary key auto_increment, name varchar(65), rating enum('MASTER','INTERMEDIATE','BEGINNER'), issued_by varchar(100));
+ 
+ 
+ 
+ 
+ 
+ CREATE TABLE notifications (
+    notification_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,                 
+    sender_id INT NULL,                   
+
+    type ENUM(
+        'FRIEND_REQUEST',
+        'FRIEND_ACCEPTED',
+        'FRIEND_REJECTED',
+        'CHALLENGE_SENT',
+        'CHALLENGE_ACCEPTED',
+        'CHALLENGE_REJECTED',
+        'GENERAL'
+    ) NOT NULL,
+
+    message VARCHAR(255) NOT NULL,
+
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_notification_user
+        FOREIGN KEY (user_id) REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_notification_sender
+        FOREIGN KEY (sender_id) REFERENCES users(user_id)
+        ON DELETE SET NULL
+);
+
+
+CREATE TABLE challenges (
+    challenge_id INT AUTO_INCREMENT PRIMARY KEY,
+
+    challenger_id INT NOT NULL,   -- who sent challenge
+    opponent_id INT NOT NULL,     -- who received challenge
+
+    mode ENUM('QUIZ','WRITE','RECTIFY','BOT','SELF') NOT NULL,
+
+    status ENUM('PENDING','ACCEPTED','REJECTED','COMPLETED') DEFAULT 'PENDING',
+
+    challenger_score INT DEFAULT NULL,
+    opponent_score INT DEFAULT NULL,
+
+    winner_id INT DEFAULT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_challenger
+        FOREIGN KEY (challenger_id) REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_opponent
+        FOREIGN KEY (opponent_id) REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_winner
+        FOREIGN KEY (winner_id) REFERENCES users(user_id)
+        ON DELETE SET NULL
+);
 
 

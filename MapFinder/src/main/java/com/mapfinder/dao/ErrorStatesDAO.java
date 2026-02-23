@@ -19,10 +19,9 @@ public class ErrorStatesDAO {
 
             stmt.setLong(1, error.getUserId());
             stmt.setLong(2, error.getModeId());
-            stmt.setLong(3, error.getStateId());
-            stmt.setString(4, error.getWrongAnswer());
-            stmt.setString(5, error.getCorrectAnswer());
-            stmt.setInt(6, error.getAttemptNumber());
+            stmt.setString(3, error.getWrongAnswer());
+            stmt.setString(4, error.getCorrectAnswer());
+            stmt.setInt(5, error.getAttemptNumber());
 
             stmt.executeUpdate();
             return true;

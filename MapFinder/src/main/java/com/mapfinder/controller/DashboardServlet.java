@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import com.mapfinder.services.DashBoardManager;
 
-import com.mapfinder.services.UserManager;
 import com.mapfinder.utils.ResponseUtil;
 
 public class DashboardServlet extends HttpServlet {
@@ -26,7 +25,6 @@ public class DashboardServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		 LOGGER.trace(new StringBuilder("::: Entering into Dashboard Servlet ::: GET :::").toString());
 
 		
 		JSONObject res=new JSONObject();
@@ -90,7 +88,6 @@ public class DashboardServlet extends HttpServlet {
 		  LOGGER.error(new StringBuilder("::: Problem in url or parameters are not founded ::: "+e.getMessage()+"   :::").toString());
 		}
 		
-		LOGGER.info(new StringBuilder("::: Data processed (USER ID = "+ client_id +" ) ::: For Uri => "+request.getRequestURI()+" :::").toString());
 		
 		ResponseUtil.ProcessResponse(res, response);
 	}

@@ -10,6 +10,7 @@ let timer, time = 0, timeLeft;
 let score = 0;
 let allowClick = false;
 let isPaused = false;
+let hintsCount=0;
 
 
 // Get State Names 
@@ -45,7 +46,8 @@ function speak(state) {
 //  Start Game 
 
 function start_game() {
-
+	
+	document.getElementById("hintBtn").style.display = "block";
     time=Number(document.querySelector("#timeRange").value);
     if(time==0){
         alert("Please select valid time to play");
@@ -72,7 +74,7 @@ function start_game() {
 
         document.getElementById("stateDisplay").innerText = findState;
         document.getElementById("stateDisplay").style.fontWeight = 'bold';
-        speak(findState);
+//        speak(findState);
         // console.log("Length :"+remainingStates.length);
         allowClick = true;
         startTimer(time);
@@ -86,26 +88,27 @@ function handleClick(poly) {
     clearInterval(timer);
 
     selectedState = poly.dataset.info;
-
     if (selectedState.toLowerCase().trim() == findState.toLowerCase().trim()) {
         poly.setAttribute('fill', 'green');
-        score += 1;
+        score += 1 ;
     } else {
-        weaker_states.push(findState);
+		storeWeakerState(findState,selectedState);
+//        weaker_states.push(findState);
         let correctElement = document.querySelector(`[data-info="${findState}"]`);
         if (correctElement) correctElement.setAttribute('fill', 'red');
     }
-
-    if (score > 0 && score % 5 == 0 && remainingStates.length!=1) {
-        document.getElementById("hintBtn").style.display = "block";
-    } else {
-        document.getElementById("hintBtn").style.display = "none";
-    }
+//    if (score > 0 && score % 5 == 0 && remainingStates.length!=1) {
+//        document.getElementById("hintBtn").style.display = "block";
+//    } else {
+//        document.getElementById("hintBtn").style.display = "none";
+//    }
 
     shownStates.push(findState);
     document.getElementById("score").innerText = `Score: ${score}`;
-
-    setTimeout(start_game, 1500); 
+	
+    setTimeout(start_game, 1500);
+    
+    updateAttempt(); 
 }
 
 // Time Up 
@@ -114,7 +117,8 @@ function timeUp() {
     allowClick = false;
     let correctElement = document.querySelector(`[data-info="${findState}"]`);
     if (correctElement) correctElement.setAttribute('fill', 'red');
-    weaker_states.push(findState);
+//    weaker_states.push(findState);
+	storeWeakerState(findState,selectedState);
     shownStates.push(findState);
 
     setTimeout(start_game, 1500);
@@ -123,6 +127,9 @@ function timeUp() {
 //  Timer 
 
 function startTimer(seconds) {
+	if(hintsCount<=0){
+		document.getElementById("hintBtn").style.display = "none";
+	}
     timeLeft = seconds;
     isPaused = false;
     document.getElementById("pauseBtn").innerText = "Pause";
@@ -184,16 +191,24 @@ function make_color() {
 //  Show hint (blink) 
 
 function showHint() {
+	console.log(hintsCount);
+	if(hintsCount<=0){
+		document.getElementById("hintBtn").style.display = "none";
+		return;
+	}
     let selectedState = document.querySelector(`[data-info="${findState}"]`);
     let blinkCount = 0;
     let maxBlinks = 3;
-    weaker_states.push(selectedState)
+//    weaker_states.push(selectedState)
     let blinkInterval = setInterval(() => {
         selectedState.setAttribute('fill', blinkCount % 2 == 0 ? 'yellow' : 'lightgray');
         blinkCount++;
         if (blinkCount > maxBlinks) clearInterval(blinkInterval);
     }, 300);
-    selectedState.setAttribute('fill','lightgray')
+    selectedState.setAttribute('fill','lightgray');
+    hintsCount--;
+    
+    	console.log("after used"+hintsCount);
 }
 
 
@@ -207,4 +222,94 @@ function nextPage(state){
         togglePause();
         // window.location.reload();
       }
+}
+
+function initGame(){
+	fetch("/MapFinder/gamemode?mode=learn-mode").then((res)=>res.json())
+	.then((data)=>{
+		hintsCount=Number(data.hintsCount);
+	})
+	.catch((err)=>{
+		console.log(err);
+	})
+}
+
+function storeAttempt(){
+	fetch("/MapFinder/attempt?mode=learn-mode").then((res)=>res.json())
+	.then((data)=>{
+		let attemptId = Number(data.data.attemptId);
+        if(!isNaN(attemptId) && attemptId > 0) {
+            localStorage.setItem("attemptId", attemptId);
+            console.log("Attempt ID stored:", attemptId);
+        }else{
+             console.error("Invalid attemptId:", data);
+       	}
+	})
+	.catch((err)=>{
+		console.log(err);
+	})
+}
+
+if(localStorage.getItem("attemptId")===undefined||
+	localStorage.getItem("attemptId")===null){
+		storeAttempt();
+	}
+
+initGame();
+
+function updateHint(correctState,wrongState){
+	
+	let userName=localStorage.getItem("username");
+	if(!userName){
+		userName="Boss";
+		return;
+	}
+	let attemptId=localStorage.getItem("attemptId");
+	if(isNaN(attemptId) || attemptId < 0) {
+		return;
+	}
+	 
+	data={correctState,wrongState,userName,attemptId};
+	fetch("/MapFinder/errorstates",{
+		method:"POST",
+		headers:{
+			"Content-Type":"application/json"
+		},
+		body:JSON.stringify(data)
+	}).then((res)=>res.json())
+	.then((data)=>{
+		console.log(data);
+	})
+	.catch((err)=>{
+		console.log(err);
+	})
+}
+
+function updateAttempt(){
+	let percentage = timeLeft / time;
+	let userScore = Math.round(percentage * 20);
+	data={hintsCount,userScore};
+	fetch("/MapFinder/attempt",{
+		method:"POST",
+		headers:{
+			"Content-Type":"application/json"
+		},
+		body:JSON.stringify(data)
+	}).then((res)=>res.json())
+	.then((data)=>{
+		console.log(data);
+	})
+	.catch((err)=>{
+		console.log(err);
+	})
+}
+	
+function storeWeakerState(correctState,wrongState){
+
+	if (typeof wrongState === "object" && wrongState !== null) {
+        wrongState = wrongState.dataset.info;
+    }
+    	console.log("you've clicked "+wrongState+" instead of "+correctState);
+
+	updateHint(correctState,wrongState);
 }

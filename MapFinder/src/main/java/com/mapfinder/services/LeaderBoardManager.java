@@ -44,7 +44,6 @@ public class LeaderBoardManager {
     
     
     public static JSONArray viewLeaderBoard(int userId){
-    	LOGGER.trace(new StringBuilder("::: view Leaderboard  :::  Creating Object for LeaderBoard List ::: ").toString());
     	List<Leaderboard> leaders = new ArrayList<>();
     	try {
 			leaders = LeaderBoardManager.leaderBoard.viewAllLeaderboards(userId);
@@ -55,7 +54,6 @@ public class LeaderBoardManager {
     }
     
     public static JSONArray topFiveLeaderBoard(int userId){
-    	LOGGER.trace(new StringBuilder("::: view top 5 Leaderboard  :::  Creating Object for LeaderBoard List ::: ").toString());
     	List<Leaderboard> leaders = new ArrayList<>();
     	try {
     		leaders = LeaderBoardManager.leaderBoard.findTopFiveLeaderBoard(userId);

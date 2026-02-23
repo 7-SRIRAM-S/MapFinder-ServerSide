@@ -67,6 +67,27 @@ public class GameModeDAO {
 			
 		}
     }
+
+
+
+	public int getGameModeIdByAttemptId(int attemptId) {
+		int modeId = -1; 
+	    String query = "SELECT mode_id FROM attempts WHERE attempt_id = ?";
+
+	    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+	        stmt.setInt(1, attemptId);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            modeId = rs.getInt("mode_id");
+	        }
+	        rs.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return modeId;
+
+	}
     
     
 }

@@ -218,9 +218,9 @@ document.addEventListener("visibilitychange", async function ()  {
     
     const user=document.querySelector("#user");
     
-    function setUserName(){
+    async function setUserName(){
     
-    	const uName=localStorage.getItem("username");
+    	let uName=localStorage.getItem("username");
 	    if(!uName){
 			uName="Boss";
 		}
@@ -282,6 +282,8 @@ document.addEventListener("visibilitychange", async function ()  {
             }
         }
         
-        setUserName();
+        document.addEventListener("DOMContentLoaded", function(){
+		    setUserName();
+		});
        
  })();

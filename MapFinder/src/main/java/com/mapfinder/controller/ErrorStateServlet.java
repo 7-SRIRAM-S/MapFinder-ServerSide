@@ -6,34 +6,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ErrorStateServlet
- */
+import org.json.JSONObject;
+
+import com.mapfinder.services.ErrorStateManager;
+import com.mapfinder.services.GameModeManager;
+import com.mapfinder.services.UserManager;
+import com.mapfinder.utils.JSONUtil;
+import com.mapfinder.utils.ResponseUtil;
+
 public class ErrorStateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ErrorStateServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+			System.out.println("post method working inside errorstate servlet");
+		
+			JSONObject payload=JSONUtil.readAsJSON(request);
+		 	String correctState = payload.optString("correctState", "");
+		    String wrongState = payload.optString("wrongState", "");
+		    int attemptId = payload.optInt("attemptId", -1);
+		    long userId = UserManager.getIdByName(payload.optString("userName", ""));
+		    int modeId=GameModeManager.getGameModeIdByAttemptId(attemptId);
+		
+		    ErrorStateManager.addErrorState(correctState,wrongState,userId,attemptId,modeId);
+		System.out.print(correctState+"|"+wrongState+"|"+userId+"|"+attemptId+"|"+modeId);
+		
+		ResponseUtil.ProcessResponse(payload, response);
 	}
 
 }
