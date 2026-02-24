@@ -11,7 +11,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.mapfinder.modal.Announcement;
+import com.mapfinder.modal.Challenge;
 import com.mapfinder.modal.Leaderboard;
+import com.mapfinder.modal.Notification;
+
+
 
 public class JSONUtil {
 	public static JSONObject readAsJSON(HttpServletRequest request) {
@@ -79,6 +83,39 @@ public class JSONUtil {
 	}
 	
 	
+	public static JSONArray convertNotificationsToJson(List<Notification> notifications){
+		JSONArray notificationJson = new JSONArray();
+		
+		for(Notification notification: notifications) {
+			JSONObject obj = new JSONObject();
+			obj.put("notificationId", notification.getNotificationId());
+			obj.put("userId", notification.getUserId());
+			obj.put("senderId", notification.getSenderId());
+			obj.put("message", notification.getMessage());
+			obj.put("type", notification.getType());
+			obj.put("createdAt", notification.getCreatedAt());
+			notificationJson.put(obj);
+			
+		}
+		return notificationJson;
+	}
+	
+	
+	public static JSONArray convertChallengeTOJson(List<Challenge> challenges) {
+		JSONArray challengesJson = new JSONArray();
+		for(Challenge challenge : challenges) {
+			JSONObject obj = new JSONObject();
+			obj.put("challengeId", challenge.getChallengeId());
+			obj.put("challengerId",challenge.getChallengerId());
+			obj.put("opponentId", challenge.getOpponentId());
+			obj.put("mode", challenge.getMode());
+			obj.put("status", challenge.getStatus());
+			obj.put("challengerScore", challenge.getChallengerScore());
+			obj.put("opponentScore", challenge.getOpponentScore());
+			obj.put("winnerId", challenge.getWinnerId());
+		}
+		return challengesJson;
+	}
 	
 	
 	

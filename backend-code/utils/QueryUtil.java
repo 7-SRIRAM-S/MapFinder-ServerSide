@@ -2,14 +2,16 @@ package com.mapfinder.utils;
 
 public class QueryUtil {
 	
-//	------------------------- ------  user  ----- -----------------------------------------
-	public static final String CHECK_USERNAME = "SELECT * FROM USERS WHERE USERNAME=?";
-	public static final String INSERT_USER = "INSERT INTO USERS (USERNAME, PASSWORD) VALUES(?, AES_ENCRYPT(?, ?))";
-	public static final String VIEW_USER = "SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = AES_ENCRYPT(?, ?)";
-	public static final String ADD_HINT="UPDATE USERS SET HINTS = HINTS + 1 WHERE USERS_ID = ? RETURNING HINTS";
-	public static final String SELECT_HINT="SELECT HINTS FROM USERS WHERE USERS_ID = ?";
-	public static final String SELECT_USERNAME="SELECT USERNAME FROM USERS WHERE USERS_ID = ?";
-	public static final String GET_USERID_BYNAME="SELECT USERS_ID USERS FROM USERS WHERE USERNAME=?";
+	
+//	------------------------------ --------- User queries  ------- --------------------------------------------------
+
+	public static final String CHECK_USERNAME = "SELECT * FROM users WHERE USERNAME=?";
+	public static final String INSERT_USER = "INSERT INTO users (USERNAME, PASSWORD) VALUES(?, AES_ENCRYPT(?, ?))";
+	public static final String VIEW_USER = "SELECT * FROM users WHERE USERNAME = ? AND PASSWORD = AES_ENCRYPT(?, ?)";
+	public static final String GET_USERID_BYNAME="SELECT user_id	FROM users WHERE USERNAME=?";
+	public static final String ADD_HINT="UPDATE users SET HINTS = HINTS + 1 WHERE user_id = ? RETURNING HINTS";
+	public static final String SELECT_HINT="SELECT HINTS FROM users WHERE user_id = ?";
+	public static final String SELECT_USERNAME="SELECT USERNAME FROM users WHERE user_id = ?";
 	
 	
 //	------------------------------ --------- maps queries  ------- --------------------------------------------------
@@ -42,8 +44,8 @@ public class QueryUtil {
 	
 //	-----------------------------  -------- Leaderboard  ------- -----------------------------------------------------
 	
-	public static final String VIEW_LEADERBOARD = "SELECT l.leaderboard_id, l.user_id, u.username, l.map_id, l.mode_id,        l.total_score, l.total_games, l.average_score, l.rank_position FROM leaderboard l JOIN USERS u ON u.users_id = l.user_id ORDER BY l.rank_position;;";
-	public static final String VIEW_TOPFIVE_LEADERBOARD="SELECT l.leaderboard_id, l.user_id, u.username, l.map_id, l.mode_id,        l.total_score, l.total_games, l.average_score, l.rank_position FROM leaderboard l JOIN USERS u ON u.users_id = l.user_id ORDER BY l.rank_position ASC LIMIT 5;";
+	public static final String VIEW_LEADERBOARD = "SELECT l.leaderboard_id, l.user_id, u.username, l.total_score, l.total_games, l.average_score FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY total_score desc;";
+	public static final String VIEW_TOPFIVE_LEADERBOARD="SELECT l.leaderboard_id, l.user_id, u.username, l.total_score, l.total_games, l.average_score FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY total_score DESC LIMIT 5;";
 	public static final String INSERT_LEADERBOARD = "INSERT INTO leaderboard (user_id, map_id, mode_id, total_score, total_games, average_score, rank_position) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	public static final String GET_TOTALSCORE ="select total_score  from leaderboard where user_id = ?";
 	
@@ -57,7 +59,7 @@ public class QueryUtil {
 // -------------------------------- ------- friend request  ---------  -----------------------------------------------
 	
 	public static final String INSERT_FRIEND_REQUEST = "insert into friend_requests (request_id, sender_id, receiver_id, status, created_at) values(? ,? ,?, ?, ?)";
-	public static final String GET_FRIENDS = "SELECT u2.* FROM friends f JOIN USERS u1 ON u1.USERS_ID = f.user_id JOIN USERS u2 ON u2.USERS_ID = f.friend_id WHERE u1.USERS_ID = ?;";
+	public static final String GET_FRIENDS = "SELECT u2.* FROM friends f JOIN users u1 ON u1.user_id = f.user_id JOIN users u2 ON u2.user_id = f.friend_id WHERE u1.user_id = ?;";
 	public static final String REMOVE_FRIEND = "delete from friends where friend_id = ? and user_id = ? ";
 	public static final String IS_FRIEND = "select * from friends where user_id = ? and friend_id = ?";
 
@@ -73,5 +75,15 @@ public class QueryUtil {
 	public static final String INSERT_CERTIFICATE = "insert into certificate (name,rating,issued_by) values(?,?,?)";
 	public static final String INSERT_INTO_USER_CERTIFICATE = "insert into user_certificates(user_id ,certificate_id) values(?,?)";
 	public static final String GET_CERTIFICATE_USERS = "select count(*) as totalCertificates from user_certificates where user_id= ? ;";
+	
+	
+//	------------------------------------ - --- notification --- ----------------------------
+	public static final String INSERT_NOTIFICATION = "insert into notifications(user_id,sender_id,type,message,is_read)  values(?,?,?,?,?);";
+	public static final String GET_NOTIFICATIONS = "select * from notifications where user_id = ?;";
+	
+	
+//	------------------------------------- ------- Challenger -------- --------------------------------
+	public static final String INSERT_CHALLENGE  =  "insert into challenges(challenger_id, opponent_id,mode,status,challenger_score,opponent_score,winner_id) values(?,?,?,?,?,?,?);";
+	public static final String GET_CHALLENGES = "select * from challenges where challenger_id = ?";
 
 }
