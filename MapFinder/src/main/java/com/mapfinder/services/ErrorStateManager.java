@@ -20,8 +20,8 @@ public class ErrorStateManager {
 	public static List<ErrorState> getErrorStateById(int userId){
 		List<ErrorState> errorState = new ArrayList<ErrorState>();
 		try {
+
 			errorState = ErrorStateManager.errorStateDAO.findByUser(userId);
-			
 		} catch (Exception e) {
 
 			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());

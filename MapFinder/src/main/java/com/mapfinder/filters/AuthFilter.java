@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.mapfinder.services.UserManager;
+
 
 
 public class AuthFilter extends HttpFilter implements Filter {
@@ -41,6 +43,8 @@ public class AuthFilter extends HttpFilter implements Filter {
 	        HttpSession session = req.getSession(false);
 
 	        if (session == null || session.getAttribute("user") == null) {
+				UserManager.makeDeactiveUser(Integer.parseInt((String)session.getAttribute("user")));
+
 	        	LOGGER.warn(new StringBuilder("::: No Session Found ::: Redirecting into error.jsp :::").toString());
 	        	res.sendRedirect("error.jsp");
 	            return;

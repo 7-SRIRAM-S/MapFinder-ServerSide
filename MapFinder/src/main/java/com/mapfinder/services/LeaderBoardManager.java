@@ -1,6 +1,7 @@
 //$Id$
 package com.mapfinder.services;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,21 +17,15 @@ public class LeaderBoardManager {
 	private static LeaderboardDAO leaderBoard = new LeaderboardDAO();
     private static final Logger LOGGER=LogManager.getLogger(LeaderBoardManager.class.getName());
     
-    
-    public static boolean insertLeaderBoard(int leaderboardId, int userId, int mapId, int modeId, int totalScore, int totalGame, double averageScore, int rankPosition) {
-    	LOGGER.trace(new StringBuilder("::: Add Leaderboard into DB :::  Creating Object for LeaderBoard ::: ").toString());
-    	Leaderboard leader = null;
-    	try {
-    		
-    		leader = new Leaderboard(leaderboardId, userId, mapId, modeId, totalScore, totalGame, averageScore, rankPosition);
-    		
-    		return LeaderBoardManager.leaderBoard.insertLeaderBoad(leader);
-			
-		} catch (Exception e) {
-			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
-			return false;
-		}
+    public static boolean insertLeaderboard(int userId) throws SQLException {
+    	return leaderBoard.insertLeaderBoad(userId);
     }
+    
+    
+    public static boolean updateLeaderboard(long userId) {
+        return leaderBoard.updateLeaderBoard(userId);
+    }
+    
     
     public static int getTotalScore(int userId) {
     	try {

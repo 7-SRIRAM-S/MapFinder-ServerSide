@@ -60,6 +60,7 @@ public class SignUpServlet extends HttpServlet {
 				LOGGER.warn(new StringBuilder("::: Duplicate username entrolled :::  For Signup Activity :::").toString());
 				responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_CONFLICT, "username already exists");
 			}
+			else {
 			if(ValidationUtil.isNotEmpty(password)&&ValidationUtil.isValidPassword(password)) {
 				long userId=UserManager.addUser(username, password);
 				if(userId!=-1L) {
@@ -71,6 +72,7 @@ public class SignUpServlet extends HttpServlet {
 				else {
 					responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "problem in adding user");
 				}
+			}
 			}
 		}
 		else {

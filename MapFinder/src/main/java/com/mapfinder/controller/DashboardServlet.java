@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import com.mapfinder.services.DashBoardManager;
-
+import com.mapfinder.services.UserManager;
 import com.mapfinder.utils.ResponseUtil;
 
 public class DashboardServlet extends HttpServlet {
@@ -58,7 +58,7 @@ public class DashboardServlet extends HttpServlet {
 					LOGGER.info(new StringBuilder("::: Get data for userdetails ::: querying into DashBoardManager :::").toString());
 
 					JSONObject json=new JSONObject();
-			
+					json.put("USERNAME", UserManager.getUsernameById(client_id));
 					json.put("HINTS", DashBoardManager.getHints(client_id));
 					json.put("POINTS", DashBoardManager.getPoint(client_id));
 					json.put("CERTIFICATE", DashBoardManager.getCertificateCount(client_id));

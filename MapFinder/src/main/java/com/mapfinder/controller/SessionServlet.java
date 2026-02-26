@@ -38,7 +38,8 @@ public class SessionServlet extends HttpServlet {
 	    }
 	    
 	    else {
-	    
+//			UserManager.makeDeactiveUser(Integer.parseInt((String)session.getAttribute("user")));
+
 	    	LOGGER.warn(new StringBuilder("No Session Found ::: in Backend ::: ").toString());
 	    	responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_FORBIDDEN, "session not found");
 		

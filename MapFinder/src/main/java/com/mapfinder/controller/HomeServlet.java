@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.mapfinder.services.UserManager;
+
 
 
 public class HomeServlet extends HttpServlet {
@@ -16,6 +18,7 @@ public class HomeServlet extends HttpServlet {
 		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		response.setHeader("Pragma", "no-cache");
 		response.setDateHeader("Expires", 0);
+		UserManager.makeActiveUser(Integer.parseInt((String)request.getSession(false).getAttribute("user")));
 		response.sendRedirect("home.html");
 	}
 

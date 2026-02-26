@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="css/test_map.css">
     <link rel="icon" href="images/map_logo.png">
     <script src="script/botmode.js" defer></script>
+        <script src="script/Util.js" ></script>
+    
     <style>
        #timerDisplay{
         display: none;
@@ -735,29 +737,9 @@
     <span id="timerValue">10</span> sec
 </div> -->
 <footer>
-  <center><h2><br>Copyright &copy; 2025 SRIRAM-S &#174;</h2></center>
+  <center><h2><br>Copyright &copy; 2026 ZS &#174;</h2></center>
 </footer>
 
   </body>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    let btn = document.querySelector(".signupBtn");
-    let username = localStorage.getItem("username");
-    if (!localStorage.getItem("hasVisited")) {
-        localStorage.clear();                 
-        localStorage.setItem("hasVisited", "true"); 
-    }
-    console.log(username);
-    console.log(btn);
-    if (username) {
-        btn.textContent = username[0].toUpperCase();
-        btn.classList.add("userIcon");
-        btn.title = username; 
-    } else {
-        btn.textContent = "Sign Up";
-        btn.classList.remove("userIcon");
-        btn.removeAttribute("title");
-    }
-    });
-  </script>
+  
 </html>

@@ -8,6 +8,35 @@
     <link rel="stylesheet" href="./css/leaderboard.css">
     <script src="./script/Util.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+    .search-container {
+  position: relative;
+  display: inline-block;
+}
+
+#input {
+  padding-right: 24px; /* space for clear icon */
+  font-size: 16px;
+  width: 200px;
+}
+
+#clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 34px;
+  color: #999;
+  user-select: none;
+  display: none; /* hidden by default */
+  transition: color 0.2s;
+}
+
+#clear-btn:hover {
+  color: #333;
+}
+    </style>
 </head>
 
 <body>
@@ -37,30 +66,32 @@
         <section class="filer-users">
             <div>
                 <button id="global">Global</button>
-                <button>Friends</button>
+                <button id="friend">Friends</button>
             </div>
-            <div>
-                <input type="text" placeholder="search users...." id="input">
-            </div>
+            <div class="search-container">
+			  <input type="text" placeholder="search users...." id="input" />
+			  <span id="clear-btn" title="Clear search">&times;</span>
+			</div>
         </section>
+        <div>
         <section class="leaderboard-toplist">
             
-            <div>
+            <div >
                 <div class="user-icon">
                     <p>👧</p>
                 </div>
-                <div class="users-details">
+                <div class="users-details first">
                     <h1>🥈</h1>
                     <p class="user-name-2">Rohan</p>
                     <h2 class="user-points-2">1180</h2>
                     
                 </div>
             </div>
-            <div>
+            <div >
                 <div class="user-icon">
                     <p>👦</p>
                 </div>
-                <div class="users-details">
+                <div class="users-details second">
                     <h1>👑</h1>
                     <p class="user-name-1">Priya</p>
                     <h2 class="user-points-1">1250</h2>
@@ -71,7 +102,7 @@
                 <div class="user-icon">
                     <p>👦</p>
                 </div>
-                <div class="users-details">
+                <div class="users-details three">
                     <h1>🥉</h1>
                     <p class="user-name-3">Arya</p>
                     <h2 class="user-points-3">1050</h2>
@@ -84,9 +115,11 @@
             <div class="ranking-container">
                
             </div>
-        </section>
+        </section></div>
     </main>
     <script src="./script/leaderboard.js"></script>
 </body>
+<script>
 
+</script>
 </html>

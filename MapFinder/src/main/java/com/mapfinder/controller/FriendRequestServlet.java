@@ -1,6 +1,8 @@
 package com.mapfinder.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,51 @@ public class FriendRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().write("get method working");
+		String requestURI=request.getRequestURI();
+		JSONObject responseJson=new JSONObject();
+		String[] requests=requestURI.split("/");
+		HttpSession session=request.getSession(false);
+		int userId;
+		if(session==null) {
+			responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_FORBIDDEN, "no session found");
+		}
+		else {
+			if(session.getAttribute("user")==null) {
+				responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_FORBIDDEN, "no user found");
+			}
+			else {
+				userId=Integer.parseInt((String)session.getAttribute("user"));
+				if(requests[3].equals("getrequests")) {
+					responseJson=ResponseUtil.buildResponse(FriendRequestManager.getFriendRequests(userId),"friend request sent");
+				}
+				else if(requests[3].equals("accept")) {
+					int friendId=Integer.parseInt(request.getParameter("friendId"));
+					boolean isAccepted=FriendRequestManager.acceptFriendRequest(userId, friendId);
+					if(isAccepted) {
+						responseJson=ResponseUtil.buildSuccessResponse(HttpServletResponse.SC_ACCEPTED, "friend request accepted");
+					}
+					else {
+						responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "no frd-request found");
+					}
+				}
+				else if(requests[3].equals("reject")) {
+					int friendId=Integer.parseInt(request.getParameter("friendId"));
+					boolean isRejected=FriendRequestManager.rejectFriendRequest(userId, friendId);
+					if(isRejected) {
+						responseJson=ResponseUtil.buildSuccessResponse(HttpServletResponse.SC_ACCEPTED, "friend request rejected");
+					}
+					else {
+						responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "no frd-request found");
+					}
+				}
+				else {
+					responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_EXPECTATION_FAILED, "failed");
+				}
+			}
+		}
+		
+		ResponseUtil.ProcessResponse(responseJson, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

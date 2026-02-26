@@ -34,8 +34,7 @@ public class AttemptServlet extends HttpServlet {
 			userId=(String)session.getAttribute("user");
 		}
 		if(session==null||userId==null) {
-			System.out.println("session not found "+session);
-
+			
 			responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "invalid request");
 		}
 		else if (modeId == -1) {
@@ -46,9 +45,14 @@ public class AttemptServlet extends HttpServlet {
 		  
 		}
 		else {
+		
 			int attemptId=AttemptManager.addAttempt(Integer.parseInt(userId), modeId);
 			JSONObject attemptJson=new JSONObject();
 			attemptJson.put("attemptId", attemptId);
+			if(session.getAttribute("attemptId")!=null) {
+				session.removeAttribute("attemptId");
+			}
+			session.setAttribute("attemptId",String.valueOf(attemptId));
 			responseJson=ResponseUtil.buildResponse(attemptJson, "attempt registered successfully");
 		}
 		
@@ -60,11 +64,16 @@ public class AttemptServlet extends HttpServlet {
 		JSONObject payload=new JSONObject();
 		payload=JSONUtil.readAsJSON(request);
 	    int score = payload.optInt("userScore", 0); 
-	    int attemptId = payload.optInt("attemptId", -1);
-
-	   boolean isSaved= AttemptManager.updateAttempt(score, attemptId);
-	    System.out.println(isSaved);
-	    ResponseUtil.ProcessResponse(payload, response);
+	    HttpSession session=request.getSession(false);
+		if(session==null||session.getAttribute("attemptId")==null) {
+			ResponseUtil.ProcessResponse(ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "invalid request"),response);
+			return;
+		}
+	    int attemptId=Integer.parseInt((String)session.getAttribute("attemptId"));
+	    boolean isSaved= AttemptManager.updateAttempt(score, attemptId);
+	    if(isSaved) {	   
+		    ResponseUtil.ProcessResponse(payload, response);
+	    }
 	}
 
 }

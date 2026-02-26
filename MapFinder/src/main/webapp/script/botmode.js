@@ -56,7 +56,8 @@ function start_game() {
     if (shownStates.length == 0) {
         let selected = document.getElementById('difficultySelect').value;
         if(selected==0){
-            alert("Select Difficulty level to Play");
+			MODAL.show("Select Any Option","Plase select difficulty level to play");
+//            alert("Select Difficulty level to Play");
             return;
         }
             if (selected == 'easy') {

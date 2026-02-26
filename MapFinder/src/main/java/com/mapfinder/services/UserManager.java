@@ -13,15 +13,17 @@ public class UserManager {
 	public static long addUser(String username,String password) {
 		LOGGER.trace(new StringBuilder("::: Add User into DB :::  Creating Object for User ::: ").toString());
 		User user=null;
+		long userId=-1;
 		try {
 			 user=new User(username,password);
-			 return userDAO.insertUser(user);
+			 userId=userDAO.insertUser(user);
+			 LeaderBoardManager.insertLeaderboard((int)userId);
 		}
 		catch(Exception e) {
 			LOGGER.warn(new StringBuilder("::: Problem in Creating Object :::  "+e.getMessage()+" ::: ").toString());
-			return -1L;
+			userId=-1L;
 		}
-
+		return userId;
 	}
 	
 	public static boolean isValidUser(String username, String password) {
@@ -47,4 +49,32 @@ public class UserManager {
 	public static long getHint(int userId) {
 		return userDAO.getHint(userId);
 	}
+	
+	public static boolean updateHint(int hints,int userId) {
+		return userDAO.updateHint(hints,userId);
+	}
+	
+	public static boolean increaseHints(int attemptId) {
+		return userDAO.increaseHint(attemptId);
+	}
+	
+	public static boolean makeActiveUser(int userId) {
+		return userDAO.makeActive(userId);
+	}
+	
+	public static boolean makeDeactiveUser(int userId) {
+		return userDAO.makeDeactive(userId);
+	}
+	
+	public static boolean isUserActive(int userId) {
+		return userDAO.isUserActive(userId);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

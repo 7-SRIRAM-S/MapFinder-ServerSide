@@ -94,8 +94,8 @@ document.querySelectorAll('polygon').forEach(poly => {
 
 playBtn.addEventListener('click', () => {
     if (!states.length){
-        alert('Select at least one state!');
-        window.location.href="self_evaluate_mode.html";
+	    MODAL.show("Select any state","Select at least one state to evaluate yourself!");
+//        window.location.href="self_evaluate_mode.html";
     } 
 
     

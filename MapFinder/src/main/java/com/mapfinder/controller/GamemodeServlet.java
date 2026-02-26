@@ -9,8 +9,11 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
+import com.mapfinder.services.AttemptManager;
 import com.mapfinder.services.GameModeManager;
+import com.mapfinder.services.LeaderBoardManager;
 import com.mapfinder.services.UserManager;
+import com.mapfinder.utils.JSONUtil;
 import com.mapfinder.utils.ResponseUtil;
 
 public class GamemodeServlet extends HttpServlet {
@@ -46,6 +49,42 @@ public class GamemodeServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		int attemptId=-1;
+		try {
+            JSONObject payload = JSONUtil.readAsJSON(request);
+
+            String userName = payload.getString("userName");
+            int hints = payload.getInt("hintsCount");
+            boolean isGameFinished=payload.getBoolean("isGameFinished");
+            
+            if(userName == null ) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+            HttpSession session = request.getSession(false);
+            if(session==null||session.getAttribute("attemptId")==null) {
+    			ResponseUtil.ProcessResponse(ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "invalid request"),response);
+    			return;
+    		}
+            attemptId=Integer.parseInt((String)session.getAttribute("attemptId"));
+
+            long userId = UserManager.getIdByName(userName);
+
+            LeaderBoardManager.updateLeaderboard(userId);
+            AttemptManager.finalizeAttempt(attemptId);
+            UserManager.updateHint(hints,(int)userId);
+            if(isGameFinished) {
+            	UserManager.increaseHints(attemptId);
+            }
+            
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":\"success\"}");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 		
 	}
 

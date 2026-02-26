@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="css/test_map.css">
     <link rel="icon" href="images/map_logo.png">
     <script src="script/test_map.js" defer></script>
+        <script src="script/Util.js"></script>
+    
     <style>
       #timerDisplay{
         display: none;
@@ -30,6 +32,7 @@
           cursor: pointer;
           border: none;
         }
+        
     </style>
 </head>
   <body>
@@ -59,7 +62,7 @@
   
   
     <div class="top-bar">
-      <button class="btn start" onclick="start_game();make_color();">Start</button>
+      <button class="btn start" id="startBtn" onclick="start_game();make_color();">Start</button>
       <button id="hintBtn" class="btn hint" onclick="showHint();" style="display:none;">Hint</button>
     </div>
   
@@ -393,7 +396,7 @@
       onclick="show_state(this)";
     />
  
-    <!--Uttarakhand-->
+    <!--Punjab-->
     <polygon
       points="
         178,141 173,142 171,142 162,147 164,155 164,159 161,162 161,166 167,166 166,168 162,168 152,180 147,185 149,191 
@@ -405,11 +408,11 @@
       fill="#f4cccc"
       stroke="#990000"
       stroke-width="1"
-      data-info="Uttarakhand"
+      data-info="Punjab"
       onclick="show_state(this)";
     />
   
-    <!--Punjab-->
+    <!--Uttarakhand-->
     <polygon
       points="
         229,193 224,200 222,207 223,227 218,228 216,237 220,237 224,240 226,237 230,240 231,251 229,254 221,256 218,258 217,258
@@ -421,7 +424,7 @@
       fill="#d9ead3"
       stroke="#274e13"
       stroke-width="1"
-      data-info="Punjab"
+      data-info="Uttarakhand"
       onclick="show_state(this)";
     />
 
@@ -730,7 +733,9 @@
 
 </div>
 
-
+<footer>
+  <center><h2><br>Copyright &copy; 2026 ZS &#174;</h2></center>
+</footer>
 
   </body>
 </html>

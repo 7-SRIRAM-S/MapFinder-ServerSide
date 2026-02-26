@@ -1,18 +1,31 @@
 // Inititalize Variables
 
-let states=JSON.parse(localStorage.getItem("weakerstates"));
+let states=JSON.parse(localStorage.getItem("weakerStates"));
 let shownStates = [];
 let weaker_states=[];
 let findState = '';
 let selectedState = '';
-let timer,time;
+let timer,time = 0, timeLeft;
 let isPaused = false;
 let score=0;
+let hintsCount=0;
+let startBtn=document.querySelector("#startBtn");
+let hintBtn=document.querySelector("#hintBtn");
+
+if(startBtn){
+	startBtn.addEventListener("click",()=>{
+	startBtn.style.display="none";
+	start_game();
+	make_color();
+})
+}
+
+
 
 // Start Game
 
 function start_game() {
-
+	initGame();
     time=Number(document.querySelector("#timeRange").value);
     if(time==0){
         alert("Please select valid time to play");
@@ -22,8 +35,19 @@ function start_game() {
 
     document.querySelector("#timeRange").style.display="none";
     document.querySelector("#timerDisplay").style.display="flex";
+
+    if(hintBtn&&hintsCount>0) {
+     if(hintsCount<10){
+          hintBtn.innerText=`Hint ${hintsCount}`;
+     }
+     else{
+          hintBtn.innerText=`Hints ${hintsCount}`;
+     }
+}
+
     if (shownStates.length == states.length) {
         localStorage.setItem("weakerstates",JSON.stringify(weaker_states));
+        endGame();
         document.getElementById("stateDisplay").innerText = "All states shown!";
         document.getElementById("timerDisplay").innerText = "";
         return;
@@ -34,10 +58,10 @@ function start_game() {
     // console.log(time);
     
    
-        let remainingStates = states.filter(s => !shownStates.includes(s));
+        let remainingStates = states.filter(s => !shownStates.includes(s.wrongAnswer));
 
         let randomIndex = Math.floor(Math.random() * remainingStates.length);
-        findState = remainingStates[randomIndex];
+        findState = remainingStates[randomIndex].wrongAnswer;
 
         shownStates.push(findState);
 
@@ -52,7 +76,11 @@ function start_game() {
 // Show blink hints 
 
 function showHint() {
-
+    console.log(hintsCount);
+	if(hintsCount<=0){
+		document.getElementById("hintBtn").style.display = "none";
+		return;
+	}
     let polygon = document.querySelector(`[data-info="${findState}"]`);
     let blinkCount = 0;
     let maxBlinks = 3; 
@@ -65,6 +93,9 @@ function showHint() {
             polygon.setAttribute('fill', 'lightgray'); 
         }
     }, 300); 
+    hintsCount--;
+    
+    	console.log("after used"+hintsCount);
   
 }
 
@@ -160,6 +191,7 @@ function reset_game() {
     findState = '';
     selectedState = '';
     score=0;
+    endGame();
     window.location.reload();
     return;
 }
@@ -185,29 +217,216 @@ function make_color(){
 }
 
 
+document.querySelector("#download").addEventListener("click",()=>{
+	document.querySelector("#download").disabled=true;
+	window.location.href = "/MapFinder/errorstates?download=true";
+})
+
+
 // Check if user has Weaker States and handle it 
 
 document.addEventListener("DOMContentLoaded", () => {
-    let list = document.getElementById("stateList");
-    let count=1;
+ 
     if(states==null||states.length==0){
-        alert("You have now mastered the course. Good to go and try other modes");
-        WINDOW.changeUrl("home");
-        return;
+	console.log("working");
+        fetch("/MapFinder/errorstates").then((res)=>res.json())
+		.then((msg)=>{
+			localStorage.setItem("weakerStates",JSON.stringify(msg.data));
+			states=JSON.parse(localStorage.getItem("weakerStates"));
+			console.log(msg);
+			renderStates();
+		})
     }
-
-    // Show Weaker States in Page
-
-    states.forEach(state => {
-      let li = document.createElement("li");
-      if(state.length!=undefined){
-        li.textContent = `${count}. ${state}`;
-        count++;
-        list.appendChild(li);
-      }
-    });
+    else {
+		renderStates();
+	}
+    
   });
 console.log();
+
+function renderStates(){
+	   let list = document.getElementById("stateList");
+    let count=1;
+	 // Show Weaker States in Page
+	    states.forEach(state => {
+	      let li = document.createElement("li");
+	      if(state.length!=0){
+	        li.textContent = `${count}. ${state.wrongAnswer}`;
+	        count++;
+	        list.appendChild(li);
+	      }
+	     
+	    });
+}
+
+
+function initGame(){
+//	fetch("/MapFinder/gamemode?mode=rectify-mode").then((res)=>res.json())
+//	.then((data)=>{
+//		hintsCount=Number(data.hintsCount);
+//		console.log(hintsCount);
+//	})
+//	.catch((err)=>{
+//		console.log(err);
+//	})
+//	
+//	
+//	if(localStorage.getItem("attemptId")===undefined||
+//		localStorage.getItem("attemptId")===null||
+//		localStorage.getItem("attemptId")<=0){
+//			console.log(localStorage.getItem("attemptId"));
+//			storeAttempt();
+//	}
+}
+
+
+function storeAttempt(){
+//	fetch("/MapFinder/attempt?mode=rectify-mode").then((res)=>res.json())
+//	.then((data)=>{
+//		let attemptId = Number(data.data.attemptId);
+//        if(!isNaN(attemptId) && attemptId > 0) {
+//            localStorage.setItem("attemptId", attemptId);
+//            console.log("Attempt ID stored:", attemptId);
+//        }else{
+//             console.error("Invalid attemptId:", data);
+//       	}
+//	})
+//	.catch((err)=>{
+//		console.log(err);
+//	})
+}
+
+
+
+
+
+
+
+function updateHint(correctState,wrongState){
+//	
+//	let userName=localStorage.getItem("username");
+//	if(!userName){
+//		userName="Boss";
+//		return;
+//	}
+//	let attemptId=localStorage.getItem("attemptId");
+//	if(isNaN(attemptId) || attemptId < 0) {
+//		return;
+//	}
+//	 
+//	data={correctState,wrongState,userName,attemptId};
+//	fetch("/MapFinder/errorstates",{
+//		method:"POST",
+//		headers:{
+//			"Content-Type":"application/json"
+//		},
+//		body:JSON.stringify(data)
+//	}).then((res)=>res.json())
+//	.then((data)=>{
+//		console.log(data);
+//	})
+//	.catch((err)=>{
+//		console.log(err);
+//	})
+}
+
+
+
+function updateAttempt(){
+//	let percentage = timeLeft / time;
+//	let userScore = Math.round(percentage * 20);
+//	let attemptId=localStorage.getItem("attemptId");
+//	if(isNaN(attemptId) || attemptId < 0) {
+//		return;
+//	}
+//	data={attemptId,userScore};
+//	fetch("/MapFinder/attempt",{
+//		method:"POST",
+//		headers:{
+//			"Content-Type":"application/json"
+//		},
+//		body:JSON.stringify(data)
+//	}).then((res)=>res.json())
+//	.then((data)=>{
+//		console.log(data);
+//	})
+//	.catch((err)=>{
+//		console.log(err);
+//	})
+}
+
+function updateBackend(){
+//	let userName=localStorage.getItem("username");
+//		if(!userName){
+//			userName="Boss";
+//			return;
+//		}
+//		let attemptId=localStorage.getItem("attemptId");
+//			if(isNaN(attemptId) || attemptId < 0) {
+//				return;
+//			}
+//		let isGameFinished=false;
+//		data={attemptId, hintsCount ,userName, isGameFinished};
+//		
+//		
+//	    
+//		fetch("/MapFinder/gamemode",{
+//			method:"POST",
+//			headers:{
+//				"Content-Type":"application/json"
+//			},
+//			body:JSON.stringify(data)
+//		}).then((res)=>res.json())
+//		.then((data)=>{
+//			console.log(data);
+//		})
+//		.catch((err)=>{
+//			console.log(err);
+//		});
+}	
+	function endGame(){
+//		let userName=localStorage.getItem("username");
+//		if(!userName){
+//			userName="Boss";
+//			return;
+//		}
+//		let attemptId=localStorage.getItem("attemptId");
+//			if(isNaN(attemptId) || attemptId < 0) {
+//				return;
+//			}
+//		let isGameFinished=true;
+//		data={attemptId, hintsCount ,userName,isGameFinished};
+//		
+//		
+//	    
+//		fetch("/MapFinder/gamemode",{
+//			method:"POST",
+//			headers:{
+//				"Content-Type":"application/json"
+//			},
+//			body:JSON.stringify(data)
+//		}).then((res)=>res.json())
+//		.then((data)=>{
+//			console.log(data);
+//		})
+//		.catch((err)=>{
+//			console.log(err);
+//		})
+//		
+//		localStorage.removeItem("attemptId");
+
+		
+	}
+	
+	window.addEventListener("beforeunload", endGame);
+	function storeWeakerState(correctState,wrongState){
+		updateHint(correctState,wrongState);
+	}
+	
+	window.addEventListener("popstate", (event) => {
+	  	endGame();
+	  	
+	});
 
 
 // --- To give sample for sign up --- 

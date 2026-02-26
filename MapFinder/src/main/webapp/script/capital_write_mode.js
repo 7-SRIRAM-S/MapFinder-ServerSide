@@ -47,7 +47,7 @@ const stateCapitals = {
 function get_input(e) {
 
   if (currentState.dataset.answered == "true") {
-    alert('Already Answered');
+    MODAL.show('Hey Listen Nerd....','Already Answered to this State');
     return;
   }
 
@@ -92,7 +92,8 @@ function give_input() {
   if (userInput == correctCapital) {
     currentState.setAttribute("fill", "green");
   } else {
-    alert(`Correct Answer is ${correctCapital}`);
+	MODAL.show('Oops..! Wrong Answer',`Correct Answer is ${correctCapital}`);
+//    alert(`Correct Answer is ${correctCapital}`);
     currentState.setAttribute("fill", "red");
   }
 

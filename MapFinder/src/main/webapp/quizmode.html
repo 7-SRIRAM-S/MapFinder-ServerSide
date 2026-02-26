@@ -1,90 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Finder</title>
-    <link rel="icon" href="images/map_logo.png">
-    <link rel="stylesheet" href="css/quizmode.css">
-    <script src="script/quizmode.js" defer></script>
-    <style>
-        span{
-            font-family: monospace;
-            font-size:3.7rem;
-        }
-        .userIcon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: green;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: none;
-            }
-    </style>
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/quizz.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <img src="images/map_logo.png" alt="logo" class="logo" onclick="window.location.replace('home')">   
-        <div>
-            <h1>Map Finder</h1>
-            <p>Explore Click Learn</p>
-        </div>
-        </nav>
-   </header>
-   <center>
-    <br><br>
-    <button id="start_btn" onclick="start_quiz();">Start Quiz</button>
-   </center>
-   <div class="gap" style="height: 5rem;"></div>
-    <div class="container">
-        <div class="heading">
-            <h2 id="time">Time Left : 0s</h2>
-            <h2 id="qno"><span>Q</span> 1 / 10</h2>
-            <h2 id="scr">Score : 0</h2>
-        </div>
-        <br>
-        <div class="questions">
-            <p id="qtn"></p>
-            <div class="options">
+    <main>
+
+        <header>
+            <div id="back">
+                <div>
+
+                    <a href="home.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-arrow-left w-6 h-6 text-yellow-600" aria-hidden="true"
+                            data-fg-ckyr7=":1.10313:/components/Leaderboard.tsx:32:17:1220:49:e:ArrowLeft::::::EIC8">
+                            <path d="m12 19-7-7 7-7"></path>
+                            <path d="M19 12H5"></path>
+                        </svg>
+                    </a>
+
+                </div>
+                <div>
+                    <p class="leaderboad-heading">Quiz Mode 🎯</p>
+                    <p>Answer as many questions as you can!</p>
+                </div>
+            </div>
+           
+        </header>
+        <section id="startQuizzContainer" class="flex-direction display-flex">
+            <div class="victoryIcon display-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="100" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-trophy w-12 h-12 text-white" aria-hidden="true"
+                    data-fg-aop21=":26.45:/components/modes/QuizMode.tsx:104:15:3514:43:e:Trophy::::::CMvm">
+                    <path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path>
+                    <path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path>
+                    <path d="M18 9h1.5a1 1 0 0 0 0-5H18"></path>
+                    <path d="M4 22h16"></path>
+                    <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path>
+                    <path d="M6 9H4.5a1 1 0 0 1 0-5H6"></path>
+                </svg>
+            </div>
+            <p>Ready to Start?</p>
+            <div class="flex-direction display-flex gap-10-px">
+
+                <p>You'll have 60 seconds to answer each question. Try to get as</p>
+                <p> many correct as possible!</p>
+            </div>
+            <button class="display-flex gap-10-px" id="startQuizz">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-play w-6 h-6" aria-hidden="true"
+                    data-fg-aop27=":26.45:/components/modes/QuizMode.tsx:114:15:4086:28:e:Play::::::IIc">
+                    <path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path>
+                </svg>
+                Start Quiz
+            </button>
+        </section>
+
+        <section class="container" id="quizzContainer">
+
+            <!-- LEFT SIDE -->
+            <div class="left-panel">
+
+                <div class="card timer-card">
+                    <div>Time Left</div>
+                    <div id="time" class="big-number">30s</div>
+
+                    <div class="progress">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="card score-card">
+                    <div>Score</div>
+                    <div id="score" class="big-number">0</div>
+                </div>
+
+                <div class="center">
+                    Question <br>
+                    <span id="qIndex">1</span> /
+                    <span id="qTotal">3</span>
+                </div>
 
             </div>
-        </div>
-    </div>
-    <div class="gap" style="height: 15rem;"></div>
-    <footer>
-        <h2>Copyright &copy; 2025 SRIRAM-S &#174;</h2>
-      </footer>
+
+            <!-- RIGHT SIDE -->
+            <div class="quiz-panel">
+
+                <div id="question" class="question"></div>
+
+                <div id="options"></div>
+
+            </div>
+
+        </section>
+        <section class="flex-direction display-flex" id="answerContainer">
+            <div class="victoryIcon display-flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="100" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-trophy w-12 h-12 text-white" aria-hidden="true"
+                    data-fg-aop21=":26.45:/components/modes/QuizMode.tsx:104:15:3514:43:e:Trophy::::::CMvm">
+                    <path d="M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978"></path>
+                    <path d="M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978"></path>
+                    <path d="M18 9h1.5a1 1 0 0 0 0-5H18"></path>
+                    <path d="M4 22h16"></path>
+                    <path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path>
+                    <path d="M6 9H4.5a1 1 0 0 1 0-5H6"></path>
+                </svg>
+            </div>
+            <p>Quiz Completed! 🎉</p>
+            <h1 id="totalScore"></h1>
+
+            <p id="total"></p>
+            <button class="display-flex gap-10-px" id="restartQuizz">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-rotate-ccw w-6 h-6" aria-hidden="true"
+                    data-fg-aop44=":26.45:/components/modes/QuizMode.tsx:138:15:5172:33:e:RotateCcw::::::D1GU">
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                </svg>
+                Try Again
+            </button>
+        </section>
+
+    </main>
+
+    <script>
+        // -------------------  start quizz  --------------------
+        document.getElementById("startQuizz").addEventListener("click", () => {
+            document.getElementById("startQuizzContainer").style.display = "none";
+            document.getElementById("quizzContainer").style.display = "flex";
+        })
+
+
+        document.getElementById("restartQuizz").addEventListener("click", () => {
+            document.getElementById("answerContainer").style.display = "none";
+            document.getElementById("startQuizzContainer").style.display = "flex";
+
+        })
+
+
+        document.getElementById("restartQuizz").addEventListener("click", resetQuiz);
+
+
+        // ================= questions =================
+        const questions = [
+        	 {
+        	        question: "Capital of Gujarat?",
+        	        options: ["Ahmedabad", "Surat", "Gandhinagar", "Vadodara"],
+        	        answer: "Gandhinagar"
+        	    },
+        	    {
+        	        question: "Capital of Rajasthan?",
+        	        options: ["Udaipur", "Jodhpur", "Jaipur", "Kota"],
+        	        answer: "Jaipur"
+        	    },
+        	    {
+        	        question: "Capital of West Bengal?",
+        	        options: ["Darjeeling", "Kolkata", "Siliguri", "Howrah"],
+        	        answer: "Kolkata"
+        	    },
+        	    {
+        	        question: "Capital of Uttar Pradesh?",
+        	        options: ["Kanpur", "Lucknow", "Varanasi", "Agra"],
+        	        answer: "Lucknow"
+        	    },
+        	    {
+        	        question: "Capital of Bihar?",
+        	        options: ["Gaya", "Patna", "Muzaffarpur", "Bhagalpur"],
+        	        answer: "Patna"
+        	    },
+        	    {
+        	        question: "Capital of Madhya Pradesh?",
+        	        options: ["Indore", "Bhopal", "Gwalior", "Jabalpur"],
+        	        answer: "Bhopal"
+        	    },
+        	    {
+        	        question: "Capital of Kerala?",
+        	        options: ["Kochi", "Thiruvananthapuram", "Kozhikode", "Thrissur"],
+        	        answer: "Thiruvananthapuram"
+        	    }
+        ];
+
+        let index = 0;
+        let score = 0;
+        let timeLeft = 30;
+        let timer;
+
+        // ================= ELEMENTS =================
+        const questionElement = document.getElementById("question");
+        const optionElement = document.getElementById("options");
+        const timeElement = document.getElementById("time");
+        const scoreElement = document.getElementById("score");
+        const questionIndexElement = document.getElementById("qIndex");
+        const questionTotal = document.getElementById("qTotal");
+        const progressBar = document.getElementById("progressBar");
+
+        questionTotal.innerText = questions.length;
+
+
+        // ================= LOAD QUESTION =================
+        function loadQuestion() {
+
+            clearInterval(timer);
+            timeLeft = 30;
+
+            const q = questions[index];
+
+            questionElement.innerText = q.question;
+            questionIndexElement.innerText = index + 1;
+
+            optionElement.innerHTML = "";
+
+            q.options.forEach(option => {
+
+                const div = document.createElement("div");
+                div.className = "option";
+                div.innerText = option;
+
+                div.onclick = () => selectAnswer(div, option);
+
+                optionElement.appendChild(div);
+            });
+
+            startTimer();
+        }
+
+
+        // ================= TIMER =================
+        function startTimer() {
+
+            timer = setInterval(() => {
+
+                timeLeft--;
+                timeElement.innerText = timeLeft + "s";
+
+                progressBar.style.width =
+                    (timeLeft / 30) * 100 + "%";
+
+                if (timeLeft <= 0) {
+                    nextQuestion();
+                }
+
+            }, 1000);
+        }
+
+
+        // ================= ANSWER =================
+        function selectAnswer(element, answer) {
+
+            clearInterval(timer);
+
+            const correct = questions[index].answer;
+
+            document.querySelectorAll(".option")
+                .forEach(opt => opt.onclick = null);
+
+            if (answer === correct) {
+                element.classList.add("correct");
+                score += 10;
+                scoreElement.innerText = score;
+            } else {
+                element.classList.add("wrong");
+            }
+
+            setTimeout(nextQuestion, 1200);
+        }
+
+
+        // ================= NEXT =================
+        function nextQuestion() {
+
+            index++;
+
+            if (index >= questions.length) {
+                document.getElementById("totalScore").innerText = score;
+                document.getElementById("total").innerText = `You scored ${score}  out of ${questions.length * 10} points!`
+                document.getElementById("quizzContainer").style.display = "none";
+                document.getElementById("answerContainer").style.display = "flex";
+                return;
+            }
+
+            loadQuestion();
+        }
+
+
+        function resetQuiz() {
+
+            //--------------------- reset values ------------------------
+            index = 0;
+            score = 0;
+            timeLeft = 30;
+
+            // ----------------- stop old timer ----------------
+            clearInterval(timer);
+
+            // ---------  reset UI ---------------
+            scoreElement.innerText = 0;
+            questionIndexElement.innerText = 1;
+            timeElement.innerText = "30s";
+            progressBar.style.width = "100%";
+
+            // ------------------------  show quiz again ------------------
+            document.getElementById("answerContainer").style.display = "none";
+            document.getElementById("startQuizzContainer").style.display = "none";
+            document.getElementById("quizzContainer").style.display = "flex";
+            loadQuestion();
+        }
+
+        // ================= START =================
+        loadQuestion();
+        
+        async function getQuiz() {
+            try {
+                let response = await fetch("/MapFinder/quizz");
+
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+
+                let data = await response.json();
+                console.log(data);
+
+            } catch (error) {
+                console.error("Error fetching quiz:", error);
+            }
+        }
+
+        getQuiz();
+    </script>
 </body>
-<script>
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    let btn = document.querySelector(".signupBtn");
-    let username = localStorage.getItem("username");
-    if (!localStorage.getItem("hasVisited")) {
-        localStorage.clear();                 
-        localStorage.setItem("hasVisited", "true"); 
-    }
-    // console.log(username);
-    // console.log(btn);
-    if (username) {
-        btn.textContent = username[0].toUpperCase();
-        btn.classList.add("userIcon");
-        btn.title = username; 
-    } else {
-        btn.textContent = "Sign Up";
-        btn.classList.remove("userIcon");
-        btn.removeAttribute("title");
-    }
-    });
-
-    // localStorage.clear();
-</script>
-
-</html>

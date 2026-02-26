@@ -27,6 +27,7 @@ public class LeaderboardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 			int client_id = -1;
 			JSONObject responseObject = new JSONObject();
 			try {
@@ -44,6 +45,7 @@ public class LeaderboardServlet extends HttpServlet {
 				}
 	
 				JSONArray leaderBoardList = LeaderBoardManager.viewLeaderBoard(client_id);
+
 				responseObject = ResponseUtil.buildResponse(leaderBoardList, "leader board data ");
 				ResponseUtil.ProcessResponse(responseObject, response);
 			} catch (Exception e) {

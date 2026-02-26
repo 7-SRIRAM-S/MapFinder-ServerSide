@@ -8,8 +8,22 @@ public class FriendRequest {
 	private int receiverId;
 	private String status;
 	private Date createdAt;
+	private String username;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 	public FriendRequest() {
+	}
+	
+	public FriendRequest(String username,int senderId) {
+		this.username=username;
+		this.senderId=senderId;
 	}
 
 	public FriendRequest(int requestId, int senderId, int receiverId, String status, Date createdAt) {

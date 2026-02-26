@@ -10,6 +10,17 @@ let timer, time , timeLeft;
 let score = 0;
 let allowClick = false;
 let isPaused = false;
+let startBtn=document.querySelector("#startBtn");
+let hintBtn=document.querySelector("#hintBtn");
+
+if(startBtn){
+	shownStates = [];
+	startBtn.addEventListener("click",()=>{
+	startBtn.style.display="none";
+	start_game();
+	make_color();
+})
+}
 
 
 // Get State Name when clicked
@@ -47,7 +58,7 @@ function speak(state) {
 function start_game() {
     time=Number(document.querySelector("#timeRange").value);
     if(time<=0){
-        alert("Please select valid time to play");
+        MODAL.show("Choose Valid Time","Please select valid time to play");
         time=Number(document.querySelector("#timeRange").value);  
         return;
     }
@@ -55,8 +66,13 @@ function start_game() {
     document.querySelector("#timerDisplay").style.display="flex";
     if (shownStates.length == states.length) {
         localStorage.setItem("weakerstates", JSON.stringify(weaker_states));
+        CELEBRATION.show(localStorage.getItem("username"),"You Well Trained Now Explore other Modes");
         document.getElementById("stateDisplay").innerText = "All states shown!";
         document.getElementById("timerDisplay").innerText = "";
+        document.querySelector("#timerDisplay").style.display="none";
+    	document.querySelector("#timeRange").style.display="block";
+    		startBtn.style.display="none";
+
         return;
     }
 
@@ -93,12 +109,6 @@ function handleClick(poly) {
         weaker_states.push(findState);
         let correctElement = document.querySelector(`[data-info="${findState}"]`);
         if (correctElement) correctElement.setAttribute('fill', 'red');
-    }
-
-    if (score > 0 && score % 3 == 0) {
-        document.getElementById("hintBtn").style.display = "block";
-    } else {
-        document.getElementById("hintBtn").style.display = "none";
     }
 
     shownStates.push(findState);

@@ -7,157 +7,327 @@
     <link rel="icon" href="images/map_logo.png">
     <script src="./script/Util.js"></script>
     <style>
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color:white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            color: #333;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            /* padding-bottom: 8px; */
-            border-bottom: 3px solid green;
-            /* text-align: center; */
-        }
-        header h1{
-            font-size: 40px;
-        }
-        header p{
-            opacity: 0.5;
-        }
-        header div{
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+        *   { box-sizing: border-box; margin: 0; padding: 0; }
 
-        }
-        nav{
-        display: flex;
-        }
-        .logo{
-            height: 100px;
-            width: 100px;
-            cursor: pointer;
-        }
-        footer{
-            display: flex;
-            justify-content: center;
-            padding: 25px;
-            border-top: 2px solid green;
-        }
-        img {
-            width: 50%;
-            height: auto;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-        .container{
-           
-            height: 900px;
-             display: flex;
-            /* flex-direction: column;  */
-            justify-content: center;
-            align-items: center; 
-            
-        }
-        form{
-            border-radius: 20px;
-            width: 600px;
-            background-color: #F0FDF4;
-            display: flex;
-            flex-direction: column;
-            gap: 2.3rem;
-            padding:3rem;
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fdf8;
+      font-family: 'Nunito', sans-serif;
+      overflow: hidden;
+    }
 
-        }
-        label{
-            text-align: left;
-            color: green;
-            font-weight: bold;
-            font-size: 1.4rem;
-        }
-        input{
-            height: 40px;
-            font-size: 16px;
-            padding:20px;
-        }
-        button{
-            padding: 1rem;
-            background-color: orange;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            border-radius: 12px;
-            border-color: 1px solid orange;
-            cursor: pointer;
-            transition: 0.6s backgroud-color ease;
-        }
-        button:hover{
-            background-color: green;
-            /* border: 1px solid green; */
-        }
-        .wrap{
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        #error-info{
-        	color:red;
-        }
+    
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: #fff;
+      border-radius: 24px;
+      padding: 40px 40px 36px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .logo-circle {
+      width: 68px; height: 68px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e9e3e, #27ae60);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 20px rgba(39,174,96,0.35);
+    }
+
+    .logo-circle svg {
+      width: 32px; height: 32px;
+      fill: #fff;
+    }
+
+    .heading {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+
+    .subtext {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 28px;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1.5px solid #eee;
+      font-size: 0.95rem;
+      font-family: 'Nunito', sans-serif;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: #27ae60;
+      box-shadow: 0 0 0 3px rgba(39,174,96,0.12);
+      background: #fff;
+    }
+
+
+    .toggle-pw {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer;
+      color: #aaa;
+      display: flex; align-items: center;
+      transition: color 0.2s;
+    }
+    .toggle-pw:hover { color: #27ae60; }
+
+    .btn-signup {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #1e9e3e, #27ae60);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      font-family: 'Nunito', sans-serif;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 6px 18px rgba(39,174,96,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-top: 8px;
+    }
+
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(39,174,96,0.4);
+    }
+    .btn-signup:active { transform: translateY(0); }
+
+    .btn-signup svg { width: 20px; height: 20px; fill: #fff; }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 22px 0 18px;
+      color: #ccc;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1;
+      height: 1px; background: #eee;
+    }
+
+    .login-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+    }
+    .login-text a {
+      color: #27ae60;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .login-text a:hover { text-decoration: underline; }
+
+    .help-btn {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #333;
+      color: #fff;
+      border: none; cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    
+    input.error {
+      border-color: #e74c3c;
+      box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
+    }
+
+    .error-msg {
+      font-size: 0.78rem;
+      color: #e74c3c;
+      margin-top: 5px;
+      display: none;
+    }
+    .error-msg.show { display: block; }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <img src="images/map_logo.png" alt="logo" class="logo" onclick="window.location.reload();">   
-        <div>
-            <h1>Map Finder</h1>
-            <p>Explore Click Learn</p>
-        </div>
-        </nav>
-        <!-- <button class="signupBtn">Sign Up</button>  -->
-   </header>
-   <div class="container">
-    <form id="sign_in_form" method="post">
+   <div class="card">
+    <div class="logo-wrap">
+      <div class="logo-circle">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C8.134 2 5 5.134 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.866-3.134-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
+        </svg>
+      </div>
+    </div>
 
-        <div class="wrap">
-            <label for="username">
-                Username
-           </label>
-           <input type="text" id="username" name="username" placeholder="Enter you username"  required>
-        </div>
-        <div class="wrap">
-            <label for="password">
-                Password
-           </label>
-           <input type="password" id="password" name="password" placeholder="Enter your password"  required>
-        </div>
-        <div class="wrap">
-            <label for="password">
-                Confirm Password
-           </label>
-           <input type="password" id="confirm_password" name="password" placeholder="Enter your password" required>
-        </div>
-        <div class="wrap">
-        	<p id="error-info" style="display:none"></p>
-        </div>
-        <button type="submit" style="border:none;">Register Now</button>
-    </form>
-   </div>
-   <footer>
-    <h2>Copyright &copy; 2025 SRIRAM-S &#174;</h2>
-  </footer>
+    <h1 class="heading">Create Account 🎓</h1>
+    <p class="subtext">Start your geography learning journey</p>
+
+    <div class="field-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Choose a username" autocomplete="username"/>
+    </div>
+
+    <div class="field-group">
+      <label for="password">Password</label>
+      <div class="input-wrap">
+        <input type="password" id="password" placeholder="Create a password" autocomplete="new-password"/>
+        <button class="toggle-pw" onclick="togglePassword('password', 'eye1')" aria-label="Toggle password">
+          <svg id="eye1" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label for="confirm-password">Confirm Password</label>
+      <div class="input-wrap">
+        <input type="password" id="confirm_password" placeholder="Confirm your password" autocomplete="new-password"/>
+        <button class="toggle-pw" onclick="togglePassword('confirm_password', 'eye2')" aria-label="Toggle password">
+          <svg id="eye2" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <p class="error-msg" id="error-info"></p>
+    </div>
+
+    <button class="btn-signup" onclick="handleSignup()">
+      <svg viewBox="0 0 24 24">
+        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+      Sign Up
+    </button>
+
+    <div class="divider">OR</div>
+
+    <p class="login-text">Already have an account ? <a href="login.html">Login</a></p>
+  </div>
+
 </body>
 <script>
+
+function togglePassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.innerHTML = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+    } else {
+      input.type = 'password';
+      icon.innerHTML = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+    }
+  }
+
+  function handleSignup() {
+    
+    const btn = document.querySelector('.btn-signup');
+    btn.textContent = 'Creating account…';
+    btn.style.opacity = '0.8';
+    setTimeout(() => {
+      btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> Sign Up`;
+      btn.style.opacity = '1';
+    }, 1500);
+    
+    const username=document.querySelector("#username").value;
+    const password=document.querySelector("#password").value;
+    const confirmPassword=document.querySelector("#confirm_password").value;
+    const regex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if(!regex.test(password)){
+    	const error=document.querySelector("#error-info");
+    	error.style.display="block";
+    	console.log(error);
+    	if(!username){
+    		error.innerText="enter username to register account";
+    		return;
+    	}
+    	error.innerText="Password must be 8-20 chars, include upper, lower, number & special character";
+    	return;
+    }
+    if(password!=confirmPassword){
+    	const error=document.querySelector("#error-info");
+    	error.style.display="block";
+    	error.innerText="give the same password to confirm";
+    	return;
+    }
+    
+    data={username,password};
+   	fetch("/MapFinder/signup",{
+   		method:"POST",
+   		headers:{
+   			'Content-Type':'application/json'
+   		},
+   		body:JSON.stringify(data),
+   	}).then(res=>res.json()).then((msg)=>{
+   		if(msg.status==="success"){
+   		 localStorage.setItem("sessionChecked", "true");
+   			window.location.href="home";
+   		}
+   		else if(msg.message.includes("already")){
+   			MODAL.show("Username already exists","Please try to give other username");
+   		}
+   		else{
+   			MODAL.show("Problem in Sign up","Please try after sometime");
+
+   		}
+   	})
+    
+    
+  }
+  
+  
 	document.addEventListener("visibilitychange", async function ()  {
 	    if (!document.hidden) {
 	    	let session=await SESSION.checkSession();
@@ -192,49 +362,14 @@
 			WINDOW.changeUrl("home");
 		}
 	});
+	
+	document.addEventListener('keydown', function(event) {
+	    if (event.key === 'Enter') {
+	        console.log('Enter key was pressed');
+	        handleSignup();
+	    }
+	});
 
-    let form=document.getElementById("sign_in_form");
- 	form.addEventListener('submit',(e)=>{
- 		e.preventDefault();
-            const username=document.querySelector("#username").value;
-            const password=document.querySelector("#password").value;
-            const confirmPassword=document.querySelector("#confirm_password").value;
-            const regex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            if(!regex.test(password)){
-            	const error=document.querySelector("#error-info");
-            	error.style.display="block";
-            	console.log(error);
-            	error.innerText="Password must be 8-20 chars, include upper, lower, number & special character";
-            	return;
-            }
-            if(password!=confirmPassword){
-            	const error=document.querySelector("#error-info");
-            	error.style.display="block";
-            	error.innerText="give the same password to confirm";
-            	return;
-            }
-            
-            data={username,password};
-           	fetch("/MapFinder/signup",{
-           		method:"POST",
-           		headers:{
-           			'Content-Type':'application/json'
-           		},
-           		body:JSON.stringify(data),
-           	}).then(res=>res.json()).then((msg)=>{
-           		if(msg.status==="success"){
-           		 localStorage.setItem("sessionChecked", "true");
-           			window.location.href="home";
-           		}
-           		else if(msg.status==="failed"){
-           			alert("try again later");
 
-           		}
-           		else{
-           			alert("give another username");
-
-           		}
-           	})
-        });
 </script>
 </html>

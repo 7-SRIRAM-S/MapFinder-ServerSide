@@ -59,6 +59,7 @@ public class SignInServlet extends HttpServlet {
 		String password=json.optString("password");
 		if(ValidationUtil.isNotEmpty(username)&&ValidationUtil.isNotEmpty(password)&&ValidationUtil.isValidPassword(password)) {
 			if(UserManager.isValidUser(username, password)) {
+				UserManager.makeActiveUser((int)UserManager.getIdByName(username));
 				LOGGER.info(new StringBuilder("::: Login Successful ::: "+" Session Set and Redirect /home :::").toString());
 				HttpSession session=request.getSession(); 
 				session.setAttribute("user", String.valueOf(UserManager.getIdByName(username)));
@@ -72,6 +73,8 @@ public class SignInServlet extends HttpServlet {
 		}
 		else {
 			LOGGER.warn(new StringBuilder("::: No Data Found invalid request :::  For Login Activity :::").toString());
+			responseJson=ResponseUtil.buildErrorResponse(HttpServletResponse.SC_BAD_REQUEST, "invalid request failed");
+
 
 		}
 		

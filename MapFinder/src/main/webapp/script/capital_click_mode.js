@@ -80,7 +80,7 @@ function start_game() {
 
     time = Number(document.querySelector("#timeRange").value);
     if (time <= 0) {
-        alert("Please select valid time to play");
+        MODAL.show("Choose Valid Time","Please select valid time to play");
         return;
     }
 

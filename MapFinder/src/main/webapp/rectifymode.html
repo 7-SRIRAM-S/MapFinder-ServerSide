@@ -5,42 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map Finder</title>
     <link rel="icon" href="images/map_logo.png">
-    <script src="script/write_mode.js"></script>
-    <script src="script/Util.js"></script>
-    <link rel="stylesheet" href="css/write_mode.css">
+    <script src="./script/Util.js"></script>
+    <script src="script/rectify_mode.js" defer></script>
+    <link rel="stylesheet" href="css/rectify_mode.css">
     <style>
-      .userIcon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: green;
-        color: white;
-        font-weight: bold;
-        font-size: 18px;
-        display: inline-flex;
-        align-items: center;
+      #timerDisplay{
+        display: none;
+        text-align: center;
         justify-content: center;
-        cursor: pointer;
-        border: none;
+        align-items: center;
       }
-      #hide-btn{
-          width: 70px;
+      span{
+        font-size: 40px;
+        color:red;
+      }
+        .userIcon {
+          width: 40px;
           height: 40px;
-          /* padding: 1rem; */
+          border-radius: 50%;
+          background: green;
           color: white;
           font-weight: bold;
           font-size: 18px;
-          border-radius: 12px;
-          background-color: orange;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
           border: none;
-      }
-      #hide-btn:hover{
-        color:orange;
-        background-color: white;
-        border: 2px solid orange;
-      }
-    </style>  
+        }
+        
+        .down-bar {
+    text-align: center; /* optional */
+}
+
+#download {
+    background-color: #FF9933; /* Indian saffron */
+    color: #FFFFFF;            /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 30px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    
+   padding:1rem;
+}
+
+    </style>
 </head>
 <body>
   <header>
@@ -52,24 +63,48 @@
     </div>
     </nav>
   </header>
-  <div class="title">
-    <h2>Click and Write Name of the State</h2>
-  </div>
     <div class="container">
-      <div id="stateList">
-       
-        <div class="list">
-          <ol style="list-style: none;">
 
-          </ol>
+      <div class="show-state">
+
+        <div class="time-select">
+          <label for="timeRange">Selected Time: <span id="timeValue">30</span>s</label>
+          <br> <br>
+          <div id="timerDisplay" class="card-box" style="font-size:35px;letter-spacing:3px;">00:00</div>
+          <input type="range" id="timeRange" min="0" max="60" value="30" step="1"
+                 oninput="document.getElementById('timeValue').innerText = this.value;">
+        </div>
+      
+      
+        <div class="top-bar">
+          <button class="btn start" id="startBtn" onclick="start_game();make_color();">Start</button>
+          <button id="hintBtn" class="btn hint" onclick="showHint();" style="display:none;">Hint</button>
+        </div>
+      
+       
+        <div id="stateDisplay" class="state-box">Find State</div>
+      
+    
+        
+      
+        <div class="info">
+          
+          <div id="score" class="card-box">Score : 0</div>
+        </div>
+    
+        <div class="mid-bar">
+          <button id="pauseBtn" class="btn" onclick="togglePause();">Pause</button>
+          <button type="button" class="btn" onclick="reset_game();">Reset</button>
+        </div>
+        
+        
+        <div class="down-bar">
+        	<button id="download">See What to Practice</button>
         </div>
       </div>
-      <div class="input-wrap">
-        <input type="text" placeholder="Enter the state name">
-        <button onclick="give_input(this);">Submit</button>
-      </div>
-        <div class="map">
-          <h2 style="text-align: right;">&#127470;&#127475; India Map</h2>
+
+<div class="map">
+    <h2 style="text-align: right;">&#127470;&#127475; India Map</h2>
     <svg width="720" height="800" xmlns="http://www.w3.org/2000/svg">
     
         <!--tamilnadu-->
@@ -79,7 +114,7 @@
           fill="#FF9999"
           stroke="black"
           stroke-width="1"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
       <!--kerala-->
@@ -89,7 +124,7 @@
           fill="#99CCFF"
           stroke="#003366"
           stroke-width="1"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--karnataka-->
@@ -108,7 +143,7 @@
           stroke="#CC6600"
           stroke-width="1"
           data-info="karnataka"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
         
         
@@ -131,7 +166,7 @@
           stroke="#556B2F"
           stroke-width="1"
           data-info="Andhra Pradesh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
         <!--telungana-->
@@ -149,7 +184,7 @@
           stroke="#FF4500"
           stroke-width="1"
           data-info="Telungana"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
         <!--Odisa -->
@@ -168,7 +203,7 @@
           stroke="#2C5AA0"
           stroke-width="1"
           data-info="Odisa"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Chhattisgarh-->
@@ -188,7 +223,7 @@
           stroke="#3E6B43"
           stroke-width="1"
           data-info="Chhattisgarh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
        <!--Maharashtra-->
@@ -211,7 +246,7 @@
           stroke="#A63E1C"
           stroke-width="1"
           data-info="Maharashtra"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Gurjarat-->
@@ -231,7 +266,7 @@
           stroke="#2F5E43"
           stroke-width="1"
           data-info="Gujarat"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
     
@@ -256,7 +291,7 @@
           stroke="#A0522D"
           stroke-width="1"
           data-info="Rajasthan"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
     
@@ -284,7 +319,7 @@
           stroke="#B8860B"
           stroke-width="1"
           data-info="Madhya Pradesh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Jharkhand-->
@@ -321,7 +356,7 @@
           stroke="#cc9900"
           stroke-width="1"
           data-info="West Bengal"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
     
@@ -339,7 +374,7 @@
           stroke="#0088cc"
           stroke-width="1"
           data-info="Bihar"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
         
     
@@ -362,7 +397,7 @@
           stroke="#d38f00"
           stroke-width="1"
           data-info="Uttarpradesh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Haryana-->
@@ -377,7 +412,7 @@
           stroke="#0b5394"
           stroke-width="1"
           data-info="Haryana"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Uttarakhand-->
@@ -393,7 +428,7 @@
           stroke="#990000"
           stroke-width="1"
           data-info="Uttarakhand"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Punjab-->
@@ -409,7 +444,7 @@
           stroke="#274e13"
           stroke-width="1"
           data-info="Punjab"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
         <!--Himachal Pradesh-->
@@ -425,7 +460,7 @@
           stroke="#134f5c"
           stroke-width="1"
           data-info="Himachal Pradesh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Jammu and kashmir-->
@@ -439,7 +474,7 @@
           stroke="#3a7ca5"
           stroke-width="1"
           data-info="Jammu and Khasmir"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
      
@@ -457,7 +492,7 @@
           stroke="#a16f4a"
           stroke-width="1"
           data-info="Ladakh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
     
@@ -470,7 +505,7 @@
           stroke="#3a7a6e"
           stroke-width="1"
           data-info="Goa"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Sikkim-->
@@ -483,7 +518,7 @@
           stroke="#355fa0"
           stroke-width="1"
           data-info="Sikkim"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
         <!--Meghalaya-->
@@ -498,7 +533,7 @@
           stroke="#2e7d32"
           stroke-width="1"
           data-info="Meghalaya"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Assam-->
@@ -520,7 +555,7 @@
           stroke="#ff6f00"
           stroke-width="1"
           data-info="Assam"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
         <!--Tripura-->
@@ -534,7 +569,7 @@
           stroke="#003366" 
           stroke-width="1"
           data-info="Tripura"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Mizoram-->
@@ -548,7 +583,7 @@
           stroke="#2e7d32"
           stroke-width="1"
           data-info="Mizoram"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
     
          <!--Manipur-->
@@ -562,7 +597,7 @@
           stroke="#ef6c00"
           stroke-width="1"
           data-info="Manipur"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Nagaland-->
@@ -577,7 +612,7 @@
           stroke="#2e7d32"
           stroke-width="1"
           data-info="Nagaland"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Arunachal Pradesh-->
@@ -597,7 +632,7 @@
           stroke="#387c44"
           stroke-width="1"
           data-info="Arunachal Pradesh"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
       
         <!--Delhi-->
@@ -609,7 +644,7 @@
           stroke="#e76f51"
           stroke-width="1"
           data-info="Delhi"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Lakshadweep-->
@@ -649,7 +684,7 @@
           stroke="#219ebc"
           stroke-width="1"
           data-info="Dadra & Nagar Haveli and Daman & Diu"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Puducherry-->
@@ -659,7 +694,7 @@
           stroke="#fb8500"
           stroke-width="1"
           data-info="Puducherry"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
         <!--Karaikal (Puducherry)-->
@@ -669,7 +704,7 @@
           stroke="#fb8500"
           stroke-width="1"
           data-info="Karaikal (Puducherry)"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
      
          <!--Mahe (Puducherry)-->
@@ -679,7 +714,7 @@
           stroke="#fb8500"
           stroke-width="1"
           data-info="Mahe (Puducherry)"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
           
         <!--Yaman (Puducherry)  -->
@@ -689,45 +724,21 @@
           stroke="#fb8500"
           stroke-width="1"
           data-info="Yaman (Puducherry)"
-          onclick="show_state(this);get_input(event);";
+          onclick="show_state(this)";
         />
         </svg>
     </div>
-    <div id="stateList-aside">
-      <button id="hide-btn" onclick="hidestateList();">Hide</button>
-      <div id="aside">
-      <div class="list" >
-        <ol style="list-style: none;">
+    <div class="show-states">
+      <div class="list">
+        <h2>You need to focus in</h2>
+        <ol id="stateList">
 
         </ol>
-      </div>
       </div>
     </div>
     </div>
     <footer>
-      <h2>Copyright &copy; 2026 ZS &#174;</h2>
+      <center><h2><br>Copyright &copy; 2026 ZS &#174;</h2></center>
     </footer>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-    let btn = document.querySelector(".signupBtn");
-    let username = localStorage.getItem("username");
-    if (!localStorage.getItem("hasVisited")) {
-        localStorage.clear();                 
-        localStorage.setItem("hasVisited", "true"); 
-    }
-    console.log(username);
-    console.log(btn);
-    if (username) {
-        btn.textContent = username[0].toUpperCase();
-        btn.classList.add("userIcon");
-        btn.title = username; 
-    } else {
-        btn.textContent = "Sign Up";
-        btn.classList.remove("userIcon");
-        btn.removeAttribute("title");
-    }
-    });
-    
-</script>
 </html>

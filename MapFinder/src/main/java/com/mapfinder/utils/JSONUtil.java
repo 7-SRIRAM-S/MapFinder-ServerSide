@@ -11,7 +11,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.mapfinder.modal.Announcement;
+import com.mapfinder.modal.Challenge;
+import com.mapfinder.modal.ErrorState;
+import com.mapfinder.modal.FriendRequest;
 import com.mapfinder.modal.Leaderboard;
+import com.mapfinder.modal.Notification;
 
 
 
@@ -76,6 +80,85 @@ public class JSONUtil {
 		
 		return announcementList;
 	}
+	
+	 public static JSONArray convertErrorStateToJson(List<ErrorState> errorStates) {
+	        JSONArray errorStateList = new JSONArray();
+
+	        for (ErrorState es : errorStates) {
+	            JSONObject obj = new JSONObject();
+	            obj.put("wrongAnswer", es.getWrongAnswer());
+	            
+	            errorStateList.put(obj);
+	        }
+
+	        return errorStateList;
+	 }
+	 
+	 
+	 public static JSONArray convertNotificationsToJson(List<Notification> notifications){
+			JSONArray notificationJson = new JSONArray();
+			
+			for(Notification notification: notifications) {
+				JSONObject obj = new JSONObject();
+				obj.put("senderName", notification.getSenderName());
+				obj.put("message", notification.getSenderName() +notification.getMessage());
+				obj.put("type", notification.getType());
+				notificationJson.put(obj);
+				
+			}
+			return notificationJson;
+		}
+		
+		
+		public static JSONArray convertChallengeTOJson(List<Challenge> challenges) {
+			JSONArray challengesJson = new JSONArray();
+			for(Challenge challenge : challenges) {
+				JSONObject obj = new JSONObject();
+				obj.put("challengeId", challenge.getChallengeId());
+				obj.put("challengerId",challenge.getChallengerId());
+				obj.put("opponentId", challenge.getOpponentId());
+				obj.put("mode", challenge.getMode());
+				obj.put("status", challenge.getStatus());
+				obj.put("challengerScore", challenge.getChallengerScore());
+				obj.put("opponentScore", challenge.getOpponentScore());
+				obj.put("winnerId", challenge.getWinnerId());
+				challengesJson.put(obj);
+			}
+			return challengesJson;
+		}
+
+
+
+		public static JSONArray convertFriendRequestIntoJson(
+				List<FriendRequest> friendRequests) {
+			JSONArray friendRequestsJson=new JSONArray();
+			for(FriendRequest fr:friendRequests) {
+				JSONObject obj=new JSONObject();
+				obj.put("username", fr.getUsername());
+				obj.put("senderId", fr.getSenderId());
+				obj.put("type", "friend_request");
+				obj.put("message", fr.getUsername()+" want to friend with you");
+				friendRequestsJson.put(obj);
+			}
+			
+			return friendRequestsJson;
+		}
+		
+		public static JSONArray combineNotifications(JSONArray notificationJson,JSONArray friendRequestJson) {
+
+		    JSONArray finalArray = new JSONArray();
+
+		    for (int i = 0; i < notificationJson.length(); i++) {
+		        finalArray.put(notificationJson.getJSONObject(i));
+		    }
+
+		    for (int i = 0; i < friendRequestJson.length(); i++) {
+		        finalArray.put(friendRequestJson.getJSONObject(i));
+		    }
+
+		    return finalArray;
+		}
+		
 	
 	
 	

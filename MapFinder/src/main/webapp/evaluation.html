@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="css/test_map.css">
     <link rel="icon" href="images/map_logo.png">
     <script src="script/evaluation.js" defer></script>
+        <script src="script/Util.js" defer></script>
+    
     <style>
       #timerDisplay{
         display: none;
@@ -57,8 +59,8 @@
       
       
         <div class="top-bar">
-          <button class="btn start" onclick="start_game();make_color();">Start</button>
-          <button id="hintBtn" class="btn hint" onclick="showHint();" style="display:none;">Hint</button>
+          <button class="btn start" id="startBtn" onclick="start_game();make_color();">Start</button>
+          <button id="hintBtn" class="btn hint" onclick="showHint();" >Hint</button>
         </div>
       
        
@@ -728,7 +730,7 @@
     <span id="timerValue">10</span> sec
 </div> -->
 <footer>
-  <center><h2><br>Copyright &copy; 2025 SRIRAM-S &#174;</h2></center>
+  <center><h2><br>Copyright &copy; 2026 ZS &#174;</h2></center>
 </footer>
   </body>
    <script>

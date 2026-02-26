@@ -2,6 +2,7 @@
 package com.mapfinder.dao;
 
 import com.mapfinder.modal.Leaderboard;
+import com.mapfinder.services.CertificateManger;
 import com.mapfinder.services.FriendRequestManager;
 import com.mapfinder.services.UserManager;
 import com.mapfinder.utils.DBUtil;
@@ -16,18 +17,13 @@ public class LeaderboardDAO {
     
 //	=======================================  insert leaderboard  ====================================================
 
-    public boolean insertLeaderBoad(Leaderboard lb) throws SQLException {
+    public boolean insertLeaderBoad(int userId) throws SQLException {
         
 
         try (PreparedStatement stmt = conn.prepareStatement(QueryUtil.INSERT_LEADERBOARD)) {
 
-            stmt.setInt(1, lb.getLeaderboardId());
-            stmt.setInt(2, lb.getUserId());
-            stmt.setInt(3, lb.getMapId());
-            stmt.setInt(4, lb.getTotalScore());
-            stmt.setInt(5, lb.getTotalGame());
-            stmt.setDouble(6, lb.getAverageScore());
-            stmt.setInt(7, lb.getRankPosition());
+            stmt.setInt(1, userId);
+           
 
             int result = stmt.executeUpdate();
             return result>0;
@@ -65,7 +61,7 @@ public class LeaderboardDAO {
 
             ResultSet rs = stmt.executeQuery(QueryUtil.VIEW_LEADERBOARD);
             while (rs.next()) {
-            	int certificate = (int) UserManager.getHint(rs.getInt("user_id"));
+            	int certificate = CertificateManger.userCertificateCount(rs.getInt("user_id"));
             	boolean isFriend = FriendRequestManager.isFriend(userId, rs.getInt("user_id"));
             	boolean isFriendRequested=FriendRequestManager.isAlreadyRequested(userId, rs.getInt("user_id"));
 	            	if(isFriendRequested&&(!(isFriend))) {
@@ -90,7 +86,6 @@ public class LeaderboardDAO {
         	e.printStackTrace();
         	
         }
-        System.out.println(list);
         return list;
     }
     
@@ -132,4 +127,25 @@ public class LeaderboardDAO {
                 isFriend
         );
     }
+
+
+	public boolean updateLeaderBoard(long userId) {
+			String sql = "UPDATE leaderboard l " +
+	                "SET total_score = (SELECT SUM(score) FROM attempts WHERE user_id = ?), " +
+	                "    total_games = (SELECT COUNT(*) FROM attempts WHERE user_id = ?), " +
+	                "    average_score = total_score / total_games " +
+	                "WHERE l.user_id = ?";
+
+		   try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+		       stmt.setLong(1, userId);
+		       stmt.setLong(2, userId);
+		       stmt.setLong(3, userId);
+		
+		       int updatedRows = stmt.executeUpdate();
+		       return updatedRows > 0;
+		   } catch (Exception e) {
+		       e.printStackTrace();
+		       return false;
+		   }
+	}
 }

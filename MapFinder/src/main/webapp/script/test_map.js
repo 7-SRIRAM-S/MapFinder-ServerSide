@@ -11,12 +11,26 @@ let score = 0;
 let allowClick = false;
 let isPaused = false;
 let hintsCount=0;
+let startBtn=document.querySelector("#startBtn");
+let hintBtn=document.querySelector("#hintBtn");
+
+if(startBtn){
+	startBtn.addEventListener("click",()=>{
+	startBtn.style.display="none";
+	localStorage.removeItem("attemptId");
+	storeAttempt();
+	start_game();
+	make_color();
+})
+}
+
 
 
 // Get State Names 
 
 document.addEventListener("DOMContentLoaded", () => {
-
+	localStorage.removeItem("attemptId");
+	initGame();
     let polygons = document.querySelectorAll('polygon[data-info]');
     states = Array.from(polygons).map(p => p.getAttribute('data-info'));
     polygons.forEach(poly => {
@@ -50,15 +64,26 @@ function start_game() {
 	document.getElementById("hintBtn").style.display = "block";
     time=Number(document.querySelector("#timeRange").value);
     if(time==0){
-        alert("Please select valid time to play");
+        MODAL.show("Choose Valid Time","Please select valid time to play");
         time=Number(document.querySelector("#timeRange").value);  
         return;
     }
+    if(hintBtn&&hintsCount>0) {
+		if(hintsCount<10){
+			hintBtn.innerText=`Hint ${hintsCount}`;
+		}
+		else{
+			hintBtn.innerText=`Hints ${hintsCount}`;
+		}
+	}
+    
     document.querySelector("#timeRange").style.display="none";
     document.querySelector("#timerDisplay").style.display="flex";
 
     if (shownStates.length == states.length) {
+		endGame();
         localStorage.setItem("weakerstates", JSON.stringify(weaker_states));
+        CELEBRATION.show(localStorage.getItem("username"),"Nice Game Completed");
         document.getElementById("stateDisplay").innerText = " All states shown!";
         document.getElementById("timerDisplay").innerText = "";
         return;
@@ -91,11 +116,19 @@ function handleClick(poly) {
     if (selectedState.toLowerCase().trim() == findState.toLowerCase().trim()) {
         poly.setAttribute('fill', 'green');
         score += 1 ;
+        updateAttempt(); 
     } else {
 		storeWeakerState(findState,selectedState);
 //        weaker_states.push(findState);
         let correctElement = document.querySelector(`[data-info="${findState}"]`);
         if (correctElement) correctElement.setAttribute('fill', 'red');
+        poly.style.stroke = 'red';
+        poly.style.strokeWidth = '3px';
+
+        setTimeout(() => {
+            poly.style.stroke = '';     
+            poly.style.strokeWidth = ''; 
+        }, 1000);
     }
 //    if (score > 0 && score % 5 == 0 && remainingStates.length!=1) {
 //        document.getElementById("hintBtn").style.display = "block";
@@ -103,12 +136,19 @@ function handleClick(poly) {
 //        document.getElementById("hintBtn").style.display = "none";
 //    }
 
+		
+
     shownStates.push(findState);
     document.getElementById("score").innerText = `Score: ${score}`;
 	
+	updateBackend();
+	
+	
     setTimeout(start_game, 1500);
     
-    updateAttempt(); 
+    
+    
+  
 }
 
 // Time Up 
@@ -165,6 +205,7 @@ function togglePause() {
 //  Reset Game 
 
 function reset_game() {
+	endGame()
     clearInterval(timer);
     allowClick = false;
     shownStates = [];
@@ -224,6 +265,8 @@ function nextPage(state){
       }
 }
 
+// Init Game to Get Hints
+
 function initGame(){
 	fetch("/MapFinder/gamemode?mode=learn-mode").then((res)=>res.json())
 	.then((data)=>{
@@ -235,37 +278,43 @@ function initGame(){
 }
 
 function storeAttempt(){
-	fetch("/MapFinder/attempt?mode=learn-mode").then((res)=>res.json())
-	.then((data)=>{
-		let attemptId = Number(data.data.attemptId);
-        if(!isNaN(attemptId) && attemptId > 0) {
-            localStorage.setItem("attemptId", attemptId);
-            console.log("Attempt ID stored:", attemptId);
-        }else{
-             console.error("Invalid attemptId:", data);
-       	}
-	})
-	.catch((err)=>{
-		console.log(err);
-	})
+	
+	if(localStorage.getItem("attemptId")==undefined||
+		localStorage.getItem("attemptId")==null){
+
+		fetch("/MapFinder/attempt?mode=learn-mode").then((res)=>res.json())
+		.then((data)=>{
+			console.log(data);
+			let attemptId = Number(data.data.attemptId);
+	        if(!isNaN(attemptId) && attemptId > 0) {
+	            localStorage.setItem("attemptId", attemptId);
+	            console.log("Attempt ID stored:", attemptId);
+	        }else{
+	             console.error("Invalid attemptId:", data);
+	       	}
+		})
+		.catch((err)=>{
+			console.log(err);
+		})
+	
+	}
+	else{
+		console.log("already attempt stored");
+	}
 }
 
-if(localStorage.getItem("attemptId")===undefined||
-	localStorage.getItem("attemptId")===null){
-		storeAttempt();
-	}
 
-initGame();
+
+
 
 function updateHint(correctState,wrongState){
-	
 	let userName=localStorage.getItem("username");
 	if(!userName){
 		userName="Boss";
 		return;
 	}
 	let attemptId=localStorage.getItem("attemptId");
-	if(isNaN(attemptId) || attemptId < 0) {
+	if(attemptId==null|| isNaN(attemptId) || attemptId < 0) {
 		return;
 	}
 	 
@@ -288,7 +337,11 @@ function updateHint(correctState,wrongState){
 function updateAttempt(){
 	let percentage = timeLeft / time;
 	let userScore = Math.round(percentage * 20);
-	data={hintsCount,userScore};
+	let attemptId=localStorage.getItem("attemptId");
+	if(attemptId==null||isNaN(attemptId) || attemptId < 0) {
+		return;
+	}
+	data={attemptId,userScore};
 	fetch("/MapFinder/attempt",{
 		method:"POST",
 		headers:{
@@ -303,13 +356,79 @@ function updateAttempt(){
 		console.log(err);
 	})
 }
+
+function updateBackend(){
+	let userName=localStorage.getItem("username");
+		if(!userName){
+			userName="Boss";
+			return;
+		}
+		let attemptId=localStorage.getItem("attemptId");
+			if(attemptId==null||isNaN(attemptId) || attemptId < 0) {
+				return;
+			}
+		let isGameFinished=false;
+		data={attemptId, hintsCount ,userName, isGameFinished};
+		
+		
+	    
+		fetch("/MapFinder/gamemode",{
+			method:"POST",
+			headers:{
+				"Content-Type":"application/json"
+			},
+			body:JSON.stringify(data)
+		}).then((res)=>res.json())
+		.then((data)=>{
+			console.log(data);
+		})
+		.catch((err)=>{
+			console.log(err);
+		});
+}	
+	function endGame(){
+		let userName=localStorage.getItem("username");
+		if(!userName){
+			userName="Boss";
+			return;
+		}
+		let attemptId=localStorage.getItem("attemptId");
+			if(isNaN(attemptId) || attemptId < 0) {
+				return;
+			}
+		let isGameFinished=true;
+		data={attemptId, hintsCount ,userName,isGameFinished};
+		
+		
+	    
+		fetch("/MapFinder/gamemode",{
+			method:"POST",
+			headers:{
+				"Content-Type":"application/json"
+			},
+			body:JSON.stringify(data)
+		}).then((res)=>res.json())
+		.then((data)=>{
+			console.log(data);
+		})
+		.catch((err)=>{
+			console.log(err);
+		})
+		
+		localStorage.removeItem("attemptId");
+
+		
+	}
 	
-function storeWeakerState(correctState,wrongState){
+	window.addEventListener("beforeunload", endGame);
+	function storeWeakerState(correctState,wrongState){
+		updateHint(correctState,wrongState);
+	}
+	
+	window.addEventListener("popstate", (event) => {
+	  	endGame();
+	  	
+	});
 
-	if (typeof wrongState === "object" && wrongState !== null) {
-        wrongState = wrongState.dataset.info;
-    }
-    	console.log("you've clicked "+wrongState+" instead of "+correctState);
-
-	updateHint(correctState,wrongState);
-}
+	
+	

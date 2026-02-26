@@ -143,8 +143,80 @@ public class UserDAOImpl implements UserDAO{
 		}
 		return null;
 	}
+
+	public boolean increaseHint(int attemptId) {
+		    String sql = "UPDATE users u " +
+		                 "JOIN attempts a ON u.user_id = a.user_id " +
+		                 "SET u.HINTS = u.HINTS + FLOOR(a.score / 50) " +
+		                 "WHERE a.attempt_id = ?";
+
+		    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		        stmt.setInt(1, attemptId);
+		        int rows = stmt.executeUpdate();
+		        return rows > 0;
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        return false;
+		    }
+		
+	}
+
+	public boolean updateHint(int hints,int userId) {
+		String sql = "UPDATE users  " +
+                "SET HINTS = ? " +
+                "WHERE user_id = ?";
+
+	   try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		   stmt.setInt(1, hints);
+	       stmt.setInt(2, userId);
+	       int rows = stmt.executeUpdate();
+	       return rows > 0;
+	   } catch (Exception e) {
+	       e.printStackTrace();
+	       return false;
+	   }
+			
+		}
+
+	public boolean makeActive(int userId) {
+		String sql = "update users set is_active=1 where user_id=?" ;
+
+		   try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		       stmt.setInt(1, userId);
+		       int rows = stmt.executeUpdate();
+		       return rows > 0;
+		   } catch (Exception e) {
+		       e.printStackTrace();
+		       return false;
+		   }
+	}
 	
+	public boolean makeDeactive(int userId) {
+		String sql = "update users set is_active=0 where user_id=?" ;
+		   try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		       stmt.setInt(1, userId);
+		       int rows = stmt.executeUpdate();
+		       return rows > 0;
+		   } catch (Exception e) {
+		       e.printStackTrace();
+		       return false;
+		   }
+	}
 
+	public boolean isUserActive(int userId) {
+			String sql = "select * from users where user_id=? and is_active=1" ;
+		   try (PreparedStatement stmt = con.prepareStatement(sql)) {
+		       stmt.setInt(1, userId);
+		       	ResultSet rs=stmt.executeQuery();
+				while(rs.next()) {
+					return true;
+				}
+		   } catch (Exception e) {
+		       e.printStackTrace();
+		   }
+		   
+	       return false;
 
+	}
 
 }

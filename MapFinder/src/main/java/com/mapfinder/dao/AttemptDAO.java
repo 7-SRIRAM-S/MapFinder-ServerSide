@@ -3,6 +3,7 @@ package com.mapfinder.dao;
 
 
 import com.mapfinder.modal.Attempts;
+import com.mapfinder.services.PreparedStatement;
 import com.mapfinder.utils.DBUtil;
 import com.mapfinder.utils.QueryUtil;
 
@@ -56,9 +57,8 @@ public class AttemptDAO {
     }
     
     public boolean updateAttempt(int score, int attemptId) {
-    	System.out.println("updating the score of attempt");
     	String sql = "UPDATE attempts " +
-                "SET score = ? WHERE attempt_id = ?";
+                "SET score = score + ? WHERE attempt_id = ?";
 
 		   try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 		       stmt.setInt(1, score);                 
@@ -70,6 +70,27 @@ public class AttemptDAO {
 		       e.printStackTrace();
 		       return false;
 		   }
+	}
+    
+    public boolean finalizeAttempt(int attemptId) {
+
+    	String sql = "UPDATE attempts a " +
+                "SET  " +
+                "    a.wrong_answers = (SELECT COUNT(*) FROM error_states e WHERE e.attempt_id = ?), " +
+                "    a.ended_at = NOW() " +
+                "WHERE a.attempt_id = ?";
+
+	    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+	      
+	        stmt.setInt(1, attemptId);       
+	        stmt.setInt(2, attemptId);  
+
+	        int updatedRows = stmt.executeUpdate();
+	        return updatedRows > 0;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
     private Attempts mapResultSet(ResultSet rs) throws SQLException {

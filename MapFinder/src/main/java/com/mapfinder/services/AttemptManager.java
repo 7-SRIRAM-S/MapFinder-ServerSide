@@ -35,6 +35,11 @@ public class AttemptManager {
 	
 	
 	public static boolean updateAttempt(int score,int attemptId) {
-		return attemptDAO.updateAttempt(score,attemptId);
+		return attemptDAO.updateAttempt(score,attemptId)&&attemptDAO.finalizeAttempt(attemptId);
 	}
+	
+	public static boolean finalizeAttempt(int attemptId) {
+		return attemptDAO.finalizeAttempt(attemptId);
+	}
+	
 }

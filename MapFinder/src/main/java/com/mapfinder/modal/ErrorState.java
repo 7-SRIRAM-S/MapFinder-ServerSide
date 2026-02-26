@@ -36,7 +36,10 @@ public class ErrorState {
         this.modeId = modeId;
     }
 	
-	
+	public ErrorState(String wrongAnswer,String correctAnswer) {
+		this.wrongAnswer=wrongAnswer;
+		this.correctAnswer=correctAnswer;
+	}
 	public ErrorState( int userId, int modeId, int stateId, String wrongAnswer, String correctAnswer, int attemptNumber, Date createdAt, Date updateAt) {
 		
 		this.userId = userId;

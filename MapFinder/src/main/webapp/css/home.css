@@ -274,7 +274,7 @@ h2{
     border-radius: 20px;
     gap: 1rem;
     opacity: 0;
-    max-height: 52%;
+    max-height: 55%;
     overflow: auto;
     scrollbar-width: none;
 
@@ -375,7 +375,7 @@ a{
     gap: 1rem;
     align-items: self-start;
     opacity: 0;
-    height: 27%;
+    height: 25%;
     max-height: 52%;
 
 }

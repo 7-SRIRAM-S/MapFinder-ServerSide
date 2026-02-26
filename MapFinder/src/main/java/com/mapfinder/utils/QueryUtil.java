@@ -46,7 +46,7 @@ public class QueryUtil {
 	
 	public static final String VIEW_LEADERBOARD = "SELECT l.leaderboard_id, l.user_id, u.username, l.total_score, l.total_games, l.average_score FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY total_score desc;";
 	public static final String VIEW_TOPFIVE_LEADERBOARD="SELECT l.leaderboard_id, l.user_id, u.username, l.total_score, l.total_games, l.average_score FROM leaderboard l JOIN users u ON u.user_id = l.user_id ORDER BY total_score DESC LIMIT 5;";
-	public static final String INSERT_LEADERBOARD = "INSERT INTO leaderboard (user_id, map_id, mode_id, total_score, total_games, average_score, rank_position) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	public static final String INSERT_LEADERBOARD = "INSERT INTO leaderboard (user_id ) VALUES (?)";
 	public static final String GET_TOTALSCORE ="select total_score  from leaderboard where user_id = ?";
 	
 	
@@ -61,15 +61,17 @@ public class QueryUtil {
 	public static final String INSERT_FRIEND_REQUEST = "insert into friend_requests (sender_id, receiver_id) values(? ,? )";
 	public static final String GET_FRIENDS = "SELECT u2.* FROM friends f JOIN users u1 ON u1.user_id = f.user_id JOIN users u2 ON u2.user_id = f.friend_id WHERE u1.user_id = ?;";
 	public static final String REMOVE_FRIEND = "delete from friends where friend_id = ? and user_id = ? ";
-	public static final String IS_ALREADY_REQUESTED = "select * from friend_requests where sender_id=? and receiver_id=? or sender_id=? and receiver_id=?";
+	public static final String IS_ALREADY_REQUESTED = "select * from friend_requests where status='PENDING' and ((sender_id=? and receiver_id=?) or (sender_id=? and receiver_id=?))";
+			
 	public static final String IS_FRIEND = "select * from friends where user_id = ? and friend_id = ? or user_id=? and friend_id=?";
-
-
-	
+	public static final String GET_FRIENDREQUEST="select USERNAME,sender_id from users join friend_requests on sender_id=user_id and receiver_id=? and status='PENDING'";
+	public static final String ACCEPT_FRIENDREQUEST="update friend_requests set status='ACCEPTED' where sender_id=? and receiver_id=? or sender_id=? and receiver_id=?";
+	public static final String REJECT_FRIENDREQUEST="update friend_requests set status='REJECTED' where sender_id=? and receiver_id=? or sender_id=? and receiver_id=?";
+	public static final String MAKE_FRIENDS="insert into friends (user_id, friend_id) values (?,?)";
 //	------------------------------------ ------ Error states  ------ -------------------------------------------------
 	
-	public static final String INSERT_ERROR_STATE = "INSERT INTO error_states (user_id, mode_id,  correct_answer, wrong_answer, attempt_id) VALUES (?, ?, ?, ?, ?)";
-	public static final String VIEW_ERROR_STATE = "SELECT * FROM error_states WHERE user_id = ?";
+	public static final String INSERT_ERROR_STATE = "INSERT INTO error_states (user_id, mode_id,  elected_answer, wrong_answer, attempt_id) VALUES (?, ?, ?, ?, ?)";
+	public static final String VIEW_ERROR_STATE = "SELECT wrong_answer, MAX(elected_answer) AS elected_answer FROM error_states WHERE user_id = ? GROUP BY wrong_answer";
 	
 	
 //	---------------------------------------- ----- certificates -------- -------------------------------------------------------
@@ -78,4 +80,14 @@ public class QueryUtil {
 	public static final String INSERT_INTO_USER_CERTIFICATE = "insert into user_certificates(user_id ,certificate_id) values(?,?)";
 	public static final String GET_CERTIFICATE_USERS = "select count(*) as totalCertificates from user_certificates where user_id= ? ;";
 
+	
+	
+//	------------------------------------ - --- notification --- ----------------------------
+	public static final String INSERT_NOTIFICATION = "insert into notifications(user_id,sender_id,type,message,is_read)  values(?,?,?,?,?);";
+	public static final String GET_NOTIFICATIONS = "select USERNAME,type,message from users u join notifications n on u.user_id=n.user_id where sender_id=?";
+	
+	
+//	------------------------------------- ------- Challenger -------- --------------------------------
+	public static final String INSERT_CHALLENGE  =  "insert into challenges(challenger_id, opponent_id,status,challenger_score,opponent_score) values(?,?,?,?,?);";
+	public static final String GET_CHALLENGES = "select * from challenges where challenger_id = ?";
 }

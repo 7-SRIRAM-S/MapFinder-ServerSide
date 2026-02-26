@@ -17,6 +17,7 @@ public class ErrorStatesDAO {
     public boolean insertErrorState(ErrorState error) {
         try (PreparedStatement stmt = conn.prepareStatement(QueryUtil.INSERT_ERROR_STATE)) {
 
+        	
             stmt.setLong(1, error.getUserId());
             stmt.setLong(2, error.getModeId());
             stmt.setString(3, error.getWrongAnswer());
@@ -33,6 +34,7 @@ public class ErrorStatesDAO {
     }
 
     public List<ErrorState> findByUser(long userId) throws SQLException {
+    	
         List<ErrorState> list = new ArrayList<>();
         
 
@@ -40,18 +42,10 @@ public class ErrorStatesDAO {
 
             stmt.setLong(1, userId);
             ResultSet rs = stmt.executeQuery();
-
             while (rs.next()) {
                 list.add(new ErrorState(
-                        rs.getInt("id"),
-                        rs.getInt("user_id"),
-                        rs.getInt("mode_id"),
-                        rs.getInt("location_id"),
                         rs.getString("wrong_answer"),
-                        rs.getString("correct_answer"),
-                        rs.getInt("attempt_number"),
-                        rs.getTimestamp("created_at"),
-                        rs.getTimestamp("updated_at")
+                        rs.getString("elected_answer")
                 ));
             }
         }

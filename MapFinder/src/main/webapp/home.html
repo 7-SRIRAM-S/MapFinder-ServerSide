@@ -8,6 +8,85 @@
     <script src="./script/Util.js"></script>
     <script src="./script/home.js" defer></script>
     <title>Document</title>
+    <style>
+    	/* Container styles */
+.header-icons {
+  position: fixed;      /* So it stays at the top-right when scrolling */
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;           /* space between icons */
+  z-index: 1000;
+}
+
+/* All buttons look consistent */
+.header-icons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+/* Hover effect */
+.header-icons button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Images size */
+.header-icons button img {
+  width: 24px;
+  height: 24px;
+}
+
+#logout-btn {
+  display: none;            /* Hidden by default, toggle via JS */
+  position: absolute;
+  top: 36px;                /* Below the header icons */
+  right:-16px;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  white-space: nowrap;
+  cursor: pointer;
+
+  align-items: center;
+  gap: 8px;                /* Space between icon and text */
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+#logout-btn img {
+  width: 20px;
+  height: 20px;
+  user-select: none;
+  pointer-events: none;
+}
+
+#logout-btn p {
+  margin: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+#logout-btn:hover {
+  background-color: #f5f5f5;
+  border-color: #bbb;
+}
+
+/* To keep logout button from affecting layout */
+.header-icons {
+  position: relative;
+}
+    </style>
 </head>
 <body>
  <div class="main-container">
@@ -26,6 +105,7 @@
 	            </button>
 	             <button id="logout-btn">
 	                <img src="./icons/logout .png" alt="logout"  title="logout">
+	                <p>Logout</p>
 	            </button>
 	            <button id="user">
 	                <img src="./icons/account.png" alt="user">
@@ -112,8 +192,8 @@
                         <div id="bot-icon-box">
                             <img src="./icons/colorized-bot.png.png" alt="">
                         </div>
-                        <h3>Bot Mode</h3>
-                        <p>Challenge the AI</p>
+                        <h3>Time Attack Mode</h3>
+                        <p>Find it fast before time runs out</p>
                     </div>
                     <div id="quiz-mode" class="mode-panel" onclick="playGame('quizMode')">
                         <div id="quiz-icon-box">
@@ -189,7 +269,7 @@
                 </div>
 
                 <div id="notification-outer-container">
-                    <h3><img src="./icons/notification.png" alt="">Notifications</h3>
+                    <h3><img src="./icons/notification.png" alt="">Announcements</h3>
                     <div id="notification-container">
                         <div id="notification-1">
                             <div class="notifiction-message">
@@ -258,4 +338,22 @@
 </div>
 
 </body>
+<script>
+const userBtn = document.getElementById('user');
+const logoutBtn = document.getElementById('logout-btn');
+
+userBtn.addEventListener('click', () => {
+  if (logoutBtn.style.display === 'block') {
+    logoutBtn.style.display = 'none';
+  } else {
+    logoutBtn.style.display = 'block';
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!userBtn.contains(e.target) && !logoutBtn.contains(e.target)) {
+    logoutBtn.style.display = 'none';
+  }
+});
+</script>
 </html>

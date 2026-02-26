@@ -1,5 +1,22 @@
 var userName="";
 
+const input = document.getElementById('input');
+const clearBtn = document.getElementById('clear-btn');
+
+let showingFriendList=false;
+
+input.addEventListener('input', () => {
+  clearBtn.style.display = input.value ? 'block' : 'none';
+});
+
+clearBtn.addEventListener('click', () => {
+  input.value = '';
+  clearBtn.style.display = 'none';
+  input.focus();
+  LeaderBoard.init();
+  LeaderBoard.show.TopThreePlayers();
+});
+
 LeaderBoard = (function() {
 
 	
@@ -19,52 +36,101 @@ LeaderBoard = (function() {
                 window.location.assign("/MapFinder/home.html");
             });
 
-            $("#global").css({
-                "background": "linear-gradient(to right bottom ,#FFBF00,#FF7B00)",
-                "color": "white"
-            });
+            $("#global, #friend").click(function () {
+			    $("#global, #friend").removeClass("active-btn");
+				
+			    $(this).addClass("active-btn");
+			});
+
 
             $("#input").on("input", () => {
                 LeaderBoard.show.search();
             })
+            
+            			
+			$("#friend").on("click" , ()=>{
+				
+				showingFriendList=true;
+				LeaderBoard.show.friend();
+			})
+
+			$("#global").on("click" , ()=>{
+				showingFriendList=false;
+				LeaderBoard.show.view();
+
+			})
+			$("#global").addClass("active-btn");
+			
+
 
             LeaderBoard.show.view();
         },
-        show: {
-            view: async function() {
-                data = await LeaderBoard.get.view();
-                let html = "";
-                data = data.data;				
-                if(!data){
-	                    $(".ranking-container").html("<div id='no-data'>No User Found</div>");
-	                    $(".leaderboard-toplist").html("<div id='no-data'>No User Found</div>");
-	                    return;
-                }
-				
-                console.log(data);
+        show:{
+            view: async function(){
 
-                for (let i = 0;i < 3;i++) {
-                    $(`.user-name-${i + 1}`).text(data[i].userName);
-                    $(`.user-points-${i + 1}`).text(data[i].totalScore);
-                }
+		    data = await LeaderBoard.get.view();
+		
+		    if (!data || data.length === 0) {
+		        $(".ranking-container").html("<div id='no-data'>No Friends Found</div>");
+		        return;
+		    }
+		
+			data=data.data
+			
+		    for (let i = 0; i < Math.min(3, data.length); i++) {
+		        $(`.user-name-${i + 1}`).text(data[i].userName || "");
+		        $(`.user-points-${i + 1}`).text(data[i].totalScore || 0);
+		    }
+		
+		    const container = $(".ranking-container");
+		    container.empty();
+		    for (let i = 0; i < data.length; i++) {
+			
+		        const element = buildHtml(
+		            i + 1,
+		            data[i].userName,
+		            data[i].totalScore,
+		            data[i].totalCertificate,
+		            data[i].isFriend,
+		            data[i].isAlreadyRequested
+		        );
+		
+		        container.append(element);
+		    }
+		},
+            
+            friend: async function(){
 
 				const container = $(".ranking-container");
 				container.empty();
-
+				let found =false
+				
 				for (let i = 0; i < data.length; i++) {
-				    const element = buildHtml(
-				        i + 1,
-				        data[i].userName,
-				        data[i].totalScore,
-				        data[i].totalCertificate,
-				        data[i].isFriend,
-				        data[i].isAlreadyRequested
-				    );
+					if(data[i].isFriend){
 
-				    container.append(element);
+						const element = buildHtml(
+						    i + 1,
+						    data[i].userName,
+						    data[i].totalScore,
+						    data[i].totalCertificate,
+						    data[i].isFriend
+						);
+						found= true;
+
+						container.append(element);
+					}
 				}
+				
+				if(!found){
+				container.append("<div id='no-data'>No Friends Found</div>");
+					
+				}
+			},
 
-            },
+            
+            
+            
+            
             search: async function() {
                 let value = $("#input").val().toLowerCase().trim();
 
@@ -176,22 +242,21 @@ function giveFriendRequest(friendName){
 			alert(response.message);
 		}
 		else{
-			alert("friend requested successfully");
+			MODAL.show("Friend Requested","friend requested successfully");
+			LeaderBoard.show.view();
 			console.log(response.status,response.message)
 		}
 	})
 	
-	LeaderBoard.show.view();
+	
 }
 
 function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequested) {
 
 	
-    // Main container
     const ranking = document.createElement("div");
     ranking.className = "ranking";
 
-    // ===== ranked-user-name =====
     const rankedUserName = document.createElement("div");
     rankedUserName.className = "ranked-user-name";
 
@@ -208,11 +273,24 @@ function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequeste
     rankedUserName.appendChild(pointingPosition);
     rankedUserName.appendChild(nameWrapper);
 
-    // ===== user-achievement =====
     const userAchievement = document.createElement("div");
     userAchievement.className = "user-achivement";
 
-    // ---- friend request ----
+
+	if(showingFriendList){
+		
+
+		const challengeBtn=document.createElement("button");
+		challengeBtn.innerText="Challenge";
+		challengeBtn.className="challenge-button";
+		challengeBtn.id="challengeBtn";
+		challengeBtn.addEventListener("click",()=>{
+			challengeBtn.disabled=true;
+			giveChallenge(name,challengeBtn);
+		})
+		
+		userAchievement.appendChild(challengeBtn);
+	}
     
         if(userName!=name) {
     
@@ -224,7 +302,6 @@ function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequeste
 		
 			
 			const addUserImg = document.createElement("img");
-			console.log(isFriend,isAlreadyRequested);
 			if(isFriend){
 				addUserImg.src = "./icons/friends.png";
 				addUserImg.title = "Friend";
@@ -253,7 +330,6 @@ function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequeste
 		    userAchievement.appendChild(friendRequest);
     
     }
-    // ---- score section ----
     const scoreContainer = document.createElement("div");
 
     const scoreTitle = document.createElement("div");
@@ -272,7 +348,6 @@ function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequeste
     scoreContainer.appendChild(scoreTitle);
     scoreContainer.appendChild(scoreText);
 
-    // ---- certificate section ----
     const certContainer = document.createElement("div");
 
     const certTitle = document.createElement("div");
@@ -291,12 +366,10 @@ function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequeste
     certContainer.appendChild(certTitle);
     certContainer.appendChild(certText);
 
-    // Append all to userAchievement
     
     userAchievement.appendChild(scoreContainer);
     userAchievement.appendChild(certContainer);
 
-    // Append everything to ranking
     ranking.appendChild(rankedUserName);
     ranking.appendChild(userAchievement);
     
@@ -306,3 +379,40 @@ function buildHtml(count, name, points, certificate, isFriend, isAlreadyRequeste
 
     return ranking;
 }
+
+
+
+
+
+function giveChallenge(name,challengeBtn){
+	console.log(challengeBtn);
+//	const challengeBtn=document.querySelector("#challengeBtn");
+//	console.log(challengeBtn);
+if(challengeBtn){
+		challengeBtn.innerText="Challenging...";
+}
+data={challengerName:userName,opponentName:name};
+	fetch("/MapFinder/challenge",{
+		method:"POST",
+		headers:{
+			"Content-Type":"application/json"
+		},
+		body: JSON.stringify(data)
+	}).then((res)=>res.json())
+	.then((msg)=>{
+		console.log(msg.message);
+		if(msg.message&&msg.message=="active"){
+			challengeBtn.innerText="Challenging...";
+		}
+		else{
+			challengeBtn.innerText="Challenge Sent";
+		}
+	})
+
+}
+
+
+
+
+
+

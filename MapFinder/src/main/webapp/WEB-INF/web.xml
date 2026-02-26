@@ -83,6 +83,18 @@
 		<servlet-class>com.mapfinder.controller.AttemptServlet</servlet-class>
 	</servlet>
 	
+	<servlet>
+		<display-name>ChallengeServlet</display-name>
+		<servlet-name>ChallengeServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.ChallengeServlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<display-name>NotificationServlet</display-name>
+		<servlet-name>NotificationServlet</servlet-name>
+		<servlet-class>com.mapfinder.controller.NotificationServlet</servlet-class>
+	</servlet>
+	
 	
 
 	
@@ -130,6 +142,17 @@
 	<servlet-mapping>
 		<servlet-name>AttemptServlet</servlet-name>
 		<url-pattern>/attempt/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>ChallengeServlet</servlet-name>
+		<url-pattern>/challenge/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet-mapping>
+		<servlet-name>NotificationServlet</servlet-name>
+		<url-pattern>/notifications/*</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>

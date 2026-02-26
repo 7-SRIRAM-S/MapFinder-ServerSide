@@ -1,0 +1,227 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+}
+
+main {
+	background-color: #FFF9F2;
+	padding: 2% 0 2% 0;
+	margin: 0 auto;
+	/* max-width: 1200px;  */
+	min-height: 54.6rem;
+	user-select: none;
+}
+
+main>* {
+	width: 55%;
+	margin: 0 auto;
+	border-radius: 20px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+header, section {
+	margin-bottom: 1%;
+	background-color: white;
+	padding: 1.4%;
+	align-items: center;
+	justify-content: space-between;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between; /* pushes Arya to right */
+}
+
+header>div:first-child {
+	display: flex;
+	align-items: center;
+	gap: 1em;
+}
+
+header>div:first-child>div:first-child {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	background-color: #FEF9C2;
+	border-radius: 50%;
+}
+
+header>div:first-child>div:last-child {
+	display: flex;
+	flex-direction: column;
+}
+
+header>div>div:last-child p {
+	line-height: 1.4;
+}
+
+
+.leaderboad-heading {
+	font-size: 1.9em;
+	font-weight: 500;
+}
+
+
+.flex-direction{
+
+    flex-direction: column;
+}
+
+.display-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.victoryIcon{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background-color: #FB6400;
+    color: white;
+}
+section>*{
+    margin: 20px;
+}
+
+section p {
+    white-space: normal;     
+    word-wrap: break-word;   
+    overflow-wrap: break-word;
+}
+
+section >   p:first-of-type{
+    font-size: 1.7em;
+    font-weight: 400;
+}
+
+button{
+    padding: 15px 25px;
+    background-color: #FB6400;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+
+}
+
+.gap-10-px{
+    gap: 10px;
+}
+
+
+/* ------------------------------------------------------------------------------------------------------ */
+
+
+.container{
+    display:none;
+    gap:30px;
+    padding:40px;
+}
+
+/* LEFT PANEL */
+.left-panel{
+    width:300px;
+    background:#f3f3f3;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.card{
+    border-radius:16px;
+    padding:20px;
+    color:white;
+    margin-bottom:20px;
+}
+
+.timer-card{
+    background:linear-gradient(135deg,#ff7a18,#ff2e63);
+}
+
+.score-card{
+    background:linear-gradient(135deg,#2a46c0,#243b95);
+}
+
+.big-number{
+    font-size:48px;
+    font-weight:600;
+}
+
+.progress{
+    height:6px;
+    background:#ffd08a;
+    border-radius:10px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    background:white;
+    width:100%;
+}
+
+/* RIGHT PANEL */
+.quiz-panel{
+    flex:1;
+    background:#f3f3f3;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.question{
+    font-size:22px;
+    margin-bottom:25px;
+}
+
+.option{
+    background:#e7e7e7;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.option:hover{
+    background:#dcdcdc;
+}
+
+.correct{
+    background:#4caf50 !important;
+    color:white;
+}
+
+.wrong{
+    background:#f44336 !important;
+    color:white;
+}
+
+.center{
+    text-align:center;
+    margin-top:15px;
+    color:#555;
+}
+
+#totalScore{
+    font-size: 3em;
+    font-weight: 400;
+}
+
+#answerContainer{
+    display: none;
+}
+
+
+button:hover{
+    cursor: pointer;
+}
